@@ -1,0 +1,15 @@
+{
+  "event_type": "dokumen_masuk",
+  "status": "surat_baru",
+  "timestamp": "2026-11-02T08:15:00+08:00",
+  "dokumen": {
+    "nomor_surat": "005/142/BRIDA/XI/2026",
+    "tanggal_surat": "2026-11-02",
+    "asal_pengirim": "BAPPEDA KOTA MAKASSAR",
+    "perihal": "Undangan Rapat Koordinasi Penyusunan Rencana Induk Riset dan Inovasi Daerah Tahun 2027",
+    "sifat": "Biasa",
+    "penerima_nip": "197803202005021004",
+    "penerima_nama": "Dr. Ir. H. Muhammad Ilyas, M.Si.",
+    "ringkasan": "Permohonan kehadiran perwakilan BRIDA pada rapat koordinasi teknis di Ruang Pola Balai Kota."
+  }
+}

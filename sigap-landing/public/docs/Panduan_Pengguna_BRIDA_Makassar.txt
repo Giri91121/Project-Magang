@@ -1,0 +1,26 @@
+# Panduan Pengguna Layanan Kearsipan & Notifikasi
+## Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar
+Periode: November 2026  
+
+---
+
+### 1. Pendahuluan
+Layanan notifikasi otomatis ini menghubungkan aplikasi kearsipan dinamis Srikandi dengan akun WhatsApp pegawai/aparatur BRIDA Kota Makassar. Sistem ini bertujuan mempercepat penerimaan informasi naskah dinas, disposisi pimpinan, dan verifikasi dokumen secara real-time.
+
+### 2. Tipe Notifikasi
+1. **Surat Masuk Baru (`surat_baru`)**:
+   Diterima saat ada naskah dinas masuk baru yang dialamatkan ke unit kerja atau pejabat tertentu.
+2. **Disposisi (`disposisi`)**:
+   Diterima saat pimpinan memberikan instruksi/arahan tindak lanjut terhadap suatu surat.
+3. **Verifikasi Dokumen (`verifikasi`)**:
+   Diterima saat naskah dinas membutuhkan paraf/tanda tangan verifikasi dari pejabat berwenang.
+
+### 3. Keamanan & Privasi Data
+- Notifikasi WhatsApp **tidak memuat lampiran fisik atau isi lengkap surat**.
+- Hanya memuat metadata pengenal: Nomor Surat, Pengirim, Tanggal (WITA), dan Perihal Singkat.
+- Naskah yang bertanda **Rahasia** disamarkan secara otomatis demi menjaga kerahasiaan negara.
+- Pembacaan dokumen utuh tetap dilakukan secara aman melalui login resmi di Srikandi.
+
+### 4. Kontak Bantuan & Pembaruan Nomor WhatsApp
+Apabila terdapat pergantian nomor WhatsApp aparatur atau pesan notifikasi tidak terkirim, hubungi:
+- Tim IT / Sub Bagian Umum & Kepegawaian BRIDA Kota Makassar.

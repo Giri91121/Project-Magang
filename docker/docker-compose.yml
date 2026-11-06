@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # 1. n8n Workflow Automation Engine
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: sigap_n8n
+    restart: unless-stopped
+    ports:
+      - "${N8N_PORT:-5678}:5678"
+    environment:
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=${N8N_PROTOCOL:-http}
+      - NODE_ENV=production
+      - WEBHOOK_URL=${WEBHOOK_URL:-http://localhost:5678/}
+      - GENERIC_TIMEZONE=Asia/Makassar
+      - TZ=Asia/Makassar
+      - WA_GATEWAY_URL=http://waha:3000
+      - WA_GATEWAY_API_KEY=${WA_API_KEY:-sigap-brida-secret-key}
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - sigap_network
+
+  # 2. WhatsApp HTTP API (WAHA Core) Gateway
+  waha:
+    image: devlikeapro/waha:latest
+    container_name: sigap_waha
+    restart: unless-stopped
+    ports:
+      - "${WAHA_PORT:-3000}:3000"
+    environment:
+      - WAHA_API_KEY=${WA_API_KEY:-sigap-brida-secret-key}
+      - WAHA_DASHBOARD_ENABLED=true
+      - WAHA_DASHBOARD_USERNAME=admin
+      - WAHA_DASHBOARD_PASSWORD=${WAHA_ADMIN_PASS:-adminbrida2026}
+      - TZ=Asia/Makassar
+    volumes:
+      - waha_sessions:/app/.sessions
+    networks:
+      - sigap_network
+
+volumes:
+  n8n_data:
+  waha_sessions:
+
+networks:
+  sigap_network:
+    driver: bridge

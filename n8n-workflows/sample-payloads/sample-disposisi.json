@@ -1,0 +1,16 @@
+{
+  "event_type": "disposisi_pimpinan",
+  "status": "disposisi",
+  "timestamp": "2026-11-02T09:30:00+08:00",
+  "dokumen": {
+    "nomor_surat": "005/142/BRIDA/XI/2026",
+    "tanggal_surat": "2026-11-02",
+    "asal_pengirim": "BAPPEDA KOTA MAKASSAR",
+    "perihal": "Undangan Rapat Koordinasi Penyusunan Rencana Induk Riset dan Inovasi Daerah Tahun 2027",
+    "sifat": "Penting",
+    "pemberi_disposisi": "Kepala BRIDA Kota Makassar",
+    "instruksi_disposisi": "Harap wakili dan siapkan bahan paparan terkait indikator inovasi daerah.",
+    "penerima_nip": "198501152010011012",
+    "penerima_nama": "Andi Tenri S.T., M.Kom."
+  }
+}

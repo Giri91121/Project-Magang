@@ -1,0 +1,61 @@
+/* ==========================================================================
+   SIGAP BRIDA - Custom Stylesheet
+   Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar
+   ========================================================================== */
+
+/* Dropdown Menu Transition */
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Glassmorphism subtle effect */
+.glass-header {
+    background-color: rgba(253, 253, 251, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Card hover animation */
+.card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-3px);
+}
+
+/* Custom scrollbar for modern browsers */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F5F4EE;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #DDD9CF;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #800020;
+}
+
+/* Detail summary arrow animation */
+details > summary {
+    list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+    display: none;
+}

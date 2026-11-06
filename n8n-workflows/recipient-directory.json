@@ -1,0 +1,29 @@
+{
+  "pegawai": [
+    {
+      "id": "PEG-001",
+      "nip": "198501152010011012",
+      "nama": "Andi Tenri S.T., M.Kom.",
+      "jabatan": "Pranata Komputer Ahli Muda",
+      "nomor_wa": "6281234567890",
+      "unit": "Bidang Penelitian dan Pengembangan"
+    },
+    {
+      "id": "PEG-002",
+      "nip": "197803202005021004",
+      "nama": "Dr. Ir. H. Muhammad Ilyas, M.Si.",
+      "jabatan": "Kepala BRIDA Kota Makassar",
+      "nomor_wa": "6281398765432",
+      "unit": "Pimpinan"
+    },
+    {
+      "id": "PEG-003",
+      "nip": "199205122019032007",
+      "nama": "Siti Nurhaliza, S.AP.",
+      "jabatan": "Pengadministrasi Umum",
+      "nomor_wa": "6282111223344",
+      "unit": "Sekretariat"
+    }
+  ],
+  "default_recipient": "6281234567890"
+}

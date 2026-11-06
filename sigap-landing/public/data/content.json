@@ -1,0 +1,69 @@
+{
+  "instansi": {
+    "nama": "Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar",
+    "akronim": "BRIDA KOTA MAKASSAR",
+    "peran": "Badan Riset dan Inovasi Daerah",
+    "sub_peran": "Pemerintah Kota Makassar",
+    "alamat": "Balai Kota Makassar, Jl. Ahmad Yani No. 2, Kota Makassar, Sulawesi Selatan",
+    "email": "brida@makassarkota.go.id",
+    "telepon": "(0411) Balai Kota Makassar",
+    "jam_kerja": "Senin - Jumat, 08.00 - 16.00 WITA"
+  },
+  "statistik": [
+    {
+      "angka": "< 1 Detik",
+      "label": "Kecepatan Transmisi Data"
+    },
+    {
+      "angka": "3 Format",
+      "label": "Surat, Disposisi & Verifikasi"
+    },
+    {
+      "angka": "100% Valid",
+      "label": "Filter Dokumen Rahasia"
+    }
+  ],
+  "berita": [
+    {
+      "id": 1,
+      "kategori": "Otomasi Sistem",
+      "tanggal": "November 2026",
+      "judul": "Implementasi Notifikasi WhatsApp Otomatis untuk Percepatan Disposisi Naskah Dinas",
+      "ringkasan": "BRIDA Kota Makassar meluncurkan otomasi sistem guna menghubungkan alur kearsipan Srikandi langsung ke ponsel aparatur secara instan.",
+      "link": "#berita"
+    },
+    {
+      "id": 2,
+      "kategori": "Riset & Inovasi",
+      "tanggal": "Oktober 2026",
+      "judul": "Penyusunan Rencana Induk Riset Daerah (RIRD) Menuju Makassar Kota Dunia",
+      "ringkasan": "Kolaborasi lintas SKPD dalam menyusun peta jalan inovasi terintegrasi berbasis data dan riset terapan berkelanjutan.",
+      "link": "#berita"
+    },
+    {
+      "id": 3,
+      "kategori": "Indeks Inovasi",
+      "tanggal": "Oktober 2026",
+      "judul": "Penguatan Pengukuran Indeks Inovasi Daerah Kota Makassar Tahun 2026",
+      "ringkasan": "Optimalisasi pelaporan program inovatif perangkat daerah untuk meningkatkan daya saing daerah di kancah nasional.",
+      "link": "#berita"
+    }
+  ],
+  "faq": [
+    {
+      "tanya": "Apakah isi naskah dinas utuh disimpan pada server notifikasi?",
+      "jawab": "Tidak. BRIDA Kota Makassar memegang teguh asas perlindungan data. Hanya nomor naskah, asal pengirim, dan ringkasan perihal yang diteruskan ke WhatsApp. Dokumen fisik/lampiran tetap berada di server resmi Srikandi.",
+      "buka_default": true
+    },
+    {
+      "tanya": "Bagaimana jika nomor WhatsApp aparatur berubah?",
+      "jawab": "Aparatur cukup melaporkan pembaruan kontak ke Sub Bagian Umum & Kepegawaian BRIDA Kota Makassar untuk dicatatkan ke direktori sistem tanpa perlu menghentikan alur otomasi.",
+      "buka_default": false
+    },
+    {
+      "tanya": "Bagaimana perlakuan terhadap surat berklasifikasi Rahasia?",
+      "jawab": "Sistem mendeteksi atribut sifat surat secara otomatis. Untuk surat rahasia/konfidensial, judul perihal akan disamarkan menjadi pemberitahuan dokumen konfidensial guna mencegah kebocoran informasi dinas.",
+      "buka_default": false
+    }
+  ]
+}

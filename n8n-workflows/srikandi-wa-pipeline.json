@@ -1,0 +1,276 @@
+{
+  "name": "SIGAP BRIDA - Srikandi WhatsApp Notification Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "srikandi-notification",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "id": "node-webhook-srikandi",
+      "name": "Webhook Srikandi Receiver",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- FR-N8N-01 & FR-SRK-03: Validasi & Sanitasi Data Srikandi ---\nconst body = $input.first().json.body || $input.first().json;\n\nif (!body || !body.dokumen) {\n  throw new Error('Payload Srikandi tidak valid: atribut dokumen tidak ditemukan.');\n}\n\nconst doc = body.dokumen;\nconst status = (body.status || 'surat_baru').toLowerCase().trim();\nconst sifat = (doc.sifat || 'Biasa').trim();\n\n// Format Tanggal Indonesia (DD MMMM YYYY)\nfunction formatTanggalIndo(tglStr) {\n  if (!tglStr) return '-';\n  const bulanIndo = [\n    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',\n    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'\n  ];\n  const d = new Date(tglStr);\n  if (isNaN(d.getTime())) return tglStr;\n  return `${d.getDate()} ${bulanIndo[d.getMonth()]} ${d.getFullYear()}`;\n}\n\n// Sanitasi teks\nfunction cleanText(str, maxLength = 120) {\n  if (!str) return '-';\n  let cleaned = str.replace(/\\s+/g, ' ').trim();\n  if (cleaned.length > maxLength) {\n    cleaned = cleaned.substring(0, maxLength - 3) + '...';\n  }\n  return cleaned;\n}\n\n// Kebijakan Dokumen Rahasia (FR-SRK-04)\nlet sanitizedPerihal = cleanText(doc.perihal, 120);\nif (sifat.toLowerCase().includes('rahasia')) {\n  sanitizedPerihal = '[DOKUMEN BERSIFAT RAHASIA / KONFIDENSIAL]';\n}\n\n// Ekstraksi Variabel Pesan Terstruktur (FR-N8N-04)\nconst outputData = {\n  event_type: body.event_type || 'notifikasi_dokumen',\n  status: status,\n  nomor_surat: (doc.nomor_surat || '-').replace(/\\s+/g, ' ').trim(),\n  tanggal: formatTanggalIndo(doc.tanggal_surat),\n  asal: cleanText(doc.asal_pengirim || 'Instansi Terkait', 80),\n  perihal: sanitizedPerihal,\n  sifat: sifat,\n  penerima_nip: doc.penerima_nip || '',\n  penerima_nama: doc.penerima_nama || 'Pegawai BRIDA',\n  pemberi_disposisi: cleanText(doc.pemberi_disposisi || 'Pimpinan BRIDA', 60),\n  instruksi_disposisi: cleanText(doc.instruksi_disposisi || '-', 100),\n  catatan_verifikasi: cleanText(doc.catatan_verifikasi || doc.status_verifikasi || '-', 100),\n  deduplication_key: `${(doc.nomor_surat || 'NODOC').trim()}_${status}`\n};\n\nreturn [{ json: outputData }];"
+      },
+      "id": "node-sanitize-data",
+      "name": "Sanitasi & Pemetaan Variabel",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.status }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "surat_baru"
+            },
+            {
+              "value2": "disposisi"
+            },
+            {
+              "value2": "verifikasi"
+            }
+          ]
+        },
+        "fallbackOutput": 3
+      },
+      "id": "node-switch-status",
+      "name": "Switch Status Dokumen",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// FR-WA-01: Template Surat Baru\nconst d = $input.first().json;\nconst pesan = `*🔔 [SIGAP BRIDA] Surat Masuk Baru*\n\nYth. Bpk/Ibu *${d.penerima_nama}*,\nTerdapat surat masuk baru pada aplikasi Srikandi:\n\n📄 *No. Surat* : ${d.nomor_surat}\n🏢 *Dari*       : ${d.asal}\n📌 *Perihal*   : ${d.perihal}\n📅 *Tanggal*   : ${d.tanggal}\n🔒 *Sifat*     : ${d.sifat}\n\nSilakan masuk ke aplikasi Srikandi untuk membaca naskah dinas lengkap.\n\n_Pesan otomatis dari Sistem Informasi SIGAP BRIDA Kota Makassar_`;\n\nreturn [{ json: { ...d, rendered_message: pesan } }];"
+      },
+      "id": "node-tpl-surat-baru",
+      "name": "Template: Surat Baru",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        940,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// FR-WA-02: Template Disposisi Pimpinan\nconst d = $input.first().json;\nconst pesan = `*⚡ [SIGAP BRIDA] Disposisi Dokumen*\n\nYth. Bpk/Ibu *${d.penerima_nama}*,\nAnda menerima disposisi baru pada aplikasi Srikandi:\n\n📄 *No. Surat* : ${d.nomor_surat}\n👤 *Dari*       : ${d.pemberi_disposisi}\n📌 *Perihal*   : ${d.perihal}\n📝 *Instruksi* : ${d.instruksi_disposisi}\n📅 *Tanggal*   : ${d.tanggal}\n\nMohon segera menindaklanjuti instruksi tersebut di Srikandi.\n\n_Pesan otomatis dari Sistem Informasi SIGAP BRIDA Kota Makassar_`;\n\nreturn [{ json: { ...d, rendered_message: pesan } }];"
+      },
+      "id": "node-tpl-disposisi",
+      "name": "Template: Disposisi",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        940,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// FR-WA-03: Template Verifikasi Dokumen\nconst d = $input.first().json;\nconst pesan = `*📋 [SIGAP BRIDA] Verifikasi Naskah Dinas*\n\nYth. Bpk/Ibu *${d.penerima_nama}*,\nNaskah dinas memerlukan perhatian/tindakan verifikasi Anda:\n\n📄 *No. Surat* : ${d.nomor_surat}\n🏢 *Unit Pengirim* : ${d.asal}\n📌 *Perihal*   : ${d.perihal}\n🔍 *Catatan*   : ${d.catatan_verifikasi}\n📅 *Tanggal*   : ${d.tanggal}\n\nSilakan cek modul verifikasi pada aplikasi Srikandi.\n\n_Pesan otomatis dari Sistem Informasi SIGAP BRIDA Kota Makassar_`;\n\nreturn [{ json: { ...d, rendered_message: pesan } }];"
+      },
+      "id": "node-tpl-verifikasi",
+      "name": "Template: Verifikasi",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        940,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Fallback untuk status tidak dikenal (FR-WA-04)\nconst d = $input.first().json;\nconst pesan = `*ℹ️ [SIGAP BRIDA] Pembaruan Dokumen*\n\nYth. Bpk/Ibu *${d.penerima_nama}*,\nTerdapat pembaruan status (${d.status}) untuk surat no: ${d.nomor_surat}.\nSilakan periksa di aplikasi Srikandi.\n\n_SIGAP BRIDA Kota Makassar_`;\n\nreturn [{ json: { ...d, rendered_message: pesan } }];"
+      },
+      "id": "node-tpl-fallback",
+      "name": "Template: Fallback",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        940,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// FR-N8N-07: Pemetaan Nomor WhatsApp Penerima\nconst item = $input.first().json;\n\n// Nomor fallback jika NIP tidak ditemukan\nconst defaultPhone = '6281234567890';\n\n// Kamus nomor pegawai BRIDA (dapat dipindah ke basis data / environment variable)\nconst phoneBook = {\n  '198501152010011012': '6281234567890',\n  '197803202005021004': '6281398765432',\n  '199205122019032007': '6282111223344'\n};\n\nconst targetPhone = phoneBook[item.penerima_nip] || defaultPhone;\n\nreturn [{\n  json: {\n    chatId: `${targetPhone}@c.us`,\n    text: item.rendered_message,\n    session: 'default',\n    metadata: {\n      nomor_surat: item.nomor_surat,\n      status: item.status,\n      deduplication_key: item.deduplication_key\n    }\n  }\n}];"
+      },
+      "id": "node-map-recipient",
+      "name": "Pemetaan Nomor WhatsApp",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://waha:3000/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "sigap-brida-secret-key-2026"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chatId\": \"{{ $json.chatId }}\",\n  \"text\": \"{{ $json.text }}\",\n  \"session\": \"default\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "node-http-waha",
+      "name": "Kirim ke WA Gateway (WAHA)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1460,
+        340
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Srikandi Receiver": {
+      "main": [
+        [
+          {
+            "node": "Sanitasi & Pemetaan Variabel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitasi & Pemetaan Variabel": {
+      "main": [
+        [
+          {
+            "node": "Switch Status Dokumen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Status Dokumen": {
+      "main": [
+        [
+          {
+            "node": "Template: Surat Baru",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Template: Disposisi",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Template: Verifikasi",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Template: Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Template: Surat Baru": {
+      "main": [
+        [
+          {
+            "node": "Pemetaan Nomor WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Template: Disposisi": {
+      "main": [
+        [
+          {
+            "node": "Pemetaan Nomor WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Template: Verifikasi": {
+      "main": [
+        [
+          {
+            "node": "Pemetaan Nomor WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Template: Fallback": {
+      "main": [
+        [
+          {
+            "node": "Pemetaan Nomor WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pemetaan Nomor WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Kirim ke WA Gateway (WAHA)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

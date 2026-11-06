@@ -1,0 +1,16 @@
+{
+  "event_type": "status_verifikasi",
+  "status": "verifikasi",
+  "timestamp": "2026-11-02T10:00:00+08:00",
+  "dokumen": {
+    "nomor_surat": "ND-048/BRIDA-SET/XI/2026",
+    "tanggal_surat": "2026-11-02",
+    "asal_pengirim": "Sub Bagian Umum dan Kepegawaian",
+    "perihal": "Nota Dinas Usulan Pembaruan Perangkat Kerja Praktik Mahasiswa",
+    "sifat": "Biasa",
+    "status_verifikasi": "Menunggu Persetujuan Verifikator",
+    "catatan_verifikasi": "Mohon periksa kelengkapan lampiran spesifikasi teknis sebelum ditandatangani.",
+    "penerima_nip": "198501152010011012",
+    "penerima_nama": "Andi Tenri S.T., M.Kom."
+  }
+}

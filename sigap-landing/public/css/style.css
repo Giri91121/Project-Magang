@@ -24,6 +24,26 @@
     -webkit-backdrop-filter: blur(12px);
 }
 
+/* Hero Background Slideshow - Auto-Crop & Full-Cover */
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity 1.5s ease-in-out, transform 6s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1;
+}
+
+.hero-slide.active {
+    opacity: 0.95; /* Foto terlihat sangat jelas, terang, dan hidup */
+    transform: scale(1);
+    z-index: 2;
+}
+
 /* Card hover animation */
 .card-hover {
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;

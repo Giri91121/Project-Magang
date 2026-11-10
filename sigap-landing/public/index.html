@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BRIDA Kota Makassar - Badan Riset dan Inovasi Daerah | Pemerintah Kota Makassar</title>
-    <meta name="description" content="Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar. Pusat riset, inovasi daerah, serta layanan otomasi kearsipan naskah dinas terintegrasi.">
+    <meta name="description" content="Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar. Pusat riset, inovasi daerah, serta layanan transformasi tata kelola kearsipan digital pemerintah.">
     
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,60 +17,45 @@
     <!-- Tailwind CSS Framework CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Eksternal Tailwind Theme Configuration (Putih Tulang & Maroon) -->
+    <!-- Konfigurasi Tema Tailwind (Putih Tulang & Maroon) -->
     <script src="js/tailwind.config.js"></script>
 
-    <!-- Eksternal Custom Stylesheet -->
+    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-bone-100 text-slate-800 font-sans antialiased selection:bg-maroon-700 selection:text-white">
 
-    <!-- Top Announcement Bar -->
-    <aside class="bg-maroon-900 text-bone-100 text-xs py-1.5 px-4 sm:px-6 lg:px-8 border-b border-maroon-950" aria-label="Informasi Operasional">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar</span>
+    <!-- Top Announcement Bar Resmi Pemkot -->
+    <aside class="bg-maroon-950 text-bone-200 text-xs py-2 px-4 sm:px-6 lg:px-8 border-b border-maroon-900" aria-label="Informasi Operasional">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+                <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-rose-600/30 text-rose-300 text-[10px]">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </span>
+                <span class="font-medium">Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar</span>
             </div>
-            <div class="hidden md:flex items-center gap-4 text-[11px] text-bone-300">
-                <span><i class="fa-solid fa-clock mr-1 text-bone-400"></i> Jam Operasional: 08.00 - 16.00 WITA</span>
-                <span><i class="fa-solid fa-shield-halved mr-1 text-bone-400"></i> Terintegrasi Srikandi Nasional</span>
+            <div class="flex items-center gap-5 text-[11px] text-bone-300">
+                <span><i class="fa-regular fa-calendar-check mr-1.5 text-rose-400"></i> Senin - Jumat, 08.00 - 16.00 WITA</span>
+                <span class="hidden md:inline"><i class="fa-solid fa-location-dot mr-1 text-rose-400"></i> Balai Kota Makassar</span>
             </div>
         </div>
     </aside>
 
-    <!-- Header / Navbar Resmi Portal BRIDA Kota Makassar -->
+    <!-- Header / Navbar Resmi Portal Kota Makassar -->
     <header class="sticky top-0 z-50 glass-header border-b border-bone-300 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
+            <div class="flex items-center justify-between h-20 sm:h-24">
                 
-                <!-- Sisi Kiri: Logo BRIDA Kota Makassar & Teks Resmi Instansi -->
-                <div class="flex items-center gap-3 sm:gap-5">
-                    <!-- Logo BRIDA Kota Makassar -->
-                    <a href="#beranda" class="flex items-center gap-2.5 focus:outline-none">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-rose-700 flex items-center justify-center text-white shadow-sm shadow-rose-900/20">
-                            <!-- Simbol Inovasi Riset -->
-                            <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24">
-                                <circle cx="8" cy="8" r="3.2"/>
-                                <path d="M14 6.5C14 6.5 14.8 9 17.5 9.5C14.8 10 14 12.5 14 12.5C14 12.5 13.2 10 10.5 9.5C13.2 9 14 6.5 14 6.5Z"/>
-                                <path d="M8 12.5C5.5 12.5 4 14.5 4 17.5C4 19 6 20 8.5 20C11.5 20 13.5 18 13.5 15.5C11 15.5 9.5 14 8 12.5Z"/>
-                                <path d="M14.5 15C14.5 17.5 16.5 19.5 19.5 19.5C19.5 17 18 15 14.5 15Z"/>
-                            </svg>
-                        </div>
-                        <div class="flex flex-col leading-none">
-                            <span class="text-xs sm:text-sm font-black tracking-wider text-slate-900">BRIDA</span>
-                            <span class="text-[9px] sm:text-[10px] font-bold text-slate-700 tracking-wider">KOTA MAKASSAR</span>
-                        </div>
+                <!-- Sisi Kiri: Logo BRIDA Kota Makassar (URL Tanpa Spasi) -->
+                <div class="flex items-center">
+                    <a href="#beranda" class="flex items-center focus:outline-none py-1">
+                        <img
+                            id="brida-logo"
+                            src="images/logo-brida.png"
+                            alt="BRIDA Kota Makassar"
+                            class="h-12 sm:h-14 md:h-16 w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[380px] object-contain mix-blend-multiply"
+                        >
                     </a>
-
-                    <!-- Garis Pemisah Halus -->
-                    <div class="h-8 w-[1px] bg-bone-300 hidden sm:block"></div>
-
-                    <!-- Teks Nama Instansi Resmi -->
-                    <div class="flex flex-col justify-center">
-                        <span class="text-base sm:text-lg font-black text-maroon-700 tracking-tight leading-none">Badan Riset & Inovasi Daerah</span>
-                        <span class="text-[10px] sm:text-[11px] font-semibold text-slate-500 tracking-tight mt-0.5">Pemerintah Kota Makassar</span>
-                    </div>
                 </div>
 
                 <!-- Navigasi Utama Desktop -->
@@ -83,15 +68,15 @@
                             <span>Pemerintahan</span>
                             <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
                         </button>
-                        <div class="dropdown-menu absolute top-full left-0 w-52 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
+                        <div class="dropdown-menu absolute top-full left-0 w-56 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
                             <a href="#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Profil BRIDA Makassar</a>
                             <a href="#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Visi & Misi Inovasi</a>
-                            <a href="#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Struktur Organisasi</a>
+                            <a href="#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Tugas Pokok & Fungsi</a>
                         </div>
                     </div>
 
-                    <a href="#fitur" class="hover:text-maroon-700 transition-colors">Layanan</a>
-                    <a href="#cara-kerja" class="hover:text-maroon-700 transition-colors">Informasi Publik</a>
+                    <a href="#layanan" class="hover:text-maroon-700 transition-colors">Layanan</a>
+                    <a href="#kearsipan" class="hover:text-maroon-700 transition-colors">Informasi Publik</a>
                     <a href="#berita" class="hover:text-maroon-700 transition-colors">Berita</a>
                     <a href="#kontak" class="hover:text-maroon-700 transition-colors">Kontak</a>
 
@@ -101,30 +86,24 @@
                             <span>PPID</span>
                             <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
                         </button>
-                        <div class="dropdown-menu absolute top-full right-0 w-52 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
-                            <a href="#panduan" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Layanan Informasi PPID</a>
-                            <a href="#panduan" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Regulasi Kearsipan</a>
-                            <a href="#panduan" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Unduh Dokumen Panduan</a>
+                        <div class="dropdown-menu absolute top-full right-0 w-56 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
+                            <a href="#kearsipan" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Layanan Informasi PPID</a>
+                            <a href="#kearsipan" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Regulasi Kearsipan</a>
+                            <a href="#kearsipan" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Buku Panduan Layanan (TXT)</a>
                         </div>
                     </div>
                 </nav>
 
-                <!-- Tombol Aksi Kanan & Hamburger Mobile -->
-                <div class="flex items-center gap-3">
-                    <a href="#panduan" class="hidden sm:inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white text-xs sm:text-sm font-bold px-4 sm:px-5 py-2.5 rounded-xl transition-all shadow-md shadow-maroon-900/15">
-                        <i class="fa-solid fa-book-bookmark text-sm"></i>
-                        <span>Buku Panduan</span>
-                    </a>
-
-                    <!-- Hamburger Button Mobile -->
-                    <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg text-slate-700 hover:text-maroon-700 hover:bg-bone-200 focus:outline-none" aria-label="Buka Menu Navigasi">
+                <!-- Kontainer Kanan (Hanya Tombol Hamburger di Layar Mobile) -->
+                <div class="flex items-center lg:hidden">
+                    <button id="mobile-menu-btn" class="p-2.5 rounded-xl text-slate-700 hover:text-maroon-700 hover:bg-bone-200 focus:outline-none" aria-label="Buka Menu Navigasi">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu Navigasi (Responsif) -->
+        <!-- Mobile Menu Navigasi -->
         <div id="mobile-menu" class="hidden lg:hidden bg-bone-50 border-b border-bone-300 px-4 pt-2 pb-6 space-y-3">
             <a href="#beranda" class="block px-3 py-2 text-sm font-bold text-maroon-700 rounded-lg hover:bg-bone-200">Beranda</a>
             <div>
@@ -137,129 +116,98 @@
                     <a href="#tentang" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Visi & Misi Inovasi</a>
                 </div>
             </div>
-            <a href="#fitur" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Layanan Notifikasi</a>
-            <a href="#cara-kerja" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Informasi Publik</a>
-            <a href="#berita" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Berita</a>
-            <a href="#kontak" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Kontak</a>
-            <div>
-                <button class="mobile-dropdown-toggle w-full flex items-center justify-between px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">
-                    <span>PPID</span>
-                    <i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
-                </button>
-                <div class="hidden pl-6 py-1 space-y-1 bg-white/50 rounded-lg mt-1 border border-bone-200">
-                    <a href="#panduan" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Layanan Informasi PPID</a>
-                    <a href="#panduan" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Unduh Panduan Layanan</a>
-                </div>
-            </div>
+            <a href="#layanan" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Layanan Riset & Publik</a>
+            <a href="#kearsipan" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Informasi Kearsipan</a>
+            <a href="#berita" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Berita Terkini</a>
+            <a href="#kontak" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Kontak Instansi</a>
             <div class="pt-2">
-                <a href="#panduan" class="w-full inline-flex justify-center items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold py-3 rounded-xl shadow">
-                    <i class="fa-solid fa-book-bookmark"></i>
-                    <span>Unduh Buku Panduan PDF</span>
+                <a href="https://srikandi.layanan.go.id" target="_blank" class="w-full inline-flex justify-center items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold py-3 rounded-xl shadow">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    <span>Portal Srikandi ANRI</span>
                 </a>
             </div>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section (Nuansa Putih Tulang & Maroon) -->
-        <section id="beranda" class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-bone-50 via-bone-100 to-bone-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <!-- Hero Banner Portal Pemda (Berwibawa, Menggunakan Visual Realistis) -->
+        <section id="beranda" class="relative overflow-hidden bg-slate-900 text-white min-h-[560px] flex items-center">
+            <!-- Background Slideshow Auto-Crop & Full-Cover -->
+            <div id="hero-slideshow" class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                <!-- Slide 1 (Aktif Awal) -->
+                <img
+                    src="images/slide1.jpg"
+                    alt="Dokumentasi Kegiatan BRIDA Makassar 1"
+                    class="hero-slide active"
+                >
+                <!-- Slide 2 -->
+                <img
+                    src="images/slide2.jpg"
+                    alt="Dokumentasi Kegiatan BRIDA Makassar 2"
+                    class="hero-slide"
+                >
+                <!-- Lapisan Gradasi Warna Elegan Transparan (Foto Jauh Lebih Terang & Jelas) -->
+                <div class="absolute inset-0 bg-gradient-to-r from-maroon-950/50 via-slate-950/30 to-black/20 z-10"></div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-10 items-center">
                     
-                    <!-- Kolom Teks Hero -->
-                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-bone-200 border border-bone-300 text-maroon-800 text-xs font-bold">
-                            <span class="w-2 h-2 rounded-full bg-maroon-700 animate-ping"></span>
-                            Inovasi Tata Kelola Kearsipan BRIDA Kota Makassar
+                    <!-- Sisi Kiri: Headline Resmi Pemerintahan -->
+                    <div class="lg:col-span-8 space-y-6">
+                        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-rose-200">
+                            <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                            Pusat Inovasi & Kajian Kebijakan Strategis Daerah
                         </div>
                         
-                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
-                            Notifikasi Terintegrasi <span class="text-maroon-700 underline decoration-bone-400 underline-offset-8">Srikandi</span> Langsung ke WhatsApp.
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-bone-50 drop-shadow-md">
+                            Mendorong Inovasi Berbasis Riset, Mewujudkan <span class="text-rose-400">Makassar Kota Dunia</span> yang Berdaya Saing.
                         </h1>
 
-                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
-                            <strong>Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar</strong> menghadirkan integrasi arus persuratan dinas nasional pada aplikasi Srikandi dengan WhatsApp aparatur secara <em>real-time</em>, terukur, dan mengutamakan perlindungan data konfidensial daerah.
+                        <p class="text-base sm:text-lg text-bone-100 max-w-2xl leading-relaxed font-normal drop-shadow-sm">
+                            Selamat datang di Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar. Kami mengoordinasikan ekosistem riset, pendampingan inovasi perangkat daerah, serta modernisasi tata kelola kearsipan digital pemerintah kota.
                         </p>
 
-                        <!-- Tombol Aksi Hero (Warna Maroon) -->
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
-                            <a href="#cara-kerja" class="inline-flex justify-center items-center gap-2.5 bg-maroon-700 hover:bg-maroon-800 text-white font-bold px-7 py-3.5 rounded-xl transition shadow-lg shadow-maroon-900/20">
-                                <span>Pelajari Cara Kerja</span>
+                        <!-- Tombol Aksi Cepat Portal -->
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <a href="#layanan" class="inline-flex items-center gap-2.5 bg-rose-700 hover:bg-rose-800 text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-rose-950/40 text-sm">
+                                <span>Layanan & Fasilitasi Riset</span>
                                 <i class="fa-solid fa-arrow-right text-xs"></i>
                             </a>
-                            <a href="#fitur" class="inline-flex justify-center items-center gap-2.5 bg-white hover:bg-bone-50 text-maroon-800 font-bold px-6 py-3.5 rounded-xl border-2 border-bone-300 hover:border-maroon-700 transition shadow-sm">
-                                <i class="fa-brands fa-whatsapp text-emerald-600 text-lg"></i>
-                                <span>Lihat Format Notifikasi</span>
+                            <a href="#kearsipan" class="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 text-bone-100 font-bold px-6 py-3.5 rounded-xl border border-white/20 transition text-sm">
+                                <i class="fa-solid fa-network-wired text-rose-400"></i>
+                                <span>Inovasi Kearsipan Srikandi</span>
                             </a>
-                        </div>
-
-                        <!-- Statistik Cepat -->
-                        <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-6 border-t border-bone-300">
-                            <div class="bg-white/80 p-3.5 rounded-xl border border-bone-300/80 shadow-sm card-hover">
-                                <div class="text-xl sm:text-2xl font-black text-maroon-800">&lt; 1 Detik</div>
-                                <div class="text-[11px] sm:text-xs text-slate-500 font-semibold">Kecepatan Transmisi Data</div>
-                            </div>
-                            <div class="bg-white/80 p-3.5 rounded-xl border border-bone-300/80 shadow-sm card-hover">
-                                <div class="text-xl sm:text-2xl font-black text-maroon-800">3 Format</div>
-                                <div class="text-[11px] sm:text-xs text-slate-500 font-semibold">Surat, Disposisi & Verifikasi</div>
-                            </div>
-                            <div class="bg-white/80 p-3.5 rounded-xl border border-bone-300/80 shadow-sm card-hover">
-                                <div class="text-xl sm:text-2xl font-black text-maroon-800">100% Valid</div>
-                                <div class="text-[11px] sm:text-xs text-slate-500 font-semibold">Filter Dokumen Rahasia</div>
-                            </div>
                         </div>
                     </div>
 
-                    <!-- Preview Visual Pesan WhatsApp Masuk -->
-                    <div class="lg:col-span-5 relative">
-                        <div class="relative mx-auto max-w-sm bg-white rounded-3xl p-6 shadow-2xl border border-bone-300 ring-1 ring-slate-900/5 card-hover">
-                            
-                            <!-- Header Chat -->
-                            <div class="flex items-center justify-between pb-4 border-b border-bone-200">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-maroon-700 flex items-center justify-center text-white font-bold text-sm shadow">
-                                        <i class="fa-brands fa-whatsapp text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-slate-900">BRIDA Kota Makassar</h4>
-                                        <span class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Terhubung (Bot Gateway)
-                                        </span>
-                                    </div>
+                    <!-- Sisi Kanan: Kartu Profil Pimpinan / Pengumuman Resmi Pemda -->
+                    <div class="lg:col-span-4">
+                        <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 text-bone-100 space-y-5 shadow-2xl">
+                            <div class="flex items-center gap-3.5 border-b border-white/15 pb-4">
+                                <div class="w-12 h-12 rounded-xl bg-rose-600/30 border border-rose-400/40 flex items-center justify-center text-white text-xl">
+                                    <i class="fa-solid fa-landmark"></i>
                                 </div>
-                                <span class="text-xs text-slate-400">WITA</span>
-                            </div>
-
-                            <!-- Chat Box Bubble -->
-                            <div class="py-4 space-y-3.5">
-                                <!-- Pesan Surat Baru -->
-                                <div class="bg-bone-100 border border-bone-300 rounded-2xl rounded-tl-sm p-4 text-xs leading-relaxed text-slate-800 space-y-2">
-                                    <div class="font-bold text-maroon-800 flex items-center gap-1.5">
-                                        <i class="fa-solid fa-bell text-maroon-700"></i> [BRIDA MAKASSAR] Surat Masuk Baru
-                                    </div>
-                                    <p class="text-[11px] text-slate-600">Yth. Bpk/Ibu Pejabat & Pegawai BRIDA, terdapat naskah dinas baru:</p>
-                                    <div class="bg-white p-2.5 rounded-lg border border-bone-300 font-mono text-[11px] space-y-1">
-                                        <div><strong>No. Surat:</strong> 005/142/BRIDA/XI/2026</div>
-                                        <div><strong>Dari:</strong> BAPPEDA KOTA MAKASSAR</div>
-                                        <div><strong>Perihal:</strong> Rakor Riset & Inovasi 2027</div>
-                                        <div><strong>Tanggal:</strong> 2 November 2026</div>
-                                    </div>
-                                    <p class="text-[10px] text-slate-500 italic">Silakan masuk ke aplikasi Srikandi untuk naskah lengkap.</p>
-                                </div>
-
-                                <!-- Pesan Disposisi -->
-                                <div class="bg-amber-50/70 border border-amber-200 rounded-2xl rounded-tl-sm p-3.5 text-xs text-slate-800 space-y-1.5">
-                                    <div class="font-bold text-amber-900 flex items-center gap-1.5">
-                                        <i class="fa-solid fa-bolt text-amber-600"></i> [BRIDA MAKASSAR] Disposisi Pimpinan
-                                    </div>
-                                    <div class="bg-white p-2 rounded-lg border border-amber-200/80 font-mono text-[11px]">
-                                        <div><strong>Instruksi:</strong> Siapkan paparan indikator inovasi.</div>
-                                    </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-white">BRIDA Kota Makassar</h4>
+                                    <p class="text-xs text-rose-300">Pemerintah Kota Makassar</p>
                                 </div>
                             </div>
 
-                            <div class="pt-3 border-t border-bone-200 text-center">
-                                <span class="text-[10px] font-semibold text-slate-400">Didukung n8n Automation Engine & WAHA Gateway</span>
+                            <p class="text-xs text-bone-200 leading-relaxed italic">
+                                "Riset dan data yang akurat adalah fondasi utama setiap kebijakan pembangunan daerah yang berdaya guna dan berkelanjutan bagi masyarakat Kota Makassar."
+                            </p>
+
+                            <!-- Statistik Realistis Pemerintah -->
+                            <div class="grid grid-cols-2 gap-3 pt-2">
+                                <div class="bg-white/5 p-3 rounded-xl border border-white/10 text-center">
+                                    <div class="text-2xl font-black text-rose-300">120+</div>
+                                    <div class="text-[10px] text-bone-300 font-medium">Inovasi Daerah Terdaftar</div>
+                                </div>
+                                <div class="bg-white/5 p-3 rounded-xl border border-white/10 text-center">
+                                    <div class="text-2xl font-black text-rose-300">Sangat Inovatif</div>
+                                    <div class="text-[10px] text-bone-300 font-medium">Predikat IID Kemendagri</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -268,378 +216,357 @@
             </div>
         </section>
 
-        <!-- Bagian Tentang BRIDA Kota Makassar -->
-        <section id="tentang" class="py-20 bg-white border-y border-bone-300">
+        <!-- Layanan Utama BRIDA Kota Makassar (Format Grid Formal Pemerintahan) -->
+        <section id="layanan" class="py-16 bg-white border-b border-bone-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto space-y-3">
-                    <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Profil & Layanan</span>
-                    <h2 class="text-3xl font-black text-slate-900 tracking-tight sm:text-4xl">Integrasi Tata Persuratan Cerdas</h2>
-                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
-                        Sistem Informasi Kearsipan Dinamis Terintegrasi (Srikandi) adalah tulang punggung persuratan pemerintah. BRIDA Kota Makassar menghadirkan jembatan komunikasi aktif agar aparatur dan pimpinan menerima peringatan dini naskah dinas penting tanpa jeda waktu.
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                    <div>
+                        <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Layanan Publik & Kedinasan</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">Layanan Terpadu BRIDA Kota Makassar</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-xl">Akses layanan pengusulan riset, fasilitasi inovasi daerah, serta koordinasi persuratan resmi.</p>
+                    </div>
+                    <span class="text-xs font-semibold text-slate-400 bg-bone-100 px-3 py-1.5 rounded-lg border border-bone-300 w-fit">
+                        Sistem Terintegrasi Pemkot Makassar
+                    </span>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Layanan 1 -->
+                    <div class="bg-bone-100/70 border border-bone-300 rounded-xl p-6 hover:border-maroon-700 transition group flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="w-11 h-11 rounded-lg bg-maroon-700 text-white flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-microscope"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-base group-hover:text-maroon-700 transition">Riset & Pengkajian Kebijakan</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Pelaksanaan riset ilmiah terapan dan penyusunan rekomendasi kebijakan pembangunan daerah berbasis bukti (*evidence-based policy*).
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-bone-300/80 mt-4">
+                            <span class="text-xs font-bold text-maroon-700 flex items-center gap-1.5">
+                                <span>Informasi Riset</span>
+                                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Layanan 2 -->
+                    <div class="bg-bone-100/70 border border-bone-300 rounded-xl p-6 hover:border-maroon-700 transition group flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="w-11 h-11 rounded-lg bg-maroon-700 text-white flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-lightbulb"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-base group-hover:text-maroon-700 transition">Fasilitasi Inovasi Daerah</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Pendampingan dan pemetaan inovasi perangkat daerah (OPD) untuk pengukuran Indeks Inovasi Daerah (IID) tahunan Kemendagri.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-bone-300/80 mt-4">
+                            <span class="text-xs font-bold text-maroon-700 flex items-center gap-1.5">
+                                <span>Katalog Inovasi</span>
+                                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Layanan 3 -->
+                    <div class="bg-bone-100/70 border border-bone-300 rounded-xl p-6 hover:border-maroon-700 transition group flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="w-11 h-11 rounded-lg bg-maroon-700 text-white flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-envelopes-bulk"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-base group-hover:text-maroon-700 transition">Otomasi Kearsipan Srikandi</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Notifikasi instan naskah dinas, arahan disposisi pimpinan, dan verifikasi surat masuk secara terenkripsi ke WhatsApp aparatur.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-bone-300/80 mt-4">
+                            <span class="text-xs font-bold text-maroon-700 flex items-center gap-1.5">
+                                <span>Alur Notifikasi</span>
+                                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Layanan 4 -->
+                    <div class="bg-bone-100/70 border border-bone-300 rounded-xl p-6 hover:border-maroon-700 transition group flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <div class="w-11 h-11 rounded-lg bg-maroon-700 text-white flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-handshake-angle"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-base group-hover:text-maroon-700 transition">Kemitraan Akademisi & BRIN</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Sinergi riset bersama Badan Riset dan Inovasi Nasional (BRIN), perguruan tinggi, dan peneliti untuk akselerasi solusi daerah.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-bone-300/80 mt-4">
+                            <span class="text-xs font-bold text-maroon-700 flex items-center gap-1.5">
+                                <span>Kerja Sama Riset</span>
+                                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Profil Instansi & Komitmen Pembangunan -->
+        <section id="tentang" class="py-16 bg-bone-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-12 gap-10 items-center">
+                    
+                    <!-- Sisi Gambar Nyata / Dokumentasi Kantor -->
+                    <div class="lg:col-span-5">
+                        <div class="relative rounded-2xl overflow-hidden border-2 border-bone-300 shadow-xl bg-slate-900">
+                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Ruang Rapat Koordinasi Riset BRIDA" class="w-full h-80 object-cover opacity-90">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                            <div class="absolute bottom-5 left-5 right-5 text-white">
+                                <span class="text-[10px] uppercase font-bold tracking-wider text-rose-300">Badan Riset & Inovasi Daerah</span>
+                                <h4 class="font-bold text-sm sm:text-base">Mewujudkan Tata Kelola Berbasis Sains & Data</h4>
+                                <p class="text-xs text-bone-300 mt-1">Balai Kota Makassar, Sulawesi Selatan</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Narasi Instansi -->
+                    <div class="lg:col-span-7 space-y-5">
+                        <div>
+                            <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Tentang Lembaga</span>
+                            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
+                                Badan Riset dan Inovasi Daerah Kota Makassar
+                            </h2>
+                        </div>
+
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            BRIDA Kota Makassar dibentuk sebagai perangkat daerah yang menjalankan fungsi penunjang urusan pemerintahan di bidang penelitian, pengembangan, pengkajian, dan penerapan riset serta inovasi yang terintegrasi di lingkungan Pemerintah Kota Makassar.
+                        </p>
+
+                        <div class="grid sm:grid-cols-2 gap-4 pt-2">
+                            <div class="bg-white p-4 rounded-xl border border-bone-300">
+                                <h4 class="font-bold text-sm text-slate-900 flex items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-bullseye text-maroon-700"></i> Visi Utama
+                                </h4>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Menjadi pusat rujukan riset dan inovasi yang adaptif guna mendukung percepatan pembangunan Kota Makassar.
+                                </p>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-bone-300">
+                                <h4 class="font-bold text-sm text-slate-900 flex items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-list-check text-maroon-700"></i> Fokus Kerja
+                                </h4>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Kajian kebijakan tematik, peningkatan indeks inovasi daerah, dan digitalisasi kearsipan aparatur.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Inovasi Unggulan: Modernisasi Kearsipan Srikandi - WhatsApp -->
+        <section id="kearsipan" class="py-16 bg-white border-y border-bone-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="max-w-3xl mb-12">
+                    <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Inovasi Tata Kelola Kearsipan</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
+                        Integrasi Notifikasi Srikandi ke WhatsApp
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+                        Inisiatif BRIDA Kota Makassar dalam mempercepat respon terhadap naskah dinas masuk, disposisi pimpinan, dan verifikasi dokumen dengan tetap mengedepankan keamanan serta kerahasiaan informasi negara.
                     </p>
                 </div>
 
-                <div class="grid md:grid-cols-3 gap-8 mt-14">
-                    <!-- Card 1 -->
-                    <div class="p-8 rounded-2xl bg-bone-100 border border-bone-300 hover:border-maroon-700/60 hover:shadow-xl transition-all duration-300 card-hover">
-                        <div class="w-12 h-12 rounded-xl bg-maroon-700 text-white flex items-center justify-center text-xl mb-6 shadow-md shadow-maroon-900/15">
-                            <i class="fa-solid fa-gauge-high"></i>
+                <!-- Alur Kerja Formal (Bukan Kotak AI) -->
+                <div class="bg-bone-100 rounded-2xl p-6 sm:p-8 border border-bone-300">
+                    <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-route text-maroon-700"></i>
+                        <span>Alur Resmi Distribusi Notifikasi Naskah Dinas</span>
+                    </h3>
+
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="bg-white p-4 rounded-xl border border-bone-300">
+                            <span class="text-xs font-black text-maroon-700 block mb-1">TAHAP 1</span>
+                            <h4 class="font-bold text-xs text-slate-900">Agenda Surat di Srikandi</h4>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Operator mencatat naskah dinas masuk atau draf disposisi pada aplikasi Srikandi resmi.</p>
                         </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Akselerasi Disposisi</h3>
-                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                            Memangkas waktu tunggu persuratan konvensional. Setiap instruksi pimpinan langsung tiba di genggaman pejabat teknis BRIDA secara instan.
-                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-bone-300">
+                            <span class="text-xs font-black text-maroon-700 block mb-1">TAHAP 2</span>
+                            <h4 class="font-bold text-xs text-slate-900">Pemicu Webhook Aman</h4>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Data metadata naskah diteruskan melalui protokol webhook dengan autentikasi token rahasia.</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-bone-300">
+                            <span class="text-xs font-black text-maroon-700 block mb-1">TAHAP 3</span>
+                            <h4 class="font-bold text-xs text-slate-900">Pemfilteran Dokumen</h4>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Surat berklasifikasi rahasia disamarkan otomatis sesuai prinsip kerahasiaan kearsipan.</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-bone-300">
+                            <span class="text-xs font-black text-maroon-700 block mb-1">TAHAP 4</span>
+                            <h4 class="font-bold text-xs text-slate-900">Pengiriman ke WhatsApp</h4>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Aparatur penerima mendapatkan ringkasan naskah secara instan untuk segera ditindaklanjuti.</p>
+                        </div>
                     </div>
 
-                    <!-- Card 2 -->
-                    <div class="p-8 rounded-2xl bg-bone-100 border border-bone-300 hover:border-maroon-700/60 hover:shadow-xl transition-all duration-300 card-hover">
-                        <div class="w-12 h-12 rounded-xl bg-maroon-700 text-white flex items-center justify-center text-xl mb-6 shadow-md shadow-maroon-900/15">
-                            <i class="fa-solid fa-user-shield"></i>
+                    <!-- Dokumen Panduan & Unduhan Resmi -->
+                    <div class="mt-6 pt-6 border-t border-bone-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-file-lines text-2xl text-maroon-700"></i>
+                            <div>
+                                <span class="font-bold text-xs sm:text-sm text-slate-900 block">Buku Panduan Notifikasi Kearsipan (Versi 1.0)</span>
+                                <span class="text-[11px] text-slate-500">Pedoman teknis format notifikasi dan pembaruan kontak aparatur.</span>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Keamanan & Kerahasiaan</h3>
-                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                            Menerapkan prinsip minimisasi data (UU PDP). Pesan notifikasi hanya berisi nomor dan pengirim, naskah rahasia disamarkan secara otomatis.
-                        </p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="p-8 rounded-2xl bg-bone-100 border border-bone-300 hover:border-maroon-700/60 hover:shadow-xl transition-all duration-300 card-hover">
-                        <div class="w-12 h-12 rounded-xl bg-maroon-700 text-white flex items-center justify-center text-xl mb-6 shadow-md shadow-maroon-900/15">
-                            <i class="fa-solid fa-diagram-project"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Arsitektur Modular n8n</h3>
-                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                            Digerakkan oleh workflow engine n8n berstandar industri dengan Docker runtime yang tangguh, mudah dipelihara, dan hemat sumber daya.
-                        </p>
+                        <a href="docs/Panduan_Pengguna_BRIDA_Makassar.txt" download class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition shadow">
+                            <i class="fa-solid fa-download"></i>
+                            <span>Unduh Panduan (TXT)</span>
+                        </a>
                     </div>
                 </div>
+
             </div>
         </section>
 
-        <!-- Alur Kerja Notifikasi (Cara Kerja) -->
-        <section id="cara-kerja" class="py-20 bg-bone-100">
+        <!-- Berita & Informasi BRIDA (Format Portal Berita Nyata Pemda) -->
+        <section id="berita" class="py-16 bg-bone-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto space-y-3 mb-16">
-                    <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Tahapan Sistem</span>
-                    <h2 class="text-3xl font-black text-slate-900 tracking-tight sm:text-4xl">Bagaimana Alur Notifikasi Berjalan?</h2>
-                    <p class="text-slate-600 text-sm">Transmisi data otomatis dari aplikasi kearsipan hingga tiba di WhatsApp aparatur.</p>
-                </div>
-
-                <div class="grid md:grid-cols-4 gap-6">
-                    <!-- Tahap 1 -->
-                    <div class="bg-white p-6 rounded-2xl border border-bone-300 shadow-sm relative card-hover">
-                        <span class="absolute -top-3 left-6 bg-maroon-700 text-white font-black text-xs px-2.5 py-1 rounded-full">01</span>
-                        <div class="w-10 h-10 rounded-lg bg-bone-200 text-maroon-800 flex items-center justify-center text-lg mb-4 mt-2">
-                            <i class="fa-solid fa-folder-open"></i>
-                        </div>
-                        <h4 class="font-bold text-slate-900 mb-1 text-sm sm:text-base">Input di Srikandi</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed">Surat masuk atau disposisi dicatat oleh operator pada aplikasi Srikandi instansi.</p>
-                    </div>
-
-                    <!-- Tahap 2 -->
-                    <div class="bg-white p-6 rounded-2xl border border-bone-300 shadow-sm relative card-hover">
-                        <span class="absolute -top-3 left-6 bg-maroon-700 text-white font-black text-xs px-2.5 py-1 rounded-full">02</span>
-                        <div class="w-10 h-10 rounded-lg bg-bone-200 text-maroon-800 flex items-center justify-center text-lg mb-4 mt-2">
-                            <i class="fa-solid fa-bolt"></i>
-                        </div>
-                        <h4 class="font-bold text-slate-900 mb-1 text-sm sm:text-base">Pemicu Webhook</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed">Sistem n8n menerima webhook secara aman dengan verifikasi token rahasia.</p>
-                    </div>
-
-                    <!-- Tahap 3 -->
-                    <div class="bg-white p-6 rounded-2xl border border-bone-300 shadow-sm relative card-hover">
-                        <span class="absolute -top-3 left-6 bg-maroon-700 text-white font-black text-xs px-2.5 py-1 rounded-full">03</span>
-                        <div class="w-10 h-10 rounded-lg bg-bone-200 text-maroon-800 flex items-center justify-center text-lg mb-4 mt-2">
-                            <i class="fa-solid fa-filter"></i>
-                        </div>
-                        <h4 class="font-bold text-slate-900 mb-1 text-sm sm:text-base">Sanitasi & Switch</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed">Data diformat (tanggal Indonesia, sensor rahasia) dan dipetakan ke nomor HP penerima.</p>
-                    </div>
-
-                    <!-- Tahap 4 -->
-                    <div class="bg-white p-6 rounded-2xl border border-bone-300 shadow-sm relative card-hover">
-                        <span class="absolute -top-3 left-6 bg-maroon-700 text-white font-black text-xs px-2.5 py-1 rounded-full">04</span>
-                        <div class="w-10 h-10 rounded-lg bg-bone-200 text-maroon-800 flex items-center justify-center text-lg mb-4 mt-2">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </div>
-                        <h4 class="font-bold text-slate-900 mb-1 text-sm sm:text-base">Kirim ke WhatsApp</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed">Gateway WAHA mengirimkan notifikasi instan langsung ke ponsel pegawai terkait.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3 Template Notifikasi Srikandi -->
-        <section id="fitur" class="py-20 bg-white border-y border-bone-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto space-y-3 mb-16">
-                    <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Standar Format Pesan</span>
-                    <h2 class="text-3xl font-black text-slate-900 tracking-tight sm:text-4xl">Kategori Notifikasi WhatsApp</h2>
-                    <p class="text-slate-600 text-sm">3 format pesan otomatis yang dirancang ringkas, baku, dan mudah dipindai.</p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Template 1 -->
-                    <div class="border border-bone-300 rounded-2xl p-6 bg-bone-100 flex flex-col justify-between shadow-sm card-hover">
-                        <div>
-                            <div class="inline-flex items-center gap-2 text-xs font-bold px-3 py-1 rounded-full bg-maroon-100 text-maroon-800 mb-4">
-                                <i class="fa-solid fa-envelope"></i> Template Surat Baru
-                            </div>
-                            <h3 class="text-lg font-bold text-slate-900 mb-2">Pemberitahuan Surat Masuk</h3>
-                            <p class="text-xs text-slate-500 mb-4 leading-relaxed">
-                                Otomatis terkirim saat naskah dinas baru didaftarkan pada unit penerima di lingkungan BRIDA.
-                            </p>
-                            <div class="bg-slate-900 text-bone-100 p-4 rounded-xl font-mono text-[11px] leading-relaxed border-l-4 border-maroon-700">
-                                🔔 [BRIDA MAKASSAR] Surat Masuk Baru<br><br>
-                                Yth. Bpk/Ibu [Nama Pegawai],<br>
-                                Terdapat surat masuk baru di Srikandi:<br><br>
-                                📄 No. Surat : 005/142/BRIDA/XI/2026<br>
-                                🏢 Dari      : BAPPEDA MAKASSAR<br>
-                                📌 Perihal   : Undangan Rakor Riset<br>
-                                📅 Tanggal   : 2 November 2026<br>
-                                🔒 Sifat     : Biasa<br><br>
-                                Silakan masuk ke aplikasi Srikandi.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Template 2 -->
-                    <div class="border border-bone-300 rounded-2xl p-6 bg-bone-100 flex flex-col justify-between shadow-sm card-hover">
-                        <div>
-                            <div class="inline-flex items-center gap-2 text-xs font-bold px-3 py-1 rounded-full bg-maroon-100 text-maroon-800 mb-4">
-                                <i class="fa-solid fa-share-nodes"></i> Template Disposisi
-                            </div>
-                            <h3 class="text-lg font-bold text-slate-900 mb-2">Instruksi Disposisi Pimpinan</h3>
-                            <p class="text-xs text-slate-500 mb-4 leading-relaxed">
-                                Meneruskan arahan tindak lanjut dari Kepala Badan/Pejabat Struktural kepada aparatur pelaksana.
-                            </p>
-                            <div class="bg-slate-900 text-bone-100 p-4 rounded-xl font-mono text-[11px] leading-relaxed border-l-4 border-amber-500">
-                                ⚡ [BRIDA MAKASSAR] Disposisi Dokumen<br><br>
-                                Yth. Bpk/Ibu [Nama Pegawai],<br>
-                                Anda menerima disposisi baru:<br><br>
-                                📄 No. Surat : 005/142/BRIDA/XI/2026<br>
-                                👤 Dari      : Kepala BRIDA Makassar<br>
-                                📝 Instruksi : Siapkan bahan paparan.<br>
-                                📅 Tanggal   : 2 November 2026<br><br>
-                                Mohon segera tindaklanjuti di Srikandi.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Template 3 -->
-                    <div class="border border-bone-300 rounded-2xl p-6 bg-bone-100 flex flex-col justify-between shadow-sm card-hover">
-                        <div>
-                            <div class="inline-flex items-center gap-2 text-xs font-bold px-3 py-1 rounded-full bg-maroon-100 text-maroon-800 mb-4">
-                                <i class="fa-solid fa-stamp"></i> Template Verifikasi
-                            </div>
-                            <h3 class="text-lg font-bold text-slate-900 mb-2">Verifikasi Naskah Dinas</h3>
-                            <p class="text-xs text-slate-500 mb-4 leading-relaxed">
-                                Pengingat bagi pejabat pemverifikasi untuk memeriksa draf surat sebelum ditandatangani secara elektronik.
-                            </p>
-                            <div class="bg-slate-900 text-bone-100 p-4 rounded-xl font-mono text-[11px] leading-relaxed border-l-4 border-blue-500">
-                                📋 [BRIDA MAKASSAR] Verifikasi Naskah<br><br>
-                                Yth. Bpk/Ibu [Nama Verifikator],<br>
-                                Naskah dinas butuh tindakan verifikasi:<br><br>
-                                📄 No. Surat : ND-048/BRIDA-SET/XI/2026<br>
-                                🏢 Pengirim  : Sub Bagian Kepegawaian<br>
-                                🔍 Catatan   : Cek kelengkapan lampiran.<br><br>
-                                Silakan cek modul verifikasi Srikandi.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pusat Panduan & Download Dokumen -->
-        <section id="panduan" class="py-20 bg-gradient-to-br from-maroon-900 via-maroon-950 to-slate-950 text-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8 sm:p-12 backdrop-blur-xl">
-                    <div class="grid lg:grid-cols-12 gap-8 items-center">
-                        <div class="lg:col-span-8 space-y-4">
-                            <span class="text-xs font-bold uppercase tracking-wider text-rose-300">Dokumentasi & Standar Operasional</span>
-                            <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Buku Panduan Layanan & Kearsipan</h2>
-                            <p class="text-bone-300 text-xs sm:text-sm leading-relaxed max-w-2xl">
-                                Pelajari prosedur pembaruan nomor WhatsApp aparatur, membaca rincian notifikasi naskah dinas, dan panduan troubleshooting mandiri melalui berkas panduan pengguna resmi.
-                            </p>
-                            <div class="flex flex-wrap gap-4 pt-4">
-                                <a href="docs/Panduan_Pengguna_BRIDA_Makassar.txt" download class="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl transition shadow-lg shadow-rose-900/30">
-                                    <i class="fa-solid fa-file-arrow-down text-base"></i>
-                                    <span>Unduh Buku Panduan Pengguna</span>
-                                </a>
-                                <a href="https://srikandi.layanan.go.id" target="_blank" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm px-6 py-3.5 rounded-xl border border-white/20 transition">
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                    <span>Akses Portal Srikandi ANRI</span>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-4 text-center lg:text-right">
-                            <div class="inline-block p-6 rounded-2xl bg-white/5 border border-white/10 text-center">
-                                <i class="fa-solid fa-book-open-reader text-5xl text-rose-400 mb-3"></i>
-                                <div class="font-bold text-sm">Dokumen Panduan v1.0</div>
-                                <div class="text-[11px] text-bone-400 mt-1">BRIDA Kota Makassar &bull; 2026</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Berita Terkini BRIDA -->
-        <section id="berita" class="py-20 bg-white border-b border-bone-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col sm:flex-row items-center justify-between mb-12 gap-4">
+                
+                <div class="flex items-center justify-between mb-8 pb-3 border-b border-bone-300">
                     <div>
-                        <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Kabar Terbaru</span>
-                        <h2 class="text-3xl font-black text-slate-900 tracking-tight">Berita & Informasi BRIDA</h2>
+                        <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Publikasi Resmi</span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight mt-0.5">Kabar & Kegiatan BRIDA Makassar</h2>
                     </div>
-                    <a href="#berita" class="inline-flex items-center gap-2 text-xs font-bold text-maroon-700 hover:text-maroon-800">
-                        <span>Lihat Semua Berita</span>
-                        <i class="fa-solid fa-arrow-right"></i>
+                    <a href="#berita" class="text-xs font-bold text-maroon-700 hover:text-maroon-800 flex items-center gap-1">
+                        <span>Semua Rilis</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                 </div>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Berita 1 -->
-                    <article class="bg-bone-100 rounded-2xl overflow-hidden border border-bone-300 hover:shadow-lg transition card-hover">
-                        <div class="h-44 bg-maroon-900 flex items-center justify-center text-white relative">
-                            <i class="fa-solid fa-newspaper text-4xl text-bone-300/40"></i>
-                            <span class="absolute top-4 left-4 bg-maroon-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Otomasi Sistem</span>
-                        </div>
-                        <div class="p-6 space-y-2">
-                            <span class="text-[11px] font-semibold text-slate-400">November 2026</span>
-                            <h3 class="font-bold text-slate-900 text-sm hover:text-maroon-700 transition">Implementasi Notifikasi WhatsApp Otomatis untuk Percepatan Disposisi Naskah Dinas</h3>
-                            <p class="text-xs text-slate-600 line-clamp-2">BRIDA Kota Makassar meluncurkan otomasi sistem guna menghubungkan alur kearsipan Srikandi langsung ke ponsel aparatur.</p>
-                        </div>
-                    </article>
-
-                    <!-- Berita 2 -->
-                    <article class="bg-bone-100 rounded-2xl overflow-hidden border border-bone-300 hover:shadow-lg transition card-hover">
-                        <div class="h-44 bg-slate-800 flex items-center justify-center text-white relative">
-                            <i class="fa-solid fa-lightbulb text-4xl text-bone-300/40"></i>
-                            <span class="absolute top-4 left-4 bg-slate-900 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Riset & Inovasi</span>
-                        </div>
-                        <div class="p-6 space-y-2">
-                            <span class="text-[11px] font-semibold text-slate-400">Oktober 2026</span>
-                            <h3 class="font-bold text-slate-900 text-sm hover:text-maroon-700 transition">Penyusunan Rencana Induk Riset Daerah (RIRD) Menuju Makassar Kota Dunia</h3>
-                            <p class="text-xs text-slate-600 line-clamp-2">Kolaborasi lintas SKPD dalam menyusun peta jalan inovasi terintegrasi berbasis data dan riset terapan.</p>
-                        </div>
-                    </article>
-
-                    <!-- Berita 3 -->
-                    <article class="bg-bone-100 rounded-2xl overflow-hidden border border-bone-300 hover:shadow-lg transition card-hover">
-                        <div class="h-44 bg-rose-950 flex items-center justify-center text-white relative">
-                            <i class="fa-solid fa-chart-line text-4xl text-bone-300/40"></i>
-                            <span class="absolute top-4 left-4 bg-maroon-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Indeks Inovasi</span>
-                        </div>
-                        <div class="p-6 space-y-2">
-                            <span class="text-[11px] font-semibold text-slate-400">Oktober 2026</span>
-                            <h3 class="font-bold text-slate-900 text-sm hover:text-maroon-700 transition">Penguatan Pengukuran Indeks Inovasi Daerah Kota Makassar Tahun 2026</h3>
-                            <p class="text-xs text-slate-600 line-clamp-2">Optimalisasi pelaporan program inovatif perangkat daerah untuk meningkatkan daya saing daerah.</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ & Kontak -->
-        <section id="kontak" class="py-20 bg-bone-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid lg:grid-cols-12 gap-12">
+                <!-- Tata Letak Media Pemda: 1 Berita Sorotan Besar + 3 Berita Daftar -->
+                <div class="grid lg:grid-cols-12 gap-6">
                     
-                    <!-- FAQ (Kiri) -->
-                    <div class="lg:col-span-7 space-y-6">
-                        <div>
-                            <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Bantuan & FAQ</span>
-                            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">Pertanyaan yang Kerap Diajukan</h2>
+                    <!-- Berita Sorotan Utama (Kiri - 7 Kolom) -->
+                    <div class="lg:col-span-7 bg-white rounded-2xl overflow-hidden border border-bone-300 shadow-sm flex flex-col justify-between">
+                        <div class="relative h-64 bg-slate-900 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&q=80" alt="Rapat Koordinasi Persuratan dan Riset Daerah" class="w-full h-full object-cover opacity-85 hover:scale-105 transition duration-500">
+                            <span class="absolute top-4 left-4 bg-maroon-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                Sorotan Utama
+                            </span>
                         </div>
-
-                        <div class="space-y-3.5">
-                            <details class="group bg-white p-5 rounded-2xl border border-bone-300" open>
-                                <summary class="flex items-center justify-between cursor-pointer">
-                                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Apakah isi naskah dinas utuh disimpan pada server notifikasi?</h4>
-                                    <span class="text-slate-400 group-open:rotate-180 transition-transform">
-                                        <i class="fa-solid fa-chevron-down text-xs"></i>
-                                    </span>
-                                </summary>
-                                <p class="text-xs text-slate-600 mt-3 leading-relaxed border-t border-bone-200 pt-3">
-                                    Tidak. BRIDA Kota Makassar memegang teguh asas perlindungan data. Hanya nomor naskah, asal pengirim, dan ringkasan perihal yang diteruskan ke WhatsApp. Dokumen fisik/lampiran tetap berada di server resmi Srikandi.
-                                </p>
-                            </details>
-
-                            <details class="group bg-white p-5 rounded-2xl border border-bone-300">
-                                <summary class="flex items-center justify-between cursor-pointer">
-                                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Bagaimana jika nomor WhatsApp aparatur berubah?</h4>
-                                    <span class="text-slate-400 group-open:rotate-180 transition-transform">
-                                        <i class="fa-solid fa-chevron-down text-xs"></i>
-                                    </span>
-                                </summary>
-                                <p class="text-xs text-slate-600 mt-3 leading-relaxed border-t border-bone-200 pt-3">
-                                    Aparatur cukup melaporkan pembaruan kontak ke Sub Bagian Umum & Kepegawaian BRIDA Kota Makassar untuk dicatatkan ke direktori sistem tanpa perlu menghentikan alur otomasi.
-                                </p>
-                            </details>
-
-                            <details class="group bg-white p-5 rounded-2xl border border-bone-300">
-                                <summary class="flex items-center justify-between cursor-pointer">
-                                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Bagaimana perlakuan terhadap surat berklasifikasi Rahasia?</h4>
-                                    <span class="text-slate-400 group-open:rotate-180 transition-transform">
-                                        <i class="fa-solid fa-chevron-down text-xs"></i>
-                                    </span>
-                                </summary>
-                                <p class="text-xs text-slate-600 mt-3 leading-relaxed border-t border-bone-200 pt-3">
-                                    Sistem mendeteksi atribut sifat surat secara otomatis. Untuk surat rahasia/konfidensial, judul perihal akan disamarkan menjadi pemberitahuan dokumen konfidensial guna mencegah kebocoran informasi dinas.
-                                </p>
-                            </details>
+                        <div class="p-6 space-y-3">
+                            <div class="flex items-center gap-3 text-xs text-slate-400 font-medium">
+                                <span><i class="fa-regular fa-calendar mr-1"></i> 5 November 2026</span>
+                                <span>&bull;</span>
+                                <span><i class="fa-solid fa-tag mr-1"></i> Transformasi Digital</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900 leading-snug hover:text-maroon-700 transition cursor-pointer">
+                                BRIDA Kota Makassar Uji Coba Pengintegrasian Otomasi Naskah Dinas Srikandi ke Perangkat Seluler Pegawai
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
+                                Upaya akselerasi pelayanan publik diwujudkan melalui sistem otomasi yang memastikan disposisi dan koordinasi persuratan pimpinan dapat diterima secara instan tanpa mengorbankan integritas data rahasia instansi.
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Kontak Instansi (Kanan) -->
-                    <div class="lg:col-span-5 bg-white p-8 rounded-3xl border border-bone-300 shadow-sm space-y-6">
-                        <div>
-                            <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Hubungi Kami</span>
-                            <h3 class="text-xl font-black text-slate-900 tracking-tight mt-1">Badan Riset & Inovasi Daerah</h3>
-                            <p class="text-xs text-slate-500 mt-1">Pemerintah Kota Makassar</p>
+                    <!-- Daftar Berita Terkait (Kanan - 5 Kolom) -->
+                    <div class="lg:col-span-5 space-y-4">
+                        
+                        <!-- Item 1 -->
+                        <div class="bg-white p-4 rounded-xl border border-bone-300 hover:border-maroon-700 transition flex gap-4">
+                            <div class="w-20 h-20 rounded-lg bg-slate-200 overflow-hidden shrink-0">
+                                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=300&q=80" alt="Penyusunan Riset Kebijakan" class="w-full h-full object-cover">
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-[10px] font-bold text-maroon-700 uppercase">Riset Daerah</span>
+                                <h4 class="text-xs font-bold text-slate-900 leading-snug line-clamp-2 hover:text-maroon-700 transition cursor-pointer">
+                                    Penyusunan Peta Jalan Riset Daerah Menuju Makassar Low Carbon City 2027
+                                </h4>
+                                <span class="text-[10px] text-slate-400 block">28 Oktober 2026</span>
+                            </div>
                         </div>
 
-                        <div class="space-y-4 text-xs text-slate-600">
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-maroon-50 text-maroon-700 flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                </div>
+                        <!-- Item 2 -->
+                        <div class="bg-white p-4 rounded-xl border border-bone-300 hover:border-maroon-700 transition flex gap-4">
+                            <div class="w-20 h-20 rounded-lg bg-slate-200 overflow-hidden shrink-0">
+                                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=300&q=80" alt="Pengukuran Indeks Inovasi" class="w-full h-full object-cover">
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-[10px] font-bold text-maroon-700 uppercase">Indeks Inovasi</span>
+                                <h4 class="text-xs font-bold text-slate-900 leading-snug line-clamp-2 hover:text-maroon-700 transition cursor-pointer">
+                                    Pendampingan Penginputan Data Inovasi OPD untuk Penilaian Innovative Government Award
+                                </h4>
+                                <span class="text-[10px] text-slate-400 block">20 Oktober 2026</span>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="bg-white p-4 rounded-xl border border-bone-300 hover:border-maroon-700 transition flex gap-4">
+                            <div class="w-20 h-20 rounded-lg bg-slate-200 overflow-hidden shrink-0">
+                                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=300&q=80" alt="Kerja Sama Universitas" class="w-full h-full object-cover">
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-[10px] font-bold text-maroon-700 uppercase">Kerja Sama</span>
+                                <h4 class="text-xs font-bold text-slate-900 leading-snug line-clamp-2 hover:text-maroon-700 transition cursor-pointer">
+                                    Kolaborasi Pengkajian Sosial Kemasyarakatan Bersama Lembaga Riset Perguruan Tinggi
+                                </h4>
+                                <span class="text-[10px] text-slate-400 block">12 Oktober 2026</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Informasi Kontak & Lokasi Kantor Resmi -->
+        <section id="kontak" class="py-16 bg-white border-t border-bone-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-12 gap-8 items-center">
+                    
+                    <div class="lg:col-span-7 space-y-4">
+                        <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Sekretariat Instansi</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                            Badan Riset dan Inovasi Daerah (BRIDA)
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">
+                            Silakan menghubungi kami melalui saluran resmi atau berkunjung langsung ke kantor sekretariat BRIDA di Balai Kota Makassar untuk koordinasi program penelitian dan pengusulan inovasi daerah.
+                        </p>
+
+                        <div class="grid sm:grid-cols-2 gap-4 pt-2 text-xs">
+                            <div class="flex items-start gap-3 p-3.5 rounded-xl bg-bone-100 border border-bone-300">
+                                <i class="fa-solid fa-location-dot text-maroon-700 text-base mt-0.5"></i>
                                 <div>
-                                    <strong class="text-slate-900 block mb-0.5">Alamat Kantor:</strong>
-                                    Balai Kota Makassar, Jl. Ahmad Yani No. 2, Kota Makassar, Sulawesi Selatan.
+                                    <strong class="text-slate-900 block">Alamat Sekretariat</strong>
+                                    Balai Kota Makassar, Jl. Ahmad Yani No. 2, Kota Makassar
                                 </div>
                             </div>
 
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-maroon-50 text-maroon-700 flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </div>
+                            <div class="flex items-start gap-3 p-3.5 rounded-xl bg-bone-100 border border-bone-300">
+                                <i class="fa-solid fa-envelope text-maroon-700 text-base mt-0.5"></i>
                                 <div>
-                                    <strong class="text-slate-900 block mb-0.5">Surat Elektronik:</strong>
+                                    <strong class="text-slate-900 block">Surat Elektronik</strong>
                                     brida@makassarkota.go.id
                                 </div>
                             </div>
-
-                            <div class="flex items-start gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-maroon-50 text-maroon-700 flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-phone"></i>
-                                </div>
-                                <div>
-                                    <strong class="text-slate-900 block mb-0.5">Telepon / Layanan:</strong>
-                                    (0411) Balai Kota Makassar
-                                </div>
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="pt-4 border-t border-bone-200">
-                            <a href="https://makassarkota.go.id" target="_blank" class="w-full inline-flex justify-center items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs py-3 rounded-xl transition shadow">
-                                <i class="fa-solid fa-globe"></i>
-                                <span>Kunjungi Website Resmi Pemkot Makassar</span>
-                            </a>
-                        </div>
+                    <div class="lg:col-span-5 bg-bone-100 p-6 rounded-2xl border border-bone-300 space-y-4">
+                        <h4 class="font-bold text-sm text-slate-900">Tautan Pintasan Pemerintah</h4>
+                        <ul class="text-xs space-y-2 text-slate-600">
+                            <li><a href="https://makassarkota.go.id" target="_blank" class="hover:text-maroon-700 flex items-center justify-between py-1 border-b border-bone-300"><span>Portal Resmi Pemerintah Kota Makassar</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a></li>
+                            <li><a href="https://srikandi.layanan.go.id" target="_blank" class="hover:text-maroon-700 flex items-center justify-between py-1 border-b border-bone-300"><span>Aplikasi Kearsipan Srikandi Nasional</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a></li>
+                            <li><a href="https://brin.go.id" target="_blank" class="hover:text-maroon-700 flex items-center justify-between py-1 border-b border-bone-300"><span>Badan Riset dan Inovasi Nasional (BRIN)</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a></li>
+                        </ul>
                     </div>
 
                 </div>
@@ -647,14 +574,14 @@
         </section>
     </main>
 
-    <!-- Footer Resmi BRIDA Kota Makassar -->
+    <!-- Footer Resmi Pemerintah Kota Makassar -->
     <footer class="bg-maroon-950 text-bone-300 py-12 text-xs border-t border-maroon-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
                 
                 <div class="md:col-span-2 space-y-3">
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-full bg-rose-600 flex items-center justify-center text-white">
+                        <div class="w-9 h-9 rounded-full bg-rose-700 flex items-center justify-center text-white">
                             <i class="fa-solid fa-building-columns text-sm"></i>
                         </div>
                         <div>
@@ -675,7 +602,7 @@
                     <ul class="space-y-1.5 text-bone-400 text-xs">
                         <li><a href="https://srikandi.layanan.go.id" target="_blank" class="hover:text-white transition">Aplikasi Srikandi ANRI</a></li>
                         <li><a href="https://makassarkota.go.id" target="_blank" class="hover:text-white transition">Pemerintah Kota Makassar</a></li>
-                        <li><a href="#panduan" class="hover:text-white transition">Unduh Panduan PDF/TXT</a></li>
+                        <li><a href="docs/Panduan_Pengguna_BRIDA_Makassar.txt" download class="hover:text-white transition">Unduh Panduan Kearsipan</a></li>
                     </ul>
                 </div>
 
@@ -692,7 +619,7 @@
 
             <div class="pt-8 border-t border-maroon-900/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-bone-400 text-[11px]">
                 <div>&copy; 2026 Badan Riset dan Inovasi Daerah Kota Makassar. Seluruh hak cipta dilindungi.</div>
-                <div>Portal Resmi BRIDA Kota Makassar</div>
+                <div>Portal Resmi BRIDA Kota Makassar &bull; Pemerintah Kota Makassar</div>
             </div>
         </div>
     </footer>

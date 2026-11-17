@@ -4,8 +4,8 @@
 
 @section('content')
 <main>
-        <!-- Hero Banner Portal Pemda (Slideshow Berwibawa & Visual Nyata) -->
-        <section id="beranda" class="relative overflow-hidden bg-slate-900 text-white min-h-[560px] flex items-center">
+        <!-- Hero Banner Portal Pemda (Slideshow Berwibawa & Visual Nyata - Full Viewport) -->
+        <section id="beranda" class="relative overflow-hidden bg-slate-900 text-white min-h-[calc(100vh-7.5rem)] flex items-center justify-center">
             <!-- Background Slideshow Auto-Crop & Full-Cover -->
             <div id="hero-slideshow" class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                 <!-- Slide 1 (Aktif Awal) -->
@@ -24,16 +24,11 @@
                 <div class="absolute inset-0 bg-gradient-to-r from-maroon-950/50 via-slate-950/30 to-black/20 z-10"></div>
             </div>
 
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative z-10 w-full">
                 <div class="grid lg:grid-cols-12 gap-10 items-center">
                     
                     <!-- Sisi Kiri: Headline Resmi Pemerintahan -->
-                    <div class="lg:col-span-8 space-y-6">
-                        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-rose-200">
-                            <span class="w-2 h-2 rounded-full bg-rose-400"></span>
-                            Pusat Inovasi & Kajian Kebijakan Strategis Daerah
-                        </div>
-                        
+                    <div class="lg:col-span-12 max-w-4xl space-y-6">
                         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-bone-50 drop-shadow-md">
                             Mendorong Inovasi Berbasis Riset, Mewujudkan <span class="text-rose-400">Makassar Kota Dunia</span> yang Berdaya Saing.
                         </h1>
@@ -52,37 +47,6 @@
                                 <i class="fa-solid fa-lightbulb text-rose-400"></i>
                                 <span>Ekosistem Inovasi Daerah</span>
                             </a>
-                        </div>
-                    </div>
-
-                    <!-- Sisi Kanan: Kartu Profil Instansi / Statistik Resmi Pemda -->
-                    <div class="lg:col-span-4">
-                        <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 text-bone-100 space-y-5 shadow-2xl">
-                            <div class="flex items-center gap-3.5 border-b border-white/15 pb-4">
-                                <div class="w-12 h-12 rounded-xl bg-rose-600/30 border border-rose-400/40 flex items-center justify-center text-white text-xl">
-                                    <i class="fa-solid fa-landmark"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-sm text-white">BRIDA Kota Makassar</h4>
-                                    <p class="text-xs text-rose-300">Pemerintah Kota Makassar</p>
-                                </div>
-                            </div>
-
-                            <p class="text-xs text-bone-200 leading-relaxed italic">
-                                "Riset dan data yang akurat adalah fondasi utama setiap kebijakan pembangunan daerah yang berdaya guna dan berkelanjutan bagi masyarakat Kota Makassar."
-                            </p>
-
-                            <!-- Statistik Realistis Pemerintah -->
-                            <div class="grid grid-cols-2 gap-3 pt-2">
-                                <div class="bg-white/5 p-3 rounded-xl border border-white/10 text-center">
-                                    <div class="text-2xl font-black text-rose-300">120+</div>
-                                    <div class="text-[10px] text-bone-300 font-medium">Inovasi Daerah Terdaftar</div>
-                                </div>
-                                <div class="bg-white/5 p-3 rounded-xl border border-white/10 text-center">
-                                    <div class="text-2xl font-black text-rose-300">Sangat Inovatif</div>
-                                    <div class="text-[10px] text-bone-300 font-medium">Predikat IID Kemendagri</div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 

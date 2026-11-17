@@ -47,12 +47,12 @@
                 
                 <!-- Sisi Kiri: Logo BRIDA Kota Makassar -->
                 <div class="flex items-center shrink-0">
-                    <a href="{{ route('home') }}" class="flex items-center focus:outline-none py-1">
+                    <a href="{{ route('home') }}" class="flex items-center justify-center focus:outline-none -translate-y-1">
                         <img
                             id="brida-logo"
-                            src="{{ asset('images/kota makassar1-1.png') }}"
+                            src="{{ asset('images/LOGO-FIX-BRIDA.png') }}"
                             alt="BRIDA Kota Makassar"
-                            class="h-12 sm:h-14 md:h-20 w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[380px] object-contain mix-blend-multiply"
+                            class="h-12 sm:h-14 md:h-16 w-auto max-w-[280px] sm:max-w-[340px] object-contain drop-shadow-sm"
                         >
                     </a>
                 </div>
@@ -63,21 +63,27 @@
                     
                     <!-- Dropdown Pemerintahan -->
                     <div class="relative group">
-                        <button class="flex items-center gap-1 hover:text-maroon-700 transition-colors py-2 focus:outline-none">
+                        <a href="{{ route('pemerintahan') }}" class="flex items-center gap-1 {{ request()->routeIs('pemerintahan') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors py-2' }} focus:outline-none">
                             <span>Pemerintahan</span>
                             <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
-                        </button>
-                        <div class="dropdown-menu absolute top-full left-0 w-56 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
-                            <a href="{{ route('home') }}#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Profil BRIDA Makassar</a>
-                            <a href="{{ route('home') }}#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Visi & Misi Inovasi</a>
-                            <a href="{{ route('home') }}#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Tugas Pokok & Fungsi</a>
+                        </a>
+                        <div class="dropdown-menu absolute top-full left-0 w-60 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
+                            <a href="{{ route('pemerintahan') }}#profil" class="block px-4 py-2.5 text-xs text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
+                                <i class="fa-solid fa-landmark mr-2 text-rose-500"></i> Profil BRIDA Makassar
+                            </a>
+                            <a href="{{ route('pemerintahan') }}#visi-misi" class="block px-4 py-2.5 text-xs text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
+                                <i class="fa-solid fa-bullseye mr-2 text-rose-500"></i> Visi & Misi Inovasi
+                            </a>
+                            <a href="{{ route('pemerintahan') }}#tupoksi" class="block px-4 py-2.5 text-xs text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
+                                <i class="fa-solid fa-list-check mr-2 text-rose-500"></i> Tugas Pokok & Fungsi
+                            </a>
                         </div>
                     </div>
 
                     <a href="{{ route('layanan') }}" class="{{ request()->routeIs('layanan') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">Layanan</a>
                     <a href="{{ route('informasi-publik') }}" class="{{ request()->routeIs('informasi-publik') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">Informasi Publik</a>
                     <a href="{{ route('berita') }}" class="{{ request()->routeIs('berita') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">Berita</a>
-                    <a href="{{ route('home') }}#kontak" class="hover:text-maroon-700 transition-colors">Kontak</a>
+                    <a href="{{ route('kontak') }}" class="{{ request()->routeIs('kontak') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">Kontak</a>
 
                     <!-- Dropdown PPID -->
                     <div class="relative group">
@@ -146,14 +152,16 @@
                     <i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
                 </button>
                 <div class="hidden pl-6 py-1 space-y-1 bg-white/50 rounded-lg mt-1 border border-bone-200">
-                    <a href="{{ route('home') }}#tentang" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Profil BRIDA Makassar</a>
-                    <a href="{{ route('home') }}#tentang" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Visi & Misi Inovasi</a>
+                    <a href="{{ route('pemerintahan') }}" class="block py-1.5 text-xs font-bold text-maroon-700 hover:text-maroon-800">Lihat Semua Profil</a>
+                    <a href="{{ route('pemerintahan') }}#profil" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Profil BRIDA Makassar</a>
+                    <a href="{{ route('pemerintahan') }}#visi-misi" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Visi & Misi Inovasi</a>
+                    <a href="{{ route('pemerintahan') }}#tupoksi" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Tugas Pokok & Fungsi</a>
                 </div>
             </div>
             <a href="{{ route('layanan') }}" class="block px-3 py-2 text-sm font-bold {{ request()->routeIs('layanan') ? 'text-maroon-700 bg-rose-50' : 'text-slate-700' }} rounded-lg hover:bg-bone-200">Layanan Riset & Publik</a>
             <a href="{{ route('informasi-publik') }}" class="block px-3 py-2 text-sm font-bold {{ request()->routeIs('informasi-publik') ? 'text-maroon-700 bg-rose-50' : 'text-slate-700' }} rounded-lg hover:bg-bone-200">Informasi Publik</a>
             <a href="{{ route('berita') }}" class="block px-3 py-2 text-sm font-bold {{ request()->routeIs('berita') ? 'text-maroon-700 bg-rose-50' : 'text-slate-700' }} rounded-lg hover:bg-bone-200">Berita Terkini</a>
-            <a href="{{ route('home') }}#kontak" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Kontak Instansi</a>
+            <a href="{{ route('kontak') }}" class="block px-3 py-2 text-sm font-bold {{ request()->routeIs('kontak') ? 'text-maroon-700 bg-rose-50' : 'text-slate-700' }} rounded-lg hover:bg-bone-200">Kontak Instansi</a>
             <div>
                 <button class="mobile-dropdown-toggle w-full flex items-center justify-between px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">
                     <span>PPID</span>

@@ -11,6 +11,11 @@ class HomeController extends Controller
         return view('landing.index');
     }
 
+    public function pemerintahan()
+    {
+        return view('landing.pemerintahan');
+    }
+
     public function layanan()
     {
         return view('landing.layanan');
@@ -24,5 +29,10 @@ class HomeController extends Controller
     public function berita()
     {
         return view('landing.berita');
+    }
+
+    public function kontak()
+    {
+        return view('landing.kontak');
     }
 }

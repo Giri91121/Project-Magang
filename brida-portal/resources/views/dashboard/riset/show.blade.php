@@ -22,6 +22,12 @@
             </div>
 
             <div class="flex items-center gap-2">
+                @if($permohonan->status === 'Disetujui')
+                <a href="{{ route('dashboard.export.riset.surat', $permohonan->id) }}" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Cetak Surat Rekomendasi Resmi</span>
+                </a>
+                @endif
                 <a href="{{ route('dashboard.riset.index') }}" class="inline-flex items-center gap-1.5 bg-white border border-bone-300 hover:bg-bone-100 text-slate-700 text-xs font-bold px-3.5 py-2 rounded-xl transition shadow-sm">
                     <i class="fa-solid fa-arrow-left text-[10px]"></i>
                     <span>Kembali</span>

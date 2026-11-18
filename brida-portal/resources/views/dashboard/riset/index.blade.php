@@ -17,7 +17,11 @@
                 </p>
             </div>
 
-            <div>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('dashboard.export.riset.csv') }}" class="inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-xs px-3.5 py-2.5 rounded-xl transition shadow-sm">
+                    <i class="fa-solid fa-file-excel text-emerald-600"></i>
+                    <span>Ekspor CSV / Excel</span>
+                </a>
                 <a href="{{ route('dashboard.riset.create') }}" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow">
                     <i class="fa-solid fa-plus text-xs"></i>
                     <span>Ajukan Permohonan Riset</span>

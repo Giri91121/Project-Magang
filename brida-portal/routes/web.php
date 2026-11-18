@@ -7,6 +7,7 @@ use App\Http\Controllers\PermohonanRisetController;
 use App\Http\Controllers\InovasiDaerahController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Publik (Landing Page BRIDA Kota Makassar)
@@ -49,6 +50,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [NotificationController::class, 'index'])->name('index');
         Route::patch('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read');
         Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
+    });
+
+    // Modul Ekspor Laporan & Cetak Surat Rekomendasi
+    Route::prefix('dashboard/export')->name('dashboard.export.')->group(function () {
+        Route::get('/riset/surat/{id}', [ExportController::class, 'printSuratRekomendasi'])->name('riset.surat');
+        Route::get('/riset/csv', [ExportController::class, 'exportRisetCsv'])->name('riset.csv');
+        Route::get('/inovasi/csv', [ExportController::class, 'exportInovasiCsv'])->name('inovasi.csv');
     });
 
     // Modul Manajemen Pengguna & Hak Akses (Khusus Admin)

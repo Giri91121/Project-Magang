@@ -34,6 +34,11 @@ class Berita extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function komentars()
+    {
+        return $this->hasMany(KomentarBerita::class, 'berita_id');
+    }
+
     /**
      * URL Gambar Sampul
      */

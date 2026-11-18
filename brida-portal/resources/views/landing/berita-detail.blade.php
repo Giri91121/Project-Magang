@@ -70,6 +70,145 @@
             </div>
         </div>
 
+        <!-- Bagian Kolom Komentar & Tanggapan Publik (Wajib Login) -->
+        <section id="kolom-komentar" class="pt-10 border-t border-bone-300 space-y-6">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                    <i class="fa-regular fa-comments text-maroon-700"></i>
+                    <span>Komentar & Tanggapan ({{ $berita->komentars->count() }})</span>
+                </h3>
+            </div>
+
+            @if(session('success_komentar'))
+                <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                    <span>{{ session('success_komentar') }}</span>
+                </div>
+            @endif
+
+            @auth
+                <!-- Formulir Tulis Komentar (Khusus Pengguna yang Sudah Login) -->
+                <form method="POST" action="{{ route('berita.komentar.store', $berita->slug) }}" class="bg-white rounded-3xl p-6 border border-bone-300 shadow-sm space-y-4">
+                    @csrf
+                    <div class="flex items-center gap-3 pb-2 border-b border-bone-200">
+                        <div class="w-9 h-9 rounded-xl bg-maroon-700 text-white font-bold text-xs flex items-center justify-center shrink-0">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-slate-900 block">{{ Auth::user()->name }}</span>
+                            <span class="text-[10px] font-semibold text-maroon-700">{{ Auth::user()->getRoleNames()->first() ?? 'Pengguna Terverifikasi' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label for="komentar" class="sr-only">Tulis Komentar</label>
+                        <textarea 
+                            name="komentar" 
+                            id="komentar" 
+                            rows="3" 
+                            required 
+                            minlength="3"
+                            placeholder="Tuliskan tanggapan, masukan, atau pertanyaan santun terkait berita ini..." 
+                            class="w-full text-xs sm:text-sm rounded-2xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 p-3.5 bg-bone-50/50">{{ old('komentar') }}</textarea>
+                        @error('komentar')
+                            <p class="text-[11px] text-rose-600 font-semibold mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-[11px] text-slate-400">
+                            <i class="fa-solid fa-shield-halved mr-1 text-emerald-600"></i> Berkomentar dengan etika & kesantunan publik
+                        </span>
+                        <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition shadow-md">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Kirim Komentar</span>
+                        </button>
+                    </div>
+                </form>
+            @else
+                <!-- Banner Ajakan Login Bagi Pengunjung yang Belum Login (Guest) -->
+                <div class="bg-bone-200/70 rounded-3xl p-6 sm:p-8 border border-bone-300 text-center space-y-4">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-100 text-maroon-700 flex items-center justify-center mx-auto text-lg shadow-sm">
+                        <i class="fa-solid fa-user-lock"></i>
+                    </div>
+                    <div class="max-w-md mx-auto space-y-1">
+                        <h4 class="font-extrabold text-sm sm:text-base text-slate-900">
+                            Ingin Memberikan Komentar pada Berita Ini?
+                        </h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Untuk menjaga kualitas diskusi ilmiah dan keterbukaan publik yang sehat, silakan masuk ke akun portal Anda terlebih dahulu sebelum menulis komentar.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
+                        <a href="{{ route('login') }}" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition shadow">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                            <span>Masuk Portal (Login)</span>
+                        </a>
+                        <a href="{{ route('register') }}" class="inline-flex items-center gap-2 bg-white hover:bg-bone-100 text-slate-700 border border-bone-300 font-bold text-xs px-5 py-2.5 rounded-xl transition shadow-sm">
+                            <i class="fa-solid fa-user-plus text-rose-600"></i>
+                            <span>Daftar Akun Baru</span>
+                        </a>
+                    </div>
+                </div>
+            @endauth
+
+            <!-- Daftar Komentar yang Telah Masuk -->
+            <div class="space-y-4 pt-2">
+                @forelse($berita->komentars as $item)
+                @php
+                    $commenterRole = $item->user ? ($item->user->getRoleNames()->first() ?? 'Masyarakat / Pemohon') : 'Pengguna';
+                    $roleBadge = match($commenterRole) {
+                        'Admin' => 'bg-rose-100 text-maroon-800 border-rose-200',
+                        'Peneliti' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                        'Fasilitator Inovasi' => 'bg-indigo-100 text-indigo-800 border-indigo-200',
+                        default => 'bg-bone-200 text-slate-700 border-bone-300',
+                    };
+                @endphp
+                <div class="bg-white rounded-2xl p-5 border border-bone-300 shadow-sm space-y-2.5">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-bone-200 border border-bone-300 text-maroon-800 font-black text-xs flex items-center justify-center shrink-0">
+                                {{ strtoupper(substr($item->user->name ?? 'U', 0, 2)) }}
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <strong class="text-xs font-bold text-slate-900">{{ $item->user->name ?? 'Pengguna' }}</strong>
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border {{ $roleBadge }}">
+                                        {{ $commenterRole }}
+                                    </span>
+                                </div>
+                                <span class="text-[10px] text-slate-400 block mt-0.5">
+                                    <i class="fa-regular fa-clock mr-1"></i> {{ $item->created_at->diffForHumans() }}
+                                </span>
+                            </div>
+                        </div>
+
+                        @auth
+                            @if(Auth::id() === $item->user_id || Auth::user()->hasRole('Admin'))
+                            <form method="POST" action="{{ route('berita.komentar.destroy', $item->id) }}" onsubmit="return confirm('Hapus komentar ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-slate-400 hover:text-rose-600 p-1 rounded-lg transition text-xs" title="Hapus Komentar">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </form>
+                            @endif
+                        @endauth
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed pl-12">
+                        {{ $item->komentar }}
+                    </p>
+                </div>
+                @empty
+                <div class="py-8 text-center text-slate-400 text-xs bg-white/60 rounded-2xl border border-dashed border-bone-300">
+                    <i class="fa-regular fa-comment-dots text-2xl text-slate-300 block mb-1.5"></i>
+                    Belum ada tanggapan pada berita ini. Jadilah yang pertama memberikan komentar!
+                </div>
+                @endforelse
+            </div>
+        </section>
+
         <!-- Berita Terkait Lainnya -->
         @if($beritaTerkait->count() > 0)
         <div class="pt-10 border-t border-bone-300 space-y-6">

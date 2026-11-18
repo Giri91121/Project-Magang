@@ -11,6 +11,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\RegulasiController;
+use App\Http\Controllers\KomentarBeritaController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Publik (Landing Page BRIDA Kota Makassar)
@@ -32,6 +33,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Rute Kirim & Hapus Komentar Berita (Wajib Login)
+    Route::post('/berita/{slug}/komentar', [KomentarBeritaController::class, 'store'])->name('berita.komentar.store');
+    Route::delete('/komentar/{id}', [KomentarBeritaController::class, 'destroy'])->name('berita.komentar.destroy');
 
     // Modul CRUD Layanan Izin Riset
     Route::prefix('dashboard/riset')->name('dashboard.riset.')->group(function () {

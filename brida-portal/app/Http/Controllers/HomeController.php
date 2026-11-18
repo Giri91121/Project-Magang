@@ -66,7 +66,9 @@ class HomeController extends Controller
 
     public function beritaDetail($slug)
     {
-        $berita = Berita::where('slug', $slug)->where('status', 'Publikasi')->firstOrFail();
+        $berita = Berita::with(['komentars' => function($q) {
+            $q->where('is_approved', true)->with('user.roles')->latest();
+        }])->where('slug', $slug)->where('status', 'Publikasi')->firstOrFail();
         
         // Tambah jumlah view pembaca
         $berita->increment('views');

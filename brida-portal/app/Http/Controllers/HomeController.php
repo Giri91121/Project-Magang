@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Regulasi;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,9 +24,26 @@ class HomeController extends Controller
         return view('landing.layanan');
     }
 
-    public function informasiPublik()
+    public function informasiPublik(Request $request)
     {
-        return view('landing.informasi-publik');
+        $query = Regulasi::where('status', 'Aktif')->latest();
+
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('judul_regulasi', 'like', "%{$search}%")
+                  ->orWhere('nomor_peraturan', 'like', "%{$search}%")
+                  ->orWhere('tentang', 'like', "%{$search}%");
+            });
+        }
+
+        $regulasiList = $query->paginate(8)->withQueryString();
+
+        return view('landing.informasi-publik', compact('regulasiList'));
     }
 
     public function berita(Request $request)

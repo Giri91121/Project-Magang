@@ -10,6 +10,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\RegulasiController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Publik (Landing Page BRIDA Kota Makassar)
@@ -17,6 +18,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('pemerintahan');
 Route::get('/layanan', [HomeController::class, 'layanan'])->name('layanan');
 Route::get('/informasi-publik', [HomeController::class, 'informasiPublik'])->name('informasi-publik');
+Route::get('/regulasi/download/{id}', [RegulasiController::class, 'download'])->name('regulasi.download');
 Route::get('/berita', [HomeController::class, 'berita'])->name('berita');
 Route::get('/berita/{slug}', [HomeController::class, 'beritaDetail'])->name('berita.detail');
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
@@ -56,6 +58,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [BeritaController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BeritaController::class, 'update'])->name('update');
         Route::delete('/{id}', [BeritaController::class, 'destroy'])->name('destroy');
+    });
+
+    // Modul Repositori Dokumen & Regulasi (Khusus Admin / PPID)
+    Route::prefix('dashboard/regulasi')->name('dashboard.regulasi.')->group(function () {
+        Route::get('/', [RegulasiController::class, 'index'])->name('index');
+        Route::get('/create', [RegulasiController::class, 'create'])->name('create');
+        Route::post('/', [RegulasiController::class, 'store'])->name('store');
+        Route::delete('/{id}', [RegulasiController::class, 'destroy'])->name('destroy');
     });
 
     // Modul Notifikasi & Log Aktivitas

@@ -9,9 +9,14 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
+    // Rute Login & Registrasi Terpadu via Akun Google
+    Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+    Route::post('auth/google/simulate', [GoogleAuthController::class, 'handleSimulatedGoogleLogin'])->name('auth.google.simulate');
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 

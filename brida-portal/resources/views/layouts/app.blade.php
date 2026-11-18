@@ -105,16 +105,16 @@
                     <!-- Grup 3: Ekosistem Inovasi Daerah -->
                     <div>
                         <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
-                            Inovasi & Kemitraan
+                            Inovasi & Publikasi
                         </div>
                         <nav class="space-y-1">
                             <a href="{{ route('dashboard.inovasi.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.inovasi.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <i class="fa-solid fa-lightbulb w-5 text-center text-sm {{ request()->routeIs('dashboard.inovasi.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Katalog Inovasi OPD</span>
                             </a>
-                            <a href="{{ route('dashboard.inovasi.create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-bone-200 hover:text-maroon-800 transition">
-                                <i class="fa-solid fa-plus w-5 text-center text-sm text-slate-400"></i>
-                                <span>Input Inovasi Baru</span>
+                            <a href="{{ route('dashboard.berita.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.berita.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <i class="fa-solid fa-newspaper w-5 text-center text-sm {{ request()->routeIs('dashboard.berita.*') ? 'text-white' : 'text-slate-400' }}"></i>
+                                <span>Kelola Berita & Rilis</span>
                             </a>
                         </nav>
                     </div>

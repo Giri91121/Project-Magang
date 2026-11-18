@@ -8,6 +8,7 @@ use App\Http\Controllers\InovasiDaerahController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\BeritaController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Publik (Landing Page BRIDA Kota Makassar)
@@ -16,6 +17,7 @@ Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('peme
 Route::get('/layanan', [HomeController::class, 'layanan'])->name('layanan');
 Route::get('/informasi-publik', [HomeController::class, 'informasiPublik'])->name('informasi-publik');
 Route::get('/berita', [HomeController::class, 'berita'])->name('berita');
+Route::get('/berita/{slug}', [HomeController::class, 'beritaDetail'])->name('berita.detail');
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
 
 // Rute Dashboard Internal (Terproteksi Autentikasi Breeze & RBAC Spatie)
@@ -43,6 +45,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [InovasiDaerahController::class, 'create'])->name('create');
         Route::post('/', [InovasiDaerahController::class, 'store'])->name('store');
         Route::get('/{id}', [InovasiDaerahController::class, 'show'])->name('show');
+    });
+
+    // Modul CMS Berita & Publikasi (Khusus Admin / Humas)
+    Route::prefix('dashboard/berita')->name('dashboard.berita.')->group(function () {
+        Route::get('/', [BeritaController::class, 'index'])->name('index');
+        Route::get('/create', [BeritaController::class, 'create'])->name('create');
+        Route::post('/', [BeritaController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [BeritaController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [BeritaController::class, 'update'])->name('update');
+        Route::delete('/{id}', [BeritaController::class, 'destroy'])->name('destroy');
     });
 
     // Modul Notifikasi & Log Aktivitas

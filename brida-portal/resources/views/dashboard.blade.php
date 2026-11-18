@@ -14,11 +14,11 @@
             </div>
             
             <div class="flex items-center gap-3">
-                <button class="inline-flex items-center gap-2 bg-white border border-bone-300 hover:border-slate-400 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 bg-white border border-bone-300 hover:border-slate-400 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
                     <i class="fa-solid fa-arrows-rotate text-slate-400"></i>
                     <span>Segarkan Data</span>
-                </button>
-                <a href="#tabel-permohonan" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow">
+                </a>
+                <a href="{{ route('dashboard.riset.create') }}" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow">
                     <i class="fa-solid fa-plus text-xs"></i>
                     <span>Buat Permohonan Baru</span>
                 </a>
@@ -138,41 +138,48 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-bone-200 text-xs text-slate-700">
-                        @foreach($recentPermohonan as $item)
+                        @forelse($recentPermohonan as $item)
                         <tr class="hover:bg-bone-50/80 transition">
                             <td class="py-4 px-6 font-mono font-bold text-slate-900 text-xs">
-                                {{ $item['id'] }}
+                                {{ $item->nomor_registrasi }}
                             </td>
                             <td class="py-4 px-6 font-semibold text-slate-900">
-                                {{ $item['pemohon'] }}
+                                {{ $item->nama_pemohon }}
+                                <span class="text-[11px] text-slate-500 font-normal block">{{ $item->institusi }}</span>
                             </td>
-                            <td class="py-4 px-6 max-w-xs truncate text-slate-600" title="{{ $item['judul'] }}">
-                                {{ $item['judul'] }}
+                            <td class="py-4 px-6 max-w-xs truncate text-slate-600" title="{{ $item->judul_penelitian }}">
+                                {{ $item->judul_penelitian }}
                             </td>
                             <td class="py-4 px-6 text-slate-500 whitespace-nowrap">
-                                {{ $item['tanggal'] }}
+                                {{ $item->created_at->format('d M Y') }}
                             </td>
                             <td class="py-4 px-6 whitespace-nowrap">
-                                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold {{ $item['status_color'] }}">
-                                    {{ $item['status'] }}
+                                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold {{ $item->status_badge }}">
+                                    {{ $item->status }}
                                 </span>
                             </td>
                             <td class="py-4 px-6 text-right whitespace-nowrap">
-                                <button class="bg-white hover:bg-bone-100 text-slate-700 border border-bone-300 text-xs font-bold px-3 py-1.5 rounded-lg transition shadow-sm inline-flex items-center gap-1">
+                                <a href="{{ route('dashboard.riset.show', $item->id) }}" class="bg-white hover:bg-bone-100 text-slate-700 border border-bone-300 text-xs font-bold px-3 py-1.5 rounded-lg transition shadow-sm inline-flex items-center gap-1">
                                     <span>Detail</span>
                                     <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
-                                </button>
+                                </a>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="6" class="py-6 text-center text-slate-400 text-xs">
+                                Belum ada berkas usulan riset yang terdaftar.
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
             <div class="p-4 border-t border-bone-200 bg-bone-50/50 flex items-center justify-between text-xs text-slate-500">
-                <span>Menampilkan 4 usulan terbaru</span>
-                <a href="#" class="font-bold text-maroon-700 hover:underline inline-flex items-center gap-1">
-                    <span>Lihat Semua Permohonan</span>
+                <span>Menampilkan usulan riset terbaru</span>
+                <a href="{{ route('dashboard.riset.index') }}" class="font-bold text-maroon-700 hover:underline inline-flex items-center gap-1">
+                    <span>Lihat Semua Permohonan Riset</span>
                     <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </a>
             </div>

@@ -88,16 +88,16 @@
                             Layanan Penelitian
                         </div>
                         <nav class="space-y-1">
-                            <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
+                            <a href="{{ route('dashboard.riset.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition {{ request()->routeIs('dashboard.riset.*') ? 'bg-rose-700/80 text-white shadow-md' : 'text-rose-100/70 hover:bg-white/10 hover:text-white' }}">
                                 <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-file-signature w-5 text-center text-sm text-rose-400"></i>
+                                    <i class="fa-solid fa-file-signature w-5 text-center text-sm {{ request()->routeIs('dashboard.riset.*') ? 'text-white' : 'text-rose-400' }}"></i>
                                     <span>Pengajuan Izin Riset</span>
                                 </div>
-                                <span class="bg-amber-500/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold px-2 py-0.5 rounded-full">5 Baru</span>
+                                <span class="bg-amber-500/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold px-2 py-0.5 rounded-full">Aktif</span>
                             </a>
-                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
-                                <i class="fa-solid fa-book-bookmark w-5 text-center text-sm text-rose-400"></i>
-                                <span>Data Kajian & Rekomendasi</span>
+                            <a href="{{ route('dashboard.riset.create') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
+                                <i class="fa-solid fa-plus-circle w-5 text-center text-sm text-rose-400"></i>
+                                <span>Ajukan Riset Baru</span>
                             </a>
                         </nav>
                     </div>
@@ -108,17 +108,13 @@
                             Inovasi & Kemitraan
                         </div>
                         <nav class="space-y-1">
-                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
-                                <i class="fa-solid fa-lightbulb w-5 text-center text-sm text-rose-400"></i>
+                            <a href="{{ route('dashboard.inovasi.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition {{ request()->routeIs('dashboard.inovasi.*') ? 'bg-rose-700/80 text-white shadow-md' : 'text-rose-100/70 hover:bg-white/10 hover:text-white' }}">
+                                <i class="fa-solid fa-lightbulb w-5 text-center text-sm {{ request()->routeIs('dashboard.inovasi.*') ? 'text-white' : 'text-rose-400' }}"></i>
                                 <span>Katalog Inovasi OPD</span>
                             </a>
-                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
-                                <i class="fa-solid fa-award w-5 text-center text-sm text-rose-400"></i>
-                                <span>Indeks IGA Kemendagri</span>
-                            </a>
-                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
-                                <i class="fa-solid fa-certificate w-5 text-center text-sm text-rose-400"></i>
-                                <span>Fasilitasi HKI & Paten</span>
+                            <a href="{{ route('dashboard.inovasi.create') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
+                                <i class="fa-solid fa-plus w-5 text-center text-sm text-rose-400"></i>
+                                <span>Input Inovasi Baru</span>
                             </a>
                         </nav>
                     </div>
@@ -126,9 +122,15 @@
                     <!-- Grup 4: Administrasi & Sistem (Khusus Admin & Profil) -->
                     <div>
                         <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-rose-300/60">
-                            Pengaturan
+                            Pengaturan & Pengguna
                         </div>
                         <nav class="space-y-1">
+                            @if(Auth::user()->hasRole('Admin'))
+                            <a href="{{ route('dashboard.users.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition {{ request()->routeIs('dashboard.users.*') ? 'bg-rose-700/80 text-white shadow-md' : 'text-rose-100/70 hover:bg-white/10 hover:text-white' }}">
+                                <i class="fa-solid fa-users-gear w-5 text-center text-sm {{ request()->routeIs('dashboard.users.*') ? 'text-white' : 'text-rose-400' }}"></i>
+                                <span>Manajemen Pengguna</span>
+                            </a>
+                            @endif
                             <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition {{ request()->routeIs('profile.edit') ? 'bg-rose-700/80 text-white' : 'text-rose-100/70 hover:bg-white/10 hover:text-white' }}">
                                 <i class="fa-solid fa-user-gear w-5 text-center text-sm text-rose-400"></i>
                                 <span>Profil Akun Saya</span>

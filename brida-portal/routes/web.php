@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermohonanRisetController;
+use App\Http\Controllers\InovasiDaerahController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Publik (Landing Page BRIDA Kota Makassar)
@@ -22,6 +25,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Modul CRUD Layanan Izin Riset
+    Route::prefix('dashboard/riset')->name('dashboard.riset.')->group(function () {
+        Route::get('/', [PermohonanRisetController::class, 'index'])->name('index');
+        Route::get('/create', [PermohonanRisetController::class, 'create'])->name('create');
+        Route::post('/', [PermohonanRisetController::class, 'store'])->name('store');
+        Route::get('/{id}', [PermohonanRisetController::class, 'show'])->name('show');
+        Route::patch('/{id}/status', [PermohonanRisetController::class, 'updateStatus'])->name('update-status');
+    });
+
+    // Modul Database Inovasi Daerah & IGA
+    Route::prefix('dashboard/inovasi')->name('dashboard.inovasi.')->group(function () {
+        Route::get('/', [InovasiDaerahController::class, 'index'])->name('index');
+        Route::get('/create', [InovasiDaerahController::class, 'create'])->name('create');
+        Route::post('/', [InovasiDaerahController::class, 'store'])->name('store');
+        Route::get('/{id}', [InovasiDaerahController::class, 'show'])->name('show');
+    });
+
+    // Modul Manajemen Pengguna & Hak Akses (Khusus Admin)
+    Route::prefix('dashboard/users')->name('dashboard.users.')->middleware('role:Admin')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::patch('/{id}/role', [UserController::class, 'updateRole'])->name('update-role');
+    });
 });
 
 require __DIR__.'/auth.php';

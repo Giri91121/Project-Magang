@@ -131,15 +131,15 @@
             <!-- Bagian Pejabat Penandatangan -->
             <div class="text-center w-64 text-xs">
                 <p>Makassar, {{ date('d F Y') }}</p>
-                <p class="font-bold mt-1 uppercase">Kepala Badan Riset dan Inovasi Daerah<br>Kota Makassar</p>
+                <p class="font-bold mt-1 uppercase">Kepala {{ $portalSettings['agency_name'] ?? 'Badan Riset dan Inovasi Daerah' }}<br>Kota Makassar</p>
                 
                 <div class="h-16 flex items-center justify-center font-sans text-slate-400 italic text-[11px]">
                     ( Ditandatangani secara elektronik )
                 </div>
 
-                <p class="font-bold underline text-sm uppercase">Nirman Mungkasa, S.T., M.Si.</p>
+                <p class="font-bold underline text-sm uppercase">{{ $portalSettings['kepala_badan_nama'] ?? 'Nirman Mungkasa, S.T., M.Si.' }}</p>
                 <p class="text-[11px] text-slate-600">Pembina Utama Muda / IV c</p>
-                <p class="text-[11px] text-slate-600">NIP. 19740512 199903 1 004</p>
+                <p class="text-[11px] text-slate-600">NIP. {{ $portalSettings['kepala_badan_nip'] ?? '19740512 199903 1 004' }}</p>
             </div>
         </div>
 

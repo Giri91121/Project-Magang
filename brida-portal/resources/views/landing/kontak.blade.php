@@ -38,7 +38,7 @@
                     <p class="text-xs text-slate-500 mt-1">Kantor Balai Kota Makassar</p>
                 </div>
                 <p class="text-xs text-slate-600 leading-relaxed">
-                    Gedung Balai Kota Makassar Lantai 2, Jl. Ahmad Yani No. 2, Baru, Kec. Ujung Pandang, Kota Makassar, Sulawesi Selatan 90111
+                    {{ $portalSettings['office_address'] ?? 'Gedung Balai Kota Makassar Lantai 2, Jl. Ahmad Yani No. 2, Baru, Kec. Ujung Pandang, Kota Makassar, Sulawesi Selatan 90111' }}
                 </p>
                 <div class="pt-2 text-xs font-semibold text-maroon-700">
                     <a href="https://maps.google.com/?q=Balai+Kota+Makassar" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 hover:underline">
@@ -58,22 +58,15 @@
                     <p class="text-xs text-slate-500 mt-1">Pelayanan Tatap Muka & Daring</p>
                 </div>
                 <div class="text-xs text-slate-600 space-y-2">
-                    <div class="flex justify-between border-b border-bone-200 pb-1.5">
-                        <span class="text-slate-500">Senin - Kamis</span>
-                        <span class="font-semibold text-slate-800">08.00 - 16.00 WITA</span>
-                    </div>
-                    <div class="flex justify-between border-b border-bone-200 pb-1.5">
-                        <span class="text-slate-500">Jumat</span>
-                        <span class="font-semibold text-slate-800">08.00 - 16.30 WITA</span>
-                    </div>
-                    <div class="flex justify-between">
+                    <p class="font-medium text-slate-700 leading-relaxed">{{ $portalSettings['work_hours'] ?? 'Senin - Kamis (08.00 - 16.00 WITA), Jumat (08.00 - 16.30 WITA)' }}</p>
+                    <div class="flex justify-between border-t border-bone-200 pt-1.5">
                         <span class="text-slate-500">Sabtu - Minggu / Libur</span>
                         <span class="font-bold text-rose-600">Tutup</span>
                     </div>
                 </div>
                 <div class="pt-1 text-xs">
                     <span class="text-slate-500 block">Call Center Pemkot Makassar:</span>
-                    <span class="font-bold text-slate-900 text-sm">112 (Bebas Pulsa)</span>
+                    <span class="font-bold text-slate-900 text-sm">{{ $portalSettings['contact_phone'] ?? '112 (Bebas Pulsa)' }}</span>
                 </div>
             </div>
 
@@ -89,20 +82,29 @@
                 <div class="text-xs text-slate-600 space-y-2">
                     <div>
                         <span class="text-slate-500 block">Email Sekretariat:</span>
-                        <a href="mailto:brida@makassarkota.go.id" class="font-semibold text-maroon-700 hover:underline">brida@makassarkota.go.id</a>
+                        <a href="mailto:{{ $portalSettings['contact_email'] ?? 'brida@makassarkota.go.id' }}" class="font-semibold text-maroon-700 hover:underline">{{ $portalSettings['contact_email'] ?? 'brida@makassarkota.go.id' }}</a>
                     </div>
                     <div>
-                        <span class="text-slate-500 block">Email PPID / Informasi:</span>
-                        <a href="mailto:ppid@makassarkota.go.id" class="font-semibold text-maroon-700 hover:underline">ppid@makassarkota.go.id</a>
+                        <span class="text-slate-500 block">WhatsApp Layanan:</span>
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $portalSettings['contact_whatsapp'] ?? '081144002233') }}" target="_blank" class="font-semibold text-emerald-700 hover:underline">{{ $portalSettings['contact_whatsapp'] ?? '081144002233' }}</a>
                     </div>
                 </div>
                 <div class="pt-2 flex items-center gap-3">
-                    <a href="https://www.instagram.com/pemkotmakassar/" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-bone-200 hover:bg-maroon-700 hover:text-white text-slate-700 flex items-center justify-center transition" title="Instagram Resmi">
+                    @if(!empty($portalSettings['social_instagram']))
+                    <a href="{{ $portalSettings['social_instagram'] }}" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-bone-200 hover:bg-maroon-700 hover:text-white text-slate-700 flex items-center justify-center transition" title="Instagram Resmi">
                         <i class="fa-brands fa-instagram text-sm"></i>
                     </a>
-                    <a href="https://www.youtube.com/@PemerintahKotaMakassarOfficial" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-bone-200 hover:bg-maroon-700 hover:text-white text-slate-700 flex items-center justify-center transition" title="YouTube Resmi">
+                    @endif
+                    @if(!empty($portalSettings['social_youtube']))
+                    <a href="{{ $portalSettings['social_youtube'] }}" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-bone-200 hover:bg-maroon-700 hover:text-white text-slate-700 flex items-center justify-center transition" title="YouTube Resmi">
                         <i class="fa-brands fa-youtube text-sm"></i>
                     </a>
+                    @endif
+                    @if(!empty($portalSettings['social_facebook']))
+                    <a href="{{ $portalSettings['social_facebook'] }}" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-bone-200 hover:bg-maroon-700 hover:text-white text-slate-700 flex items-center justify-center transition" title="Facebook Resmi">
+                        <i class="fa-brands fa-facebook text-sm"></i>
+                    </a>
+                    @endif
                     <a href="https://makassarkota.go.id" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-bone-200 hover:bg-maroon-700 hover:text-white text-slate-700 flex items-center justify-center transition" title="Portal Makassar">
                         <i class="fa-solid fa-globe text-sm"></i>
                     </a>

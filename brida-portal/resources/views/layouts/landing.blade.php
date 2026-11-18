@@ -31,10 +31,10 @@
                 <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-rose-600/30 text-rose-300 text-[10px]">
                     <i class="fa-solid fa-bullhorn"></i>
                 </span>
-                <span class="font-medium">Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar</span>
+                <span class="font-medium">Portal Resmi {{ $portalSettings['agency_name'] ?? 'Badan Riset dan Inovasi Daerah (BRIDA)' }} Kota Makassar</span>
             </div>
             <div class="flex items-center gap-5 text-[11px] text-bone-300">
-                <span><i class="fa-regular fa-calendar-check mr-1.5 text-rose-400"></i> Senin - Jumat, 08.00 - 16.00 WITA</span>
+                <span><i class="fa-regular fa-calendar-check mr-1.5 text-rose-400"></i> {{ $portalSettings['work_hours'] ?? 'Senin - Jumat, 08.00 - 16.00 WITA' }}</span>
                 <span class="hidden md:inline"><i class="fa-solid fa-location-dot mr-1 text-rose-400"></i> Balai Kota Makassar</span>
             </div>
         </div>
@@ -209,11 +209,24 @@
                         </a>
                     </div>
                     <p class="text-bone-400 max-w-sm leading-relaxed text-xs">
-                        Portal resmi layanan riset, kajian kebijakan strategis, serta fasilitasi ekosistem inovasi daerah Pemerintah Kota Makassar.
+                        {{ $portalSettings['tagline'] ?? 'Portal resmi layanan riset, kajian kebijakan strategis, serta fasilitasi ekosistem inovasi daerah Pemerintah Kota Makassar.' }}
                     </p>
-                    <p class="text-[11px] text-rose-300/80">
-                        Pemerintah Kota Makassar &bull; Kerja Praktik Teknik Informatika Unhas.
-                    </p>
+                    <div class="text-[11px] text-bone-400 space-y-1 pt-1">
+                        <p><i class="fa-solid fa-location-dot mr-1.5 text-rose-400"></i> {{ $portalSettings['office_address'] ?? 'Balai Kota Makassar, Jl. Ahmad Yani No. 2' }}</p>
+                        <p><i class="fa-solid fa-envelope mr-1.5 text-rose-400"></i> {{ $portalSettings['contact_email'] ?? 'brida@makassarkota.go.id' }}</p>
+                        <p><i class="fa-solid fa-phone mr-1.5 text-rose-400"></i> {{ $portalSettings['contact_phone'] ?? '112 (Bebas Pulsa)' }}</p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-2 text-rose-300">
+                        @if(!empty($portalSettings['social_instagram']))
+                        <a href="{{ $portalSettings['social_instagram'] }}" target="_blank" class="hover:text-white transition" title="Instagram Resmi"><i class="fa-brands fa-instagram text-base"></i></a>
+                        @endif
+                        @if(!empty($portalSettings['social_youtube']))
+                        <a href="{{ $portalSettings['social_youtube'] }}" target="_blank" class="hover:text-white transition" title="YouTube Resmi"><i class="fa-brands fa-youtube text-base"></i></a>
+                        @endif
+                        @if(!empty($portalSettings['social_facebook']))
+                        <a href="{{ $portalSettings['social_facebook'] }}" target="_blank" class="hover:text-white transition" title="Facebook Resmi"><i class="fa-brands fa-facebook text-base"></i></a>
+                        @endif
+                    </div>
                 </div>
 
                 <div class="space-y-2">

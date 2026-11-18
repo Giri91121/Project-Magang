@@ -11,6 +11,24 @@ use Illuminate\Support\Facades\Auth;
 class KomentarBeritaController extends Controller
 {
     /**
+     * Tampilkan daftar komentar berita yang pernah dibuat oleh User (atau semua komentar jika Admin/verif_berita)
+     */
+    public function myComments()
+    {
+        $user = Auth::user();
+        $canManageAll = $user->hasRole(['Admin', 'verif_berita']);
+
+        $query = KomentarBerita::with(['berita', 'user'])->latest();
+        if (!$canManageAll) {
+            $query->where('user_id', $user->id);
+        }
+
+        $komentars = $query->paginate(10);
+
+        return view('dashboard.komentar.index', compact('komentars', 'canManageAll'));
+    }
+
+    /**
      * Simpan komentar baru pada artikel berita (Wajib Login)
      */
     public function store(Request $request, $slug)

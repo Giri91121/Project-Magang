@@ -156,13 +156,11 @@
             <div class="space-y-4 pt-2">
                 @forelse($berita->komentars as $item)
                 @php
-                    $commenterRole = $item->user ? ($item->user->getRoleNames()->first() ?? 'Masyarakat / Pemohon') : 'Pengguna';
-                    $roleBadge = match($commenterRole) {
-                        'Admin' => 'bg-rose-100 text-maroon-800 border-rose-200',
-                        'Peneliti' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
-                        'Fasilitator Inovasi' => 'bg-indigo-100 text-indigo-800 border-indigo-200',
-                        default => 'bg-bone-200 text-slate-700 border-bone-300',
-                    };
+                    $isCommenterAdmin = $item->user && $item->user->hasRole('Admin');
+                    $commenterLabel = $isCommenterAdmin ? 'Admin BRIDA' : 'User';
+                    $roleBadge = $isCommenterAdmin
+                        ? 'bg-rose-100 text-maroon-800 border-rose-200'
+                        : 'bg-bone-200 text-slate-700 border-bone-300';
                 @endphp
                 <div class="bg-white rounded-2xl p-5 border border-bone-300 shadow-sm space-y-2.5">
                     <div class="flex items-start justify-between gap-2">
@@ -174,7 +172,7 @@
                                 <div class="flex items-center gap-2 flex-wrap">
                                     <strong class="text-xs font-bold text-slate-900">{{ $item->user->name ?? 'Pengguna' }}</strong>
                                     <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border {{ $roleBadge }}">
-                                        {{ $commenterRole }}
+                                        {{ $commenterLabel }}
                                     </span>
                                 </div>
                                 <span class="text-[10px] text-slate-400 block mt-0.5">

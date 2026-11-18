@@ -63,8 +63,15 @@
                     </button>
                 </div>
 
-                <!-- Navigasi Menu Sidebar -->
+                <!-- Navigasi Menu Sidebar (Menyesuaikan Role Admin, User, & Sub-Role) -->
                 <div class="flex-1 overflow-y-auto py-6 px-4 space-y-6">
+                    @php
+                        $currentUser = Auth::user();
+                        $isAdmin = $currentUser->hasRole('Admin');
+                        $canVerifRiset = $currentUser->hasRole(['Admin', 'verif_riset']);
+                        $canVerifBerita = $currentUser->hasRole(['Admin', 'verif_berita']);
+                        $allRolesLabel = implode(', ', $currentUser->getRoleNames()->toArray());
+                    @endphp
                     
                     <!-- Grup 1: Ringkasan Utama -->
                     <div>
@@ -86,54 +93,70 @@
                         </nav>
                     </div>
 
-                    <!-- Grup 2: Layanan Izin & Rekomendasi Riset -->
+                    <!-- Grup 2: Aktivitas & Layanan Mandiri User -->
                     <div>
                         <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
-                            Layanan Penelitian
+                            {{ $canVerifRiset ? 'Layanan & Verifikasi Riset' : 'Layanan Mandiri Saya' }}
                         </div>
                         <nav class="space-y-1">
-                            <a href="{{ route('dashboard.riset.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.riset.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                            <a href="{{ route('dashboard.riset.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.riset.index') || request()->routeIs('dashboard.riset.show') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-file-signature w-5 text-center text-sm {{ request()->routeIs('dashboard.riset.*') ? 'text-white' : 'text-slate-400' }}"></i>
-                                    <span>Pengajuan Izin Riset</span>
+                                    <i class="fa-solid fa-file-signature w-5 text-center text-sm {{ request()->routeIs('dashboard.riset.index') || request()->routeIs('dashboard.riset.show') ? 'text-white' : 'text-slate-400' }}"></i>
+                                    <span>{{ $canVerifRiset ? 'Dashboard Izin Riset' : 'Permohonan Riset Saya' }}</span>
                                 </div>
-                                <span class="{{ request()->routeIs('dashboard.riset.*') ? 'bg-white/20 text-white' : 'bg-rose-100 text-maroon-800 border border-rose-200' }} text-[10px] font-bold px-2 py-0.5 rounded-full">Aktif</span>
+                                @if($canVerifRiset)
+                                    <span class="{{ request()->routeIs('dashboard.riset.*') ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-800 border border-emerald-200' }} text-[9px] font-bold px-2 py-0.5 rounded-full">Verif</span>
+                                @endif
                             </a>
-                            <a href="{{ route('dashboard.riset.create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-bone-200 hover:text-maroon-800 transition">
-                                <i class="fa-solid fa-plus-circle w-5 text-center text-sm text-slate-400"></i>
+                            <a href="{{ route('dashboard.riset.create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition {{ request()->routeIs('dashboard.riset.create') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <i class="fa-solid fa-plus-circle w-5 text-center text-sm {{ request()->routeIs('dashboard.riset.create') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Ajukan Riset Baru</span>
+                            </a>
+                            <a href="{{ route('dashboard.komentar.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition {{ request()->routeIs('dashboard.komentar.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <i class="fa-regular fa-comments w-5 text-center text-sm {{ request()->routeIs('dashboard.komentar.*') ? 'text-white' : 'text-slate-400' }}"></i>
+                                <span>{{ $canVerifBerita ? 'Moderasi Komentar' : 'Komentar Berita Saya' }}</span>
                             </a>
                         </nav>
                     </div>
 
-                    <!-- Grup 3: Ekosistem Inovasi Daerah -->
+                    <!-- Grup 3: Otoritas Publikasi & Inovasi (Muncul jika Admin atau Sub-Role Diizinkan) -->
+                    @if($isAdmin || $canVerifBerita)
                     <div>
                         <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
-                            Inovasi & Publikasi
+                            Publikasi & Konten
                         </div>
                         <nav class="space-y-1">
+                            @if($canVerifBerita)
+                            <a href="{{ route('dashboard.berita.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.berita.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-newspaper w-5 text-center text-sm {{ request()->routeIs('dashboard.berita.*') ? 'text-white' : 'text-slate-400' }}"></i>
+                                    <span>Dashboard Berita</span>
+                                </div>
+                                <span class="{{ request()->routeIs('dashboard.berita.*') ? 'bg-white/20 text-white' : 'bg-indigo-100 text-indigo-800 border border-indigo-200' }} text-[9px] font-bold px-2 py-0.5 rounded-full">Verif</span>
+                            </a>
+                            @endif
+
+                            @if($isAdmin)
                             <a href="{{ route('dashboard.inovasi.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.inovasi.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <i class="fa-solid fa-lightbulb w-5 text-center text-sm {{ request()->routeIs('dashboard.inovasi.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Katalog Inovasi OPD</span>
-                            </a>
-                            <a href="{{ route('dashboard.berita.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.berita.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
-                                <i class="fa-solid fa-newspaper w-5 text-center text-sm {{ request()->routeIs('dashboard.berita.*') ? 'text-white' : 'text-slate-400' }}"></i>
-                                <span>Kelola Berita & Rilis</span>
                             </a>
                             <a href="{{ route('dashboard.regulasi.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.regulasi.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <i class="fa-solid fa-scale-balanced w-5 text-center text-sm {{ request()->routeIs('dashboard.regulasi.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Repositori Regulasi</span>
                             </a>
+                            @endif
                         </nav>
                     </div>
+                    @endif
 
                     <!-- Grup 4: Administrasi & Sistem (Khusus Admin & Profil) -->
                     <div>
                         <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
-                            Pengaturan & Pengguna
+                            Pengaturan & Akun
                         </div>
                         <nav class="space-y-1">
-                            @if(Auth::user()->hasRole('Admin'))
+                            @if($isAdmin)
                             <a href="{{ route('dashboard.users.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.users.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <i class="fa-solid fa-users-gear w-5 text-center text-sm {{ request()->routeIs('dashboard.users.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Manajemen Pengguna</span>
@@ -161,8 +184,8 @@
                             </div>
                             <div class="min-w-0">
                                 <p class="text-xs font-bold text-slate-900 truncate">{{ Auth::user()->name }}</p>
-                                <span class="text-[10px] text-maroon-700 font-semibold block truncate">
-                                    {{ Auth::user()->getRoleNames()->first() ?? 'Pengguna' }}
+                                <span class="text-[10px] text-maroon-700 font-semibold block truncate" title="{{ $allRolesLabel }}">
+                                    {{ $allRolesLabel ?: 'User' }}
                                 </span>
                             </div>
                         </div>
@@ -198,23 +221,26 @@
                         </div>
                     </div>
 
-                    <!-- Menu Kanan Topbar (Notifikasi, Peran, Profil Dropdown) -->
-                    <div class="flex items-center gap-3">
+                    <!-- Menu Kanan Topbar (Notifikasi, Peran & Sub-Role, Profil Dropdown) -->
+                    <div class="flex items-center gap-2">
                         @php
-                            $roleName = Auth::user()->getRoleNames()->first() ?? 'Pengguna';
-                            $badgeColor = match($roleName) {
-                                'Admin' => 'bg-rose-50 text-maroon-700 border-rose-200',
-                                'Peneliti' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                                'Fasilitator Inovasi' => 'bg-indigo-50 text-indigo-700 border-indigo-200',
-                                default => 'bg-amber-50 text-amber-700 border-amber-200',
-                            };
+                            $mainRoleBadge = $isAdmin ? 'Admin' : 'User';
+                            $subRolesTop = $currentUser->getRoleNames()->reject(fn($r) => in_array($r, ['Admin', 'User']));
                         @endphp
                         
-                        <!-- Lencana Role Spatie -->
-                        <span class="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border {{ $badgeColor }}">
-                            <i class="fa-solid fa-shield-halved text-[10px]"></i>
-                            <span>{{ $roleName }}</span>
+                        <!-- Lencana Role Utama -->
+                        <span class="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border {{ $isAdmin ? 'bg-rose-50 text-maroon-700 border-rose-200' : 'bg-bone-100 text-slate-700 border-bone-300' }}">
+                            <i class="fa-solid {{ $isAdmin ? 'fa-crown' : 'fa-user' }} text-[10px]"></i>
+                            <span>{{ $mainRoleBadge }}</span>
                         </span>
+
+                        <!-- Lencana Sub-Role jika ada -->
+                        @foreach($subRolesTop as $sr)
+                        <span class="hidden md:inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200">
+                            <i class="fa-solid fa-check-circle text-[9px]"></i>
+                            <span>{{ $sr }}</span>
+                        </span>
+                        @endforeach
 
                         <!-- Tombol Lonceng Notifikasi Terintegrasi Database -->
                         <div class="relative" x-data="{ notifDropdownOpen: false }">

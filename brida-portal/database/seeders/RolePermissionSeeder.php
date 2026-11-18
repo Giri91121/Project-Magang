@@ -18,91 +18,62 @@ class RolePermissionSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // 1. Buat Daftar Permissions
-        $permissions = [
-            'manage users',
-            'manage roles',
-            'view dashboard',
-            'view riset',
-            'create riset',
-            'approve riset',
-            'view inovasi',
-            'manage inovasi',
-            'publish berita',
-        ];
+        // Hapus role lama yang sudah tidak digunakan jika ada
+        Role::whereIn('name', ['Peneliti', 'Fasilitator Inovasi', 'Pemohon'])->delete();
 
-        foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
+        // 1. Buat Role Utama (Admin & User) dan Sub-Role (verif_berita, verif_riset)
+        $adminRole = Role::firstOrCreate(['name' => 'Admin']);
+        $userRole = Role::firstOrCreate(['name' => 'User']);
+        $verifBeritaRole = Role::firstOrCreate(['name' => 'verif_berita']);
+        $verifRisetRole = Role::firstOrCreate(['name' => 'verif_riset']);
+
+        // 2. Pastikan seluruh user yang sudah ada di database memiliki minimal role User jika belum Admin
+        foreach (User::all() as $existingUser) {
+            if ($existingUser->email === 'admin@brida.makassarkota.go.id' || $existingUser->email === 'admin@makassarkota.go.id') {
+                $existingUser->syncRoles(['Admin']);
+            } elseif (!$existingUser->hasRole('Admin') && !$existingUser->hasRole('User')) {
+                $existingUser->assignRole('User');
+            }
         }
 
-        // 2. Buat Daftar Roles
-        $adminRole = Role::firstOrCreate(['name' => 'Admin']);
-        $penelitiRole = Role::firstOrCreate(['name' => 'Peneliti']);
-        $fasilitatorRole = Role::firstOrCreate(['name' => 'Fasilitator Inovasi']);
-        $pemohonRole = Role::firstOrCreate(['name' => 'Pemohon']);
-
-        // 3. Assign Permissions ke Roles
-        $adminRole->givePermissionTo(Permission::all());
-
-        $penelitiRole->givePermissionTo([
-            'view dashboard',
-            'view riset',
-            'approve riset',
-            'publish berita',
-        ]);
-
-        $fasilitatorRole->givePermissionTo([
-            'view dashboard',
-            'view inovasi',
-            'manage inovasi',
-            'publish berita',
-        ]);
-
-        $pemohonRole->givePermissionTo([
-            'view dashboard',
-            'view riset',
-            'create riset',
-        ]);
-
-        // 4. Buat Akun Demo Resmi untuk Masing-masing Role
-        $users = [
+        // 3. Buat / Update Akun Demo Resmi Sesuai Struktur Baru
+        $demoUsers = [
             [
                 'name' => 'Administrator Utama BRIDA',
-                'email' => 'admin@brida.makassarkota.go.id',
-                'password' => Hash::make('password123'),
-                'role' => 'Admin',
+                'email' => 'admin@makassarkota.go.id',
+                'password' => Hash::make('password'),
+                'roles' => ['Admin'],
             ],
             [
-                'name' => 'Dr. H. Ahmad Fauzi (Tim Periset)',
-                'email' => 'peneliti@brida.makassarkota.go.id',
-                'password' => Hash::make('password123'),
-                'role' => 'Peneliti',
+                'name' => 'Andi Pratama (User Pemohon)',
+                'email' => 'user@makassarkota.go.id',
+                'password' => Hash::make('password'),
+                'roles' => ['User'],
             ],
             [
-                'name' => 'Siti Nurhaliza, S.STP (Fasilitator OPD)',
-                'email' => 'fasilitator@brida.makassarkota.go.id',
-                'password' => Hash::make('password123'),
-                'role' => 'Fasilitator Inovasi',
+                'name' => 'Dr. Ahmad Fauzi (User + Verifikator Riset)',
+                'email' => 'verif.riset@makassarkota.go.id',
+                'password' => Hash::make('password'),
+                'roles' => ['User', 'verif_riset'],
             ],
             [
-                'name' => 'Muhammad Giri (Pemohon Riset Mahasiswa)',
-                'email' => 'pemohon@brida.makassarkota.go.id',
-                'password' => Hash::make('password123'),
-                'role' => 'Pemohon',
+                'name' => 'Siti Nurhaliza (User + Verifikator Berita)',
+                'email' => 'verif.berita@makassarkota.go.id',
+                'password' => Hash::make('password'),
+                'roles' => ['User', 'verif_berita'],
             ],
         ];
 
-        foreach ($users as $userData) {
-            $user = User::firstOrCreate(
-                ['email' => $userData['email']],
+        foreach ($demoUsers as $data) {
+            $u = User::updateOrCreate(
+                ['email' => $data['email']],
                 [
-                    'name' => $userData['name'],
-                    'password' => $userData['password'],
+                    'name' => $data['name'],
+                    'password' => $data['password'],
                     'email_verified_at' => now(),
                 ]
             );
-
-            $user->syncRoles([$userData['role']]);
+            $u->syncRoles($data['roles']);
         }
     }
 }

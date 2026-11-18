@@ -25,32 +25,38 @@
             </div>
         </div>
 
-        <!-- Banner Sambutan Sesuai Hak Akses Role Spatie -->
+        <!-- Banner Sambutan Sesuai Hak Akses Role & Sub-Role Spatie -->
         <div class="bg-gradient-to-r from-maroon-900 via-maroon-800 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden">
             <div class="relative z-10 max-w-2xl space-y-2">
-                <span class="inline-flex items-center gap-1.5 bg-rose-500/20 text-rose-300 text-[11px] font-bold px-3 py-1 rounded-full border border-rose-400/30">
-                    <i class="fa-solid fa-id-badge"></i> Otoritas Role: {{ $primaryRole }}
-                </span>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 bg-rose-500/20 text-rose-300 text-[11px] font-bold px-3 py-1 rounded-full border border-rose-400/30">
+                        <i class="fa-solid fa-id-badge"></i> Role Utama: {{ $primaryRole }}
+                    </span>
+                    @foreach($subRoles as $sr)
+                        <span class="inline-flex items-center gap-1 bg-emerald-500/20 text-emerald-300 text-[11px] font-bold px-2.5 py-1 rounded-full border border-emerald-400/30">
+                            <i class="fa-solid fa-check-circle"></i> Sub-Role: {{ $sr }}
+                        </span>
+                    @endforeach
+                </div>
                 <h3 class="text-xl sm:text-2xl font-black text-white">
                     @if($primaryRole === 'Admin')
-                        Panel Kontrol Pusat Administrasi & Tata Kelola
-                    @elseif($primaryRole === 'Peneliti')
-                        Workspace Tim Riset & Kajian Kebijakan Strategis
-                    @elseif($primaryRole === 'Fasilitator Inovasi')
-                        Pusat Pendampingan & Monitoring Inovasi OPD
+                        Panel Kontrol Pusat Administrasi & Tata Kelola BRIDA
+                    @elseif(!empty($subRoles))
+                        Workspace Layanan Mandiri & Otoritas Verifikator Khusus
                     @else
-                        Portal Layanan Mandiri Permohonan Izin Riset
+                        Portal Layanan Mandiri Pengguna & Permohonan Izin Riset
                     @endif
                 </h3>
                 <p class="text-xs sm:text-sm text-rose-100/90 leading-relaxed">
                     @if($primaryRole === 'Admin')
-                        Anda memiliki akses penuh untuk memantau data riset, inovasi daerah, verifikasi berkas perizinan, manajemen pengguna, serta publikasi berita resmi.
-                    @elseif($primaryRole === 'Peneliti')
-                        Kelola telaah staf, review proposal ilmiah mahasiswa/akademisi, serta susun naskah rekomendasi kebijakan berbasis bukti ilmiah.
-                    @elseif($primaryRole === 'Fasilitator Inovasi')
-                        Pantau penginputan indikator kematangan inovasi perangkat daerah dan persiapan pelaporan IGA (Innovative Government Award) Kemendagri.
+                        Anda memiliki akses penuh sebagai Administrator untuk mengelola seluruh modul riset, berita, inovasi daerah, regulasi, pengaturan instansi, serta memberikan sub-role kepada pengguna.
                     @else
-                        Ajukan surat rekomendasi penelitian untuk tugas akhir/skripsi/tesis Anda dan pantau proses verifikasi dokumen secara real-time.
+                        Ajukan surat rekomendasi penelitian Anda, kelola komentar pada berita, dan akses modul khusus sesuai sub-role yang telah diizinkan oleh Admin
+                        @if(!empty($subRoles))
+                            (<strong>{{ implode(', ', $subRoles) }}</strong>).
+                        @else
+                            .
+                        @endif
                     @endif
                 </p>
             </div>

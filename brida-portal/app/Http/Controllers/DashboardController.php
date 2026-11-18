@@ -12,8 +12,9 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         $roles = $user->getRoleNames();
-        $primaryRole = $roles->first() ?? 'Pengguna';
-        $isPemohonOnly = $user->hasRole('Pemohon') && !$user->hasRole(['Admin', 'Peneliti', 'Fasilitator Inovasi']);
+        $primaryRole = $user->hasRole('Admin') ? 'Admin' : 'User';
+        $subRoles = $roles->reject(fn($r) => in_array($r, ['Admin', 'User']))->values()->all();
+        $isPemohonOnly = !$user->hasRole(['Admin', 'verif_riset']);
 
         // Ambil data statistik dari database nyata
         $risetQuery = PermohonanRiset::query();
@@ -37,6 +38,6 @@ class DashboardController extends Controller
         // Daftar Berkas Izin Riset Terkini dari Database
         $recentPermohonan = (clone $risetQuery)->latest()->take(5)->get();
 
-        return view('dashboard', compact('user', 'primaryRole', 'stats', 'recentPermohonan', 'isPemohonOnly'));
+        return view('dashboard', compact('user', 'primaryRole', 'subRoles', 'stats', 'recentPermohonan', 'isPemohonOnly'));
     }
 }

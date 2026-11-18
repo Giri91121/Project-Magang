@@ -34,29 +34,32 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Rute Kirim & Hapus Komentar Berita (Wajib Login)
+    // Rute Kirim, Hapus, & Lihat Komentar Saya (Wajib Login)
     Route::post('/berita/{slug}/komentar', [KomentarBeritaController::class, 'store'])->name('berita.komentar.store');
     Route::delete('/komentar/{id}', [KomentarBeritaController::class, 'destroy'])->name('berita.komentar.destroy');
+    Route::get('/dashboard/komentar', [KomentarBeritaController::class, 'myComments'])->name('dashboard.komentar.index');
 
-    // Modul CRUD Layanan Izin Riset
+    // Modul CRUD Layanan Izin Riset (User melihat miliknya sendiri; Admin & verif_riset bisa verifikasi semua)
     Route::prefix('dashboard/riset')->name('dashboard.riset.')->group(function () {
         Route::get('/', [PermohonanRisetController::class, 'index'])->name('index');
         Route::get('/create', [PermohonanRisetController::class, 'create'])->name('create');
         Route::post('/', [PermohonanRisetController::class, 'store'])->name('store');
         Route::get('/{id}', [PermohonanRisetController::class, 'show'])->name('show');
-        Route::patch('/{id}/status', [PermohonanRisetController::class, 'updateStatus'])->name('update-status');
+        Route::patch('/{id}/status', [PermohonanRisetController::class, 'updateStatus'])
+            ->middleware('role:Admin|verif_riset')
+            ->name('update-status');
     });
 
-    // Modul Database Inovasi Daerah & IGA
-    Route::prefix('dashboard/inovasi')->name('dashboard.inovasi.')->group(function () {
+    // Modul Database Inovasi Daerah & IGA (Khusus Admin)
+    Route::prefix('dashboard/inovasi')->name('dashboard.inovasi.')->middleware('role:Admin')->group(function () {
         Route::get('/', [InovasiDaerahController::class, 'index'])->name('index');
         Route::get('/create', [InovasiDaerahController::class, 'create'])->name('create');
         Route::post('/', [InovasiDaerahController::class, 'store'])->name('store');
         Route::get('/{id}', [InovasiDaerahController::class, 'show'])->name('show');
     });
 
-    // Modul CMS Berita & Publikasi (Khusus Admin / Humas)
-    Route::prefix('dashboard/berita')->name('dashboard.berita.')->group(function () {
+    // Modul CMS Berita & Publikasi (Khusus Admin atau Sub-Role verif_berita)
+    Route::prefix('dashboard/berita')->name('dashboard.berita.')->middleware('role:Admin|verif_berita')->group(function () {
         Route::get('/', [BeritaController::class, 'index'])->name('index');
         Route::get('/create', [BeritaController::class, 'create'])->name('create');
         Route::post('/', [BeritaController::class, 'store'])->name('store');
@@ -65,8 +68,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [BeritaController::class, 'destroy'])->name('destroy');
     });
 
-    // Modul Repositori Dokumen & Regulasi (Khusus Admin / PPID)
-    Route::prefix('dashboard/regulasi')->name('dashboard.regulasi.')->group(function () {
+    // Modul Repositori Dokumen & Regulasi (Khusus Admin)
+    Route::prefix('dashboard/regulasi')->name('dashboard.regulasi.')->middleware('role:Admin')->group(function () {
         Route::get('/', [RegulasiController::class, 'index'])->name('index');
         Route::get('/create', [RegulasiController::class, 'create'])->name('create');
         Route::post('/', [RegulasiController::class, 'store'])->name('store');

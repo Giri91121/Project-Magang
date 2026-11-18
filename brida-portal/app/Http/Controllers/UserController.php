@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Role;
 class UserController extends Controller
 {
     /**
-     * Tampilkan daftar seluruh pengguna dan peran mereka
+     * Tampilkan daftar seluruh pengguna, Role Utama (Admin/User), dan Sub-Role (verif_berita, verif_riset)
      */
     public function index(Request $request)
     {
@@ -29,28 +29,45 @@ class UserController extends Controller
         }
 
         $users = $query->paginate(10)->withQueryString();
-        $roles = Role::all();
 
-        return view('dashboard.users.index', compact('users', 'roles'));
+        return view('dashboard.users.index', compact('users'));
     }
 
     /**
-     * Perbarui hak akses role pengguna (Khusus Admin)
+     * Perbarui Role Utama (Admin/User) serta Sub-Role (verif_berita, verif_riset) oleh Admin
      */
     public function updateRole(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         $request->validate([
-            'role' => 'required|exists:roles,name',
+            'main_role' => 'required|in:Admin,User',
+            'sub_roles' => 'nullable|array',
+            'sub_roles.*' => 'in:verif_berita,verif_riset',
         ]);
 
-        // Sinkronisasi role Spatie
-        $user->syncRoles([$request->role]);
+        $rolesToSync = [$request->main_role];
 
-        // Catat ke Log Aktivitas
-        ActivityLog::log('change_role', "Hak akses role akun {$user->name} diubah menjadi {$request->role} oleh " . auth()->user()->name, $user);
+        // Sub-role hanya berlaku untuk pengguna dengan Role Utama 'User'
+        if ($request->main_role === 'User' && $request->filled('sub_roles')) {
+            $rolesToSync = array_merge($rolesToSync, $request->sub_roles);
+        }
 
-        return back()->with('success', "Hak akses role akun {$user->name} berhasil diperbarui menjadi {$request->role}.");
+        // Pastikan role sudah ada di database Spatie
+        foreach ($rolesToSync as $rName) {
+            Role::firstOrCreate(['name' => $rName]);
+        }
+
+        $user->syncRoles($rolesToSync);
+
+        $labelRoles = implode(', ', $rolesToSync);
+
+        ActivityLog::log(
+            'change_role',
+            "Otoritas akun {$user->name} diperbarui menjadi [{$labelRoles}] oleh " . auth()->user()->name,
+            $user
+        );
+
+        return back()->with('success', "Hak akses akun {$user->name} berhasil diperbarui menjadi: {$labelRoles}.");
     }
 }

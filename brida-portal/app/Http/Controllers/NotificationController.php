@@ -18,9 +18,9 @@ class NotificationController extends Controller
         // Notifikasi database milik user yang sedang login
         $notifications = $user->notifications()->paginate(15);
 
-        // Jika user adalah Admin/Staf, sertakan juga ActivityLog sistem
+        // Jika user adalah Admin atau Verifikator, sertakan juga ActivityLog sistem
         $activityLogs = collect();
-        if ($user->hasRole(['Admin', 'Peneliti', 'Fasilitator Inovasi'])) {
+        if ($user->hasRole(['Admin', 'verif_riset', 'verif_berita'])) {
             $activityLogs = ActivityLog::with('user')->latest()->take(20)->get();
         }
 

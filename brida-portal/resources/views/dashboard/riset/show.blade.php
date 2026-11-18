@@ -134,12 +134,12 @@
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Panel Tindakan Khusus Admin & Tim Peneliti -->
+            <!-- Kolom Kanan: Panel Tindakan Khusus Admin & Verifikator Riset -->
             <div class="lg:col-span-4 space-y-6">
-                @if(Auth::user()->hasRole(['Admin', 'Peneliti']))
+                @if(Auth::user()->hasRole(['Admin', 'verif_riset']))
                     <div class="bg-white rounded-3xl p-6 border border-bone-300 shadow-sm space-y-4">
                         <div class="border-b border-bone-200 pb-3">
-                            <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Aksi Otoritas</span>
+                            <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Aksi Otoritas Verifikator</span>
                             <h3 class="font-black text-sm text-slate-900 mt-0.5">Telaah & Verifikasi Berkas</h3>
                         </div>
 

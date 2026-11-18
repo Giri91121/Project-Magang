@@ -42,6 +42,9 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Otomatis berikan role utama User bagi setiap pendaftar baru
+        $user->assignRole('User');
+
         event(new Registered($user));
 
         Auth::login($user);

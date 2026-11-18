@@ -16,7 +16,8 @@ class PermohonanRisetController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $isPemohonOnly = $user->hasRole('Pemohon') && !$user->hasRole(['Admin', 'Peneliti', 'Fasilitator Inovasi']);
+        // Jika user BUKAN Admin dan BUKAN verif_riset, maka ia hanya bisa melihat permohonannya sendiri
+        $isPemohonOnly = !$user->hasRole(['Admin', 'verif_riset']);
 
         $query = PermohonanRiset::with('user')->latest();
 
@@ -114,8 +115,8 @@ class PermohonanRisetController extends Controller
         $permohonan = PermohonanRiset::with('user')->findOrFail($id);
         $user = Auth::user();
 
-        // Validasi akses bagi pemohon biasa (tidak boleh mengintip permohonan orang lain)
-        if ($user->hasRole('Pemohon') && !$user->hasRole(['Admin', 'Peneliti']) && $permohonan->user_id !== $user->id) {
+        // Validasi akses: jika bukan Admin dan bukan verif_riset, hanya boleh melihat permohonannya sendiri
+        if (!$user->hasRole(['Admin', 'verif_riset']) && $permohonan->user_id !== $user->id) {
             abort(403, 'Anda tidak berhak melihat berkas ini.');
         }
 
@@ -127,6 +128,10 @@ class PermohonanRisetController extends Controller
      */
     public function updateStatus(Request $request, $id)
     {
+        if (!Auth::user()->hasRole(['Admin', 'verif_riset'])) {
+            abort(403, 'Hanya Admin atau Verifikator Riset yang dapat memperbarui status berkas.');
+        }
+
         $permohonan = PermohonanRiset::findOrFail($id);
         
         $request->validate([

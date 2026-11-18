@@ -157,6 +157,13 @@
                         </div>
                         <nav class="space-y-1">
                             @if($isAdmin)
+                            <a href="{{ route('dashboard.landing-cms.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.landing-cms.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-wand-magic-sparkles w-5 text-center text-sm {{ request()->routeIs('dashboard.landing-cms.*') ? 'text-white' : 'text-rose-500' }}"></i>
+                                    <span>Editor Landing Page</span>
+                                </div>
+                                <span class="{{ request()->routeIs('dashboard.landing-cms.*') ? 'bg-white/20 text-white' : 'bg-rose-100 text-maroon-800 border border-rose-200' }} text-[9px] font-bold px-2 py-0.5 rounded-full">CMS</span>
+                            </a>
                             <a href="{{ route('dashboard.users.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.users.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <i class="fa-solid fa-users-gear w-5 text-center text-sm {{ request()->routeIs('dashboard.users.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Manajemen Pengguna</span>

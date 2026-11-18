@@ -12,6 +12,7 @@ use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\RegulasiController;
 use App\Http\Controllers\KomentarBeritaController;
+use App\Http\Controllers\LandingCmsController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Publik (Landing Page BRIDA Kota Makassar)
@@ -100,6 +101,27 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard/settings')->name('dashboard.settings.')->middleware('role:Admin')->group(function () {
         Route::get('/', [SettingController::class, 'index'])->name('index');
         Route::post('/', [SettingController::class, 'update'])->name('update');
+    });
+
+    // Modul Editor Penuh Landing Page & Navbar Tanpa Coding (Khusus Admin)
+    Route::prefix('dashboard/landing-cms')->name('dashboard.landing-cms.')->middleware('role:Admin')->group(function () {
+        Route::get('/', [LandingCmsController::class, 'index'])->name('index');
+        Route::post('/hero-appearance', [LandingCmsController::class, 'updateHeroAndAppearance'])->name('update-hero');
+        
+        // Slideshow Gambar Hero
+        Route::post('/slides', [LandingCmsController::class, 'storeSlide'])->name('slides.store');
+        Route::patch('/slides/{id}', [LandingCmsController::class, 'updateSlide'])->name('slides.update');
+        Route::delete('/slides/{id}', [LandingCmsController::class, 'destroySlide'])->name('slides.destroy');
+
+        // Menu Navbar & Submenu Dropdown
+        Route::post('/menus', [LandingCmsController::class, 'storeMenu'])->name('menus.store');
+        Route::patch('/menus/{id}', [LandingCmsController::class, 'updateMenu'])->name('menus.update');
+        Route::delete('/menus/{id}', [LandingCmsController::class, 'destroyMenu'])->name('menus.destroy');
+
+        // Kartu Layanan Beranda
+        Route::post('/services', [LandingCmsController::class, 'storeService'])->name('services.store');
+        Route::patch('/services/{id}', [LandingCmsController::class, 'updateService'])->name('services.update');
+        Route::delete('/services/{id}', [LandingCmsController::class, 'destroyService'])->name('services.destroy');
     });
 });
 

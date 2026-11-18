@@ -4,48 +4,59 @@
 
 @section('content')
 <main>
-        <!-- Hero Banner Portal Pemda (Slideshow Berwibawa & Visual Nyata - Full Viewport) -->
+        <!-- Hero Banner Portal Pemda (Slideshow & Teks Dinamis dari Dashboard) -->
         <section id="beranda" class="relative overflow-hidden bg-slate-900 text-white min-h-[calc(100vh-7.5rem)] flex items-center justify-center">
             <!-- Background Slideshow Auto-Crop & Full-Cover -->
             <div id="hero-slideshow" class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                <!-- Slide 1 (Aktif Awal) -->
-                <img
-                    src="{{ asset('images') }}/slide1.jpg"
-                    alt="Dokumentasi Kegiatan BRIDA Makassar 1"
-                    class="hero-slide active"
-                >
-                <!-- Slide 2 -->
-                <img
-                    src="{{ asset('images') }}/slide2.jpg"
-                    alt="Dokumentasi Kegiatan BRIDA Makassar 2"
-                    class="hero-slide"
-                >
-                <!-- Lapisan Gradasi Warna Elegan Transparan (Foto Jauh Lebih Terang & Jelas) -->
+                @forelse($heroSlides as $index => $slide)
+                    <img
+                        src="{{ $slide->gambar_url }}"
+                        alt="{{ $slide->judul_alt }}"
+                        class="hero-slide {{ $index === 0 ? 'active' : '' }}"
+                    >
+                @empty
+                    <img
+                        src="{{ asset('images/slide1.jpg') }}"
+                        alt="Dokumentasi Kegiatan BRIDA Makassar"
+                        class="hero-slide active"
+                    >
+                @endforelse
+                <!-- Lapisan Gradasi Warna Elegan Transparan -->
                 <div class="absolute inset-0 bg-gradient-to-r from-maroon-950/50 via-slate-950/30 to-black/20 z-10"></div>
             </div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative z-10 w-full">
                 <div class="grid lg:grid-cols-12 gap-10 items-center">
                     
-                    <!-- Sisi Kiri: Headline Resmi Pemerintahan -->
+                    <!-- Sisi Kiri: Headline Resmi Pemerintahan (Dinamis Teks & Warna dari Dashboard) -->
                     <div class="lg:col-span-12 max-w-4xl space-y-6">
-                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-bone-50 drop-shadow-md">
-                            Mendorong Inovasi Berbasis Riset, Mewujudkan <span class="text-rose-400">Makassar Kota Dunia</span> yang Berdaya Saing.
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight drop-shadow-md">
+                            <span style="color: {{ $portalSettings['hero_title_1_color'] ?? '#FDFDFB' }};">
+                                {{ $portalSettings['hero_title_1'] ?? 'Mendorong Inovasi Berbasis Riset, Mewujudkan' }}
+                            </span>
+                            <span style="color: {{ $portalSettings['hero_title_highlight_color'] ?? '#FB7185' }};">
+                                {{ $portalSettings['hero_title_highlight'] ?? 'Makassar Kota Dunia' }}
+                            </span>
+                            <span style="color: {{ $portalSettings['hero_title_2_color'] ?? '#FDFDFB' }};">
+                                {{ $portalSettings['hero_title_2'] ?? 'yang Berdaya Saing.' }}
+                            </span>
                         </h1>
 
-                        <p class="text-base sm:text-lg text-bone-100 max-w-2xl leading-relaxed font-normal drop-shadow-sm">
-                            Selamat datang di Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar. Kami mengoordinasikan ekosistem riset terapan, pendampingan inovasi perangkat daerah, serta perumusan rekomendasi kebijakan pembangunan daerah berbasis data dan bukti ilmiah.
+                        <p class="text-base sm:text-lg max-w-2xl leading-relaxed font-normal drop-shadow-sm" style="color: {{ $portalSettings['hero_subtitle_color'] ?? '#FAF9F5' }};">
+                            {{ $portalSettings['hero_subtitle'] ?? 'Selamat datang di Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar. Kami mengoordinasikan ekosistem riset terapan, pendampingan inovasi perangkat daerah, serta perumusan rekomendasi kebijakan pembangunan daerah berbasis data dan bukti ilmiah.' }}
                         </p>
 
                         <!-- Tombol Aksi Cepat Portal -->
                         <div class="flex flex-wrap gap-4 pt-2">
-                            <a href="{{ route('layanan') }}" class="inline-flex items-center gap-2.5 bg-rose-700 hover:bg-rose-800 text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-rose-950/40 text-sm">
-                                <span>Layanan & Fasilitasi Riset</span>
+                            <a href="{{ $portalSettings['hero_btn1_url'] ?? route('layanan') }}" 
+                               style="background-color: {{ $portalSettings['hero_btn1_bg_color'] ?? '#BE123C' }}; color: {{ $portalSettings['hero_btn1_text_color'] ?? '#FFFFFF' }};"
+                               class="inline-flex items-center gap-2.5 hover:opacity-90 font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-rose-950/40 text-sm">
+                                <span>{{ $portalSettings['hero_btn1_text'] ?? 'Layanan & Fasilitasi Riset' }}</span>
                                 <i class="fa-solid fa-arrow-right text-xs"></i>
                             </a>
-                            <a href="{{ route('informasi-publik') }}" class="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 text-bone-100 font-bold px-6 py-3.5 rounded-xl border border-white/20 transition text-sm">
+                            <a href="{{ $portalSettings['hero_btn2_url'] ?? route('informasi-publik') }}" class="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 text-bone-100 font-bold px-6 py-3.5 rounded-xl border border-white/20 transition text-sm">
                                 <i class="fa-solid fa-lightbulb text-rose-400"></i>
-                                <span>Ekosistem Inovasi Daerah</span>
+                                <span>{{ $portalSettings['hero_btn2_text'] ?? 'Ekosistem Inovasi Daerah' }}</span>
                             </a>
                         </div>
                     </div>
@@ -54,15 +65,15 @@
             </div>
         </section>
 
-        <!-- Layanan Utama BRIDA Kota Makassar (Format Grid Formal Pemerintahan) -->
+        <!-- Layanan Utama BRIDA Kota Makassar (Dinamis dari Database LandingService) -->
         <section id="layanan" class="py-16 bg-white border-b border-bone-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
                     <div>
-                        <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Layanan Publik & Kedinasan</span>
-                        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">Layanan Terpadu BRIDA Kota Makassar</h2>
-                        <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-xl">Akses layanan pengusulan riset kebijakan, fasilitasi inovasi daerah, serta kemitraan ilmiah.</p>
+                        <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">{{ $portalSettings['layanan_section_badge'] ?? 'Layanan Publik & Kedinasan' }}</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">{{ $portalSettings['layanan_section_title'] ?? 'Layanan Terpadu BRIDA Kota Makassar' }}</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-xl">{{ $portalSettings['layanan_section_desc'] ?? 'Akses layanan pengusulan riset kebijakan, fasilitasi inovasi daerah, serta kemitraan ilmiah.' }}</p>
                     </div>
                     <span class="text-xs font-semibold text-slate-400 bg-bone-100 px-3 py-1.5 rounded-lg border border-bone-300 w-fit">
                         Sistem Terintegrasi Pemkot Makassar
@@ -70,81 +81,25 @@
                 </div>
 
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Layanan 1 -->
-                    <a href="{{ route('layanan') }}" class="bg-bone-100/70 border border-bone-300 rounded-xl p-6 hover:border-maroon-700 transition group flex flex-col justify-between block">
+                    @foreach($landingServices as $srv)
+                    <a href="{{ $srv->link_url }}" class="bg-bone-100/70 border border-bone-300 rounded-xl p-6 hover:border-maroon-700 transition group flex flex-col justify-between block">
                         <div class="space-y-3">
                             <div class="w-11 h-11 rounded-lg bg-maroon-700 text-white flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-microscope"></i>
+                                <i class="{{ $srv->icon }}"></i>
                             </div>
-                            <h3 class="font-bold text-slate-900 text-base group-hover:text-maroon-700 transition">Riset & Pengkajian Kebijakan</h3>
+                            <h3 class="font-bold text-slate-900 text-base group-hover:text-maroon-700 transition">{{ $srv->judul }}</h3>
                             <p class="text-xs text-slate-600 leading-relaxed">
-                                Pelaksanaan riset ilmiah terapan dan penyusunan rekomendasi kebijakan pembangunan daerah berbasis bukti (*evidence-based policy*).
+                                {{ $srv->deskripsi }}
                             </p>
                         </div>
                         <div class="pt-4 border-t border-bone-300/80 mt-4">
                             <span class="text-xs font-bold text-maroon-700 flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
-                                <span>Informasi Riset</span>
+                                <span>{{ $srv->link_text }}</span>
                                 <i class="fa-solid fa-chevron-right text-[10px]"></i>
                             </span>
                         </div>
                     </a>
-
-                    <!-- Layanan 2 -->
-                    <a href="{{ route('layanan') }}" class="bg-bone-100/70 border border-bone-300 rounded-xl p-6 hover:border-maroon-700 transition group flex flex-col justify-between block">
-                        <div class="space-y-3">
-                            <div class="w-11 h-11 rounded-lg bg-maroon-700 text-white flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-lightbulb"></i>
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-base group-hover:text-maroon-700 transition">Fasilitasi Inovasi Daerah</h3>
-                            <p class="text-xs text-slate-600 leading-relaxed">
-                                Pendampingan dan pemetaan inovasi perangkat daerah (OPD) untuk pengukuran Indeks Inovasi Daerah (IID) tahunan Kemendagri.
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-bone-300/80 mt-4">
-                            <span class="text-xs font-bold text-maroon-700 flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
-                                <span>Katalog Inovasi</span>
-                                <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                            </span>
-                        </div>
-                    </a>
-
-                    <!-- Layanan 3 -->
-                    <a href="{{ route('layanan') }}" class="bg-bone-100/70 border border-bone-300 rounded-xl p-6 hover:border-maroon-700 transition group flex flex-col justify-between block">
-                        <div class="space-y-3">
-                            <div class="w-11 h-11 rounded-lg bg-maroon-700 text-white flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-book-atlas"></i>
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-base group-hover:text-maroon-700 transition">Peta Jalan Riset Daerah</h3>
-                            <p class="text-xs text-slate-600 leading-relaxed">
-                                Penyusunan Rencana Induk Riset Daerah (RIRD) sebagai pedoman arah pembangunan sains dan teknologi jangka panjang kota.
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-bone-300/80 mt-4">
-                            <span class="text-xs font-bold text-maroon-700 flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
-                                <span>Dokumen RIRD</span>
-                                <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                            </span>
-                        </div>
-                    </a>
-
-                    <!-- Layanan 4 -->
-                    <a href="{{ route('layanan') }}" class="bg-bone-100/70 border border-bone-300 rounded-xl p-6 hover:border-maroon-700 transition group flex flex-col justify-between block">
-                        <div class="space-y-3">
-                            <div class="w-11 h-11 rounded-lg bg-maroon-700 text-white flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-handshake-angle"></i>
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-base group-hover:text-maroon-700 transition">Kemitraan Akademisi & BRIN</h3>
-                            <p class="text-xs text-slate-600 leading-relaxed">
-                                Sinergi riset bersama Badan Riset dan Inovasi Nasional (BRIN), perguruan tinggi, dan peneliti untuk akselerasi solusi daerah.
-                            </p>
-                        </div>
-                        <div class="pt-4 border-t border-bone-300/80 mt-4">
-                            <span class="text-xs font-bold text-maroon-700 flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
-                                <span>Kerja Sama Riset</span>
-                                <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                            </span>
-                        </div>
-                    </a>
+                    @endforeach
                 </div>
 
             </div>

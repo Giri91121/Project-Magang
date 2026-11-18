@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Regulasi;
+use App\Models\HeroSlide;
+use App\Models\LandingService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,7 +13,10 @@ class HomeController extends Controller
     public function index()
     {
         $beritaTerbaru = Berita::where('status', 'Publikasi')->latest()->take(3)->get();
-        return view('landing.index', compact('beritaTerbaru'));
+        $heroSlides = HeroSlide::where('is_active', true)->orderBy('sort_order')->get();
+        $landingServices = LandingService::where('is_active', true)->orderBy('sort_order')->get();
+
+        return view('landing.index', compact('beritaTerbaru', 'heroSlides', 'landingServices'));
     }
 
     public function pemerintahan()

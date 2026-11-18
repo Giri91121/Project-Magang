@@ -49,71 +49,55 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20 sm:h-20">
                 
-                <!-- Sisi Kiri: Logo BRIDA Kota Makassar -->
+                <!-- Sisi Kiri: Logo BRIDA Kota Makassar (Dinamis dari Dashboard) -->
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('home') }}" class="flex items-center justify-center focus:outline-none -translate-y-1">
                         <img
                             id="brida-logo"
-                            src="{{ asset('images/LOGO-FIX-BRIDA.png') }}"
+                            src="{{ asset($portalSettings['logo_header'] ?? 'images/LOGO-FIX-BRIDA.png') }}"
                             alt="BRIDA Kota Makassar"
                             class="h-12 sm:h-14 md:h-16 w-auto max-w-[280px] sm:max-w-[340px] object-contain drop-shadow-sm"
                         >
                     </a>
                 </div>
 
-                <!-- Navigasi Utama Desktop -->
+                <!-- Navigasi Utama Desktop (Dinamis dari Database NavbarMenu) -->
                 <nav class="hidden lg:flex items-center space-x-7 xl:space-x-9 text-[15px] font-semibold text-slate-700 ml-auto" aria-label="Navigasi Utama">
-                    <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">Beranda</a>
-                    
-                    <!-- Dropdown Pemerintahan -->
-                    <div class="relative group">
-                        <a href="{{ route('pemerintahan') }}" class="flex items-center gap-1 {{ request()->routeIs('pemerintahan') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors py-2' }} focus:outline-none">
-                            <span>Pemerintahan</span>
-                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
-                        </a>
-                        <div class="dropdown-menu absolute top-full left-0 w-60 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
-                            <a href="{{ route('pemerintahan') }}#profil" class="block px-4 py-2.5 text-xs text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
-                                <i class="fa-solid fa-landmark mr-2 text-rose-500"></i> Profil BRIDA Makassar
-                            </a>
-                            <a href="{{ route('pemerintahan') }}#visi-misi" class="block px-4 py-2.5 text-xs text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
-                                <i class="fa-solid fa-bullseye mr-2 text-rose-500"></i> Visi & Misi Inovasi
-                            </a>
-                            <a href="{{ route('pemerintahan') }}#tupoksi" class="block px-4 py-2.5 text-xs text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
-                                <i class="fa-solid fa-list-check mr-2 text-rose-500"></i> Tugas Pokok & Fungsi
-                            </a>
-                        </div>
-                    </div>
+                    @foreach($navbarMenus as $menu)
+                        @php
+                            $isCurrent = ($menu->url === '/' && request()->routeIs('home')) || ($menu->url !== '/' && $menu->url !== '#' && request()->is(ltrim($menu->url, '/')));
+                        @endphp
 
-                    <a href="{{ route('layanan') }}" class="{{ request()->routeIs('layanan') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">Layanan</a>
-                    <a href="{{ route('informasi-publik') }}" class="{{ request()->routeIs('informasi-publik') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">Informasi Publik</a>
-                    <a href="{{ route('berita') }}" class="{{ request()->routeIs('berita') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">Berita</a>
-                    <a href="{{ route('kontak') }}" class="{{ request()->routeIs('kontak') ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">Kontak</a>
-
-                    <!-- Dropdown PPID -->
-                    <div class="relative group">
-                        <button class="flex items-center gap-1 hover:text-maroon-700 transition-colors py-2 focus:outline-none">
-                            <span>PPID</span>
-                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
-                        </button>
-                        <div class="dropdown-menu absolute top-full right-0 w-64 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
-                            <a href="https://ppid.makassarkota.go.id/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
-                                <span>PPID Makassar</span>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
+                        @if($menu->children->count() > 0)
+                            <!-- Menu dengan Submenu Dropdown -->
+                            <div class="relative group">
+                                <a href="{{ $menu->url }}" {{ $menu->target_blank ? 'target=_blank rel=noopener' : '' }} class="flex items-center gap-1 {{ $isCurrent ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors py-2' }} focus:outline-none">
+                                    <span>{{ $menu->label }}</span>
+                                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
+                                </a>
+                                <div class="dropdown-menu absolute top-full left-0 w-64 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
+                                    @foreach($menu->children as $child)
+                                        <a href="{{ $child->url }}" {{ $child->target_blank ? 'target=_blank rel=noopener' : '' }} class="flex items-center justify-between px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
+                                            <span>
+                                                @if($child->icon)
+                                                    <i class="{{ $child->icon }} mr-2 text-rose-500"></i>
+                                                @endif
+                                                {{ $child->label }}
+                                            </span>
+                                            @if($child->target_blank)
+                                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
+                                            @endif
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @else
+                            <!-- Menu Tunggal Biasa -->
+                            <a href="{{ $menu->url }}" {{ $menu->target_blank ? 'target=_blank rel=noopener' : '' }} class="{{ $isCurrent ? 'text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1' : 'hover:text-maroon-700 transition-colors' }}">
+                                {{ $menu->label }}
                             </a>
-                            <a href="https://ppid.makassarkota.go.id/daftar-informasi-publik" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
-                                <span>Informasi Publik</span>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
-                            </a>
-                            <a href="https://ppid.makassarkota.go.id/permohonan-informasi" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
-                                <span>Permohonan Informasi Publik</span>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
-                            </a>
-                            <a href="https://ppid.makassarkota.go.id/pengajuan-keberatan" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
-                                <span>Permohonan Keberatan</span>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
-                            </a>
-                        </div>
-                    </div>
+                        @endif
+                    @endforeach
 
                     <!-- Tombol Masuk Portal / Dashboard -->
                     @auth
@@ -147,49 +131,35 @@
             </div>
         </div>
 
-        <!-- Mobile Menu Navigasi -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-bone-50 border-b border-bone-300 px-4 pt-2 pb-6 space-y-3">
-            <a href="{{ route('home') }}" class="block px-3 py-2 text-sm font-bold {{ request()->routeIs('home') ? 'text-maroon-700 bg-rose-50' : 'text-slate-700' }} rounded-lg hover:bg-bone-200">Beranda</a>
-            <div>
-                <button class="mobile-dropdown-toggle w-full flex items-center justify-between px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">
-                    <span>Pemerintahan</span>
-                    <i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
-                </button>
-                <div class="hidden pl-6 py-1 space-y-1 bg-white/50 rounded-lg mt-1 border border-bone-200">
-                    <a href="{{ route('pemerintahan') }}" class="block py-1.5 text-xs font-bold text-maroon-700 hover:text-maroon-800">Lihat Semua Profil</a>
-                    <a href="{{ route('pemerintahan') }}#profil" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Profil BRIDA Makassar</a>
-                    <a href="{{ route('pemerintahan') }}#visi-misi" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Visi & Misi Inovasi</a>
-                    <a href="{{ route('pemerintahan') }}#tupoksi" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Tugas Pokok & Fungsi</a>
-                </div>
-            </div>
-            <a href="{{ route('layanan') }}" class="block px-3 py-2 text-sm font-bold {{ request()->routeIs('layanan') ? 'text-maroon-700 bg-rose-50' : 'text-slate-700' }} rounded-lg hover:bg-bone-200">Layanan Riset & Publik</a>
-            <a href="{{ route('informasi-publik') }}" class="block px-3 py-2 text-sm font-bold {{ request()->routeIs('informasi-publik') ? 'text-maroon-700 bg-rose-50' : 'text-slate-700' }} rounded-lg hover:bg-bone-200">Informasi Publik</a>
-            <a href="{{ route('berita') }}" class="block px-3 py-2 text-sm font-bold {{ request()->routeIs('berita') ? 'text-maroon-700 bg-rose-50' : 'text-slate-700' }} rounded-lg hover:bg-bone-200">Berita Terkini</a>
-            <a href="{{ route('kontak') }}" class="block px-3 py-2 text-sm font-bold {{ request()->routeIs('kontak') ? 'text-maroon-700 bg-rose-50' : 'text-slate-700' }} rounded-lg hover:bg-bone-200">Kontak Instansi</a>
-            <div>
-                <button class="mobile-dropdown-toggle w-full flex items-center justify-between px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">
-                    <span>PPID</span>
-                    <i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
-                </button>
-                <div class="hidden pl-6 py-1 space-y-1 bg-white/50 rounded-lg mt-1 border border-bone-200">
-                    <a href="https://ppid.makassarkota.go.id/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between py-1.5 pr-3 text-xs text-slate-600 hover:text-maroon-700">
-                        <span>PPID Makassar</span>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        <!-- Mobile Menu Navigasi (Dinamis dari Database NavbarMenu) -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-bone-50 border-b border-bone-300 px-4 pt-2 pb-6 space-y-2">
+            @foreach($navbarMenus as $menu)
+                @if($menu->children->count() > 0)
+                    <div>
+                        <button class="mobile-dropdown-toggle w-full flex items-center justify-between px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">
+                            <span>{{ $menu->label }}</span>
+                            <i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
+                        </button>
+                        <div class="hidden pl-6 py-1 space-y-1 bg-white/50 rounded-lg mt-1 border border-bone-200">
+                            @if($menu->url !== '#')
+                                <a href="{{ $menu->url }}" class="block py-1.5 text-xs font-bold text-maroon-700 hover:text-maroon-800">Halaman Utama {{ $menu->label }}</a>
+                            @endif
+                            @foreach($menu->children as $child)
+                                <a href="{{ $child->url }}" {{ $child->target_blank ? 'target=_blank rel=noopener' : '' }} class="flex items-center justify-between py-1.5 pr-3 text-xs text-slate-600 hover:text-maroon-700">
+                                    <span>{{ $child->label }}</span>
+                                    @if($child->target_blank)
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                    @endif
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @else
+                    <a href="{{ $menu->url }}" {{ $menu->target_blank ? 'target=_blank rel=noopener' : '' }} class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">
+                        {{ $menu->label }}
                     </a>
-                    <a href="https://ppid.makassarkota.go.id/daftar-informasi-publik" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between py-1.5 pr-3 text-xs text-slate-600 hover:text-maroon-700">
-                        <span>Informasi Publik</span>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                    </a>
-                    <a href="https://ppid.makassarkota.go.id/permohonan-informasi" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between py-1.5 pr-3 text-xs text-slate-600 hover:text-maroon-700">
-                        <span>Permohonan Informasi Publik</span>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                    </a>
-                    <a href="https://ppid.makassarkota.go.id/pengajuan-keberatan" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between py-1.5 pr-3 text-xs text-slate-600 hover:text-maroon-700">
-                        <span>Permohonan Keberatan</span>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                    </a>
-                </div>
-            </div>
+                @endif
+            @endforeach
         </div>
     </header>
 
@@ -206,7 +176,7 @@
                         <a href="{{ route('home') }}" class="flex items-center focus:outline-none py-1">
                             <img
                                 id="brida-footer-logo"
-                                src="{{ asset('images/logo-brida-white.png') }}"
+                                src="{{ asset($portalSettings['logo_footer'] ?? 'images/logo-brida-white.png') }}"
                                 alt="BRIDA Kota Makassar"
                                 class="h-12 sm:h-14 md:h-16 w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[380px] object-contain opacity-95 hover:opacity-100 transition-opacity"
                             >

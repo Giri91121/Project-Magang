@@ -65,7 +65,7 @@
                                 {{ $item->created_at->diffForHumans() }}
                             </td>
                             <td class="py-4 px-6 text-right whitespace-nowrap">
-                                <form method="POST" action="{{ route('berita.komentar.destroy', $item->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus komentar ini?');" class="inline">
+                                <form method="POST" action="{{ route('berita.komentar.destroy', $item->id) }}" data-confirm="Apakah Anda yakin ingin menghapus komentar ini?" data-confirm-title="Hapus Komentar" data-confirm-btn="Ya, Hapus" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus Komentar">

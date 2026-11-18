@@ -63,7 +63,7 @@
                     <i class="fa-brands fa-facebook-f text-sm"></i>
                     <span>Facebook</span>
                 </a>
-                <button onclick="navigator.clipboard.writeText(window.location.href); alert('Tautan berita berhasil disalin ke clipboard!');" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                <button onclick="navigator.clipboard.writeText(window.location.href); window.showBridaAlert('success', 'Tautan Tersalin!', 'Tautan berita berhasil disalin ke clipboard Anda.');" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
                     <i class="fa-solid fa-link text-xs"></i>
                     <span>Salin Tautan</span>
                 </button>
@@ -183,7 +183,7 @@
 
                         @auth
                             @if(Auth::id() === $item->user_id || Auth::user()->hasRole('Admin'))
-                            <form method="POST" action="{{ route('berita.komentar.destroy', $item->id) }}" onsubmit="return confirm('Hapus komentar ini?');">
+                            <form method="POST" action="{{ route('berita.komentar.destroy', $item->id) }}" data-confirm="Apakah Anda yakin ingin menghapus komentar ini?" data-confirm-title="Hapus Komentar" data-confirm-btn="Ya, Hapus">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-slate-400 hover:text-rose-600 p-1 rounded-lg transition text-xs" title="Hapus Komentar">

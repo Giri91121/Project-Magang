@@ -122,7 +122,7 @@
                                     <a href="{{ route('dashboard.berita.edit', $item->id) }}" class="p-1.5 text-slate-500 hover:text-maroon-700 hover:bg-bone-200 rounded-lg transition" title="Edit Berita">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-                                    <form method="POST" action="{{ route('dashboard.berita.destroy', $item->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus artikel ini?');" class="inline">
+                                    <form method="POST" action="{{ route('dashboard.berita.destroy', $item->id) }}" data-confirm="Apakah Anda yakin ingin menghapus artikel berita '{{ $item->judul }}'?" data-confirm-title="Hapus Artikel Berita" data-confirm-btn="Ya, Hapus" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus Berita">

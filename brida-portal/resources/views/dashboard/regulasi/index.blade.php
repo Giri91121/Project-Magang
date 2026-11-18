@@ -113,7 +113,7 @@
                                     <a href="{{ route('regulasi.download', $item->id) }}" class="p-1.5 text-slate-500 hover:text-maroon-700 hover:bg-bone-200 rounded-lg transition" title="Unduh File">
                                         <i class="fa-solid fa-file-arrow-down"></i>
                                     </a>
-                                    <form method="POST" action="{{ route('dashboard.regulasi.destroy', $item->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');" class="inline">
+                                    <form method="POST" action="{{ route('dashboard.regulasi.destroy', $item->id) }}" data-confirm="Apakah Anda yakin ingin menghapus dokumen '{{ $item->nomor_peraturan }}'?" data-confirm-title="Hapus Dokumen Regulasi" data-confirm-btn="Ya, Hapus" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus Regulasi">

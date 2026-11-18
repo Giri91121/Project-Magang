@@ -262,6 +262,7 @@
 
     <!-- Eksternal Main Application Script -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @include('components.popup-alert')
     @stack('scripts')
 </body>
 </html>

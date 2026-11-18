@@ -191,7 +191,7 @@
                         </div>
 
                         <!-- Form Logout Cepat -->
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}" data-confirm="Apakah Anda yakin ingin keluar dari sesi dashboard ini?" data-confirm-title="Keluar Akun" data-confirm-btn="Ya, Keluar">
                             @csrf
                             <button type="submit" title="Keluar dari Dashboard" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition focus:outline-none">
                                 <i class="fa-solid fa-arrow-right-from-bracket text-sm"></i>
@@ -321,7 +321,7 @@
                                     <span>Kunjungi Beranda Web</span>
                                 </a>
                                 <div class="border-t border-bone-200 my-1"></div>
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ route('logout') }}" data-confirm="Apakah Anda yakin ingin keluar dari sesi dashboard ini?" data-confirm-title="Keluar Akun" data-confirm-btn="Ya, Keluar">
                                     @csrf
                                     <button type="submit" class="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition text-left">
                                         <i class="fa-solid fa-arrow-right-from-bracket text-rose-500"></i>
@@ -354,5 +354,8 @@
             </div>
 
         </div>
+
+        <!-- Global Pop-Up Alert System (SweetAlert2) -->
+        @include('components.popup-alert')
     </body>
 </html>

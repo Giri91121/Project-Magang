@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\PermohonanRiset;
+use App\Models\ActivityLog;
+use App\Notifications\PermohonanRisetStatusNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -97,6 +99,9 @@ class PermohonanRisetController extends Controller
 
         $permohonan = PermohonanRiset::create($data);
 
+        // Catat ke Log Aktivitas
+        ActivityLog::log('create_riset', "Permohonan riset baru {$nomorRegistrasi} diajukan oleh " . Auth::user()->name, $permohonan);
+
         return redirect()->route('dashboard.riset.show', $permohonan->id)
             ->with('success', "Permohonan riset berhasil diajukan dengan Nomor Registrasi: {$nomorRegistrasi}");
     }
@@ -133,6 +138,14 @@ class PermohonanRisetController extends Controller
             'status' => $request->status,
             'catatan_reviewer' => $request->catatan_reviewer,
         ]);
+
+        // Catat ke Log Aktivitas
+        ActivityLog::log('update_status', "Status permohonan {$permohonan->nomor_registrasi} diubah menjadi '{$request->status}' oleh " . Auth::user()->name, $permohonan);
+
+        // Kirim Notifikasi ke Pemohon jika ada akunnya
+        if ($permohonan->user) {
+            $permohonan->user->notify(new PermohonanRisetStatusNotification($permohonan, $request->catatan_reviewer ?? ''));
+        }
 
         return back()->with('success', 'Status permohonan riset berhasil diperbarui.');
     }

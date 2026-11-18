@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\InovasiDaerah;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -75,7 +76,10 @@ class InovasiDaerahController extends Controller
         $data['status_verifikasi'] = 'Terverifikasi';
         $data['skor_kematangan'] = $request->skor_kematangan ?? 80;
 
-        InovasiDaerah::create($data);
+        $inovasi = InovasiDaerah::create($data);
+
+        // Catat ke Log Aktivitas
+        ActivityLog::log('create_inovasi', "Inovasi daerah baru '{$validated['nama_inovasi']}' ({$kodeInovasi}) ditambahkan oleh " . Auth::user()->name, $inovasi);
 
         return redirect()->route('dashboard.inovasi.index')
             ->with('success', "Inovasi {$validated['nama_inovasi']} ({$kodeInovasi}) berhasil ditambahkan ke katalog IGA.");

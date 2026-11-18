@@ -44,17 +44,17 @@
                 x-transition:leave-end="opacity-0">
             </div>
 
-            <!-- Modern Collapsible Sidebar -->
+            <!-- Modern Collapsible Sidebar (Tema Putih Tulang / Bone White) -->
             <aside 
                 :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-                class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-maroon-950 via-maroon-900 to-slate-950 text-white flex flex-col transition-transform duration-300 ease-in-out border-r border-maroon-800 shadow-2xl">
+                class="fixed inset-y-0 left-0 z-50 w-72 bg-bone-100 text-slate-800 flex flex-col transition-transform duration-300 ease-in-out border-r border-bone-300 shadow-xl">
                 
-                <!-- Sidebar Brand / Logo -->
-                <div class="h-20 flex items-center justify-between px-6 border-b border-maroon-800/80 bg-maroon-950/40">
-                    <a href="{{ route('home') }}" class="flex items-center gap-3">
-                        <img src="{{ asset('images/LOGO-FIX-BRIDA.png') }}" alt="BRIDA Makassar" class="h-10 w-auto object-contain brightness-0 invert">
+                <!-- Sidebar Brand / Logo (Sejajar h-16 dengan Topbar Header dan Logo Berwarna) -->
+                <div class="h-16 flex items-center justify-between px-5 border-b border-bone-300 bg-white">
+                    <a href="{{ route('home') }}" class="flex items-center -translate-y-0.5">
+                        <img src="{{ asset('images/LOGO-FIX-BRIDA.png') }}" alt="BRIDA Kota Makassar" class="h-10 sm:h-11 w-auto max-w-[200px] object-contain drop-shadow-sm">
                     </a>
-                    <button @click="sidebarOpen = false" class="lg:hidden text-rose-300 hover:text-white p-1 rounded-lg focus:outline-none">
+                    <button @click="sidebarOpen = false" class="lg:hidden text-slate-500 hover:text-slate-800 p-1 rounded-lg focus:outline-none">
                         <i class="fa-solid fa-xmark text-lg"></i>
                     </button>
                 </div>
@@ -64,39 +64,39 @@
                     
                     <!-- Grup 1: Ringkasan Utama -->
                     <div>
-                        <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-rose-300/60">
+                        <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
                             Menu Utama
                         </div>
                         <nav class="space-y-1">
-                            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard') ? 'bg-rose-700/80 text-white shadow-md' : 'text-rose-100/70 hover:bg-white/10 hover:text-white' }}">
-                                <i class="fa-solid fa-gauge-high w-5 text-center text-sm {{ request()->routeIs('dashboard') ? 'text-white' : 'text-rose-400' }}"></i>
+                            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <i class="fa-solid fa-gauge-high w-5 text-center text-sm {{ request()->routeIs('dashboard') ? 'text-white' : 'text-slate-400 group-hover:text-maroon-700' }}"></i>
                                 <span>Dashboard Ikhtisar</span>
                             </a>
-                            <a href="{{ route('home') }}" target="_blank" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
+                            <a href="{{ route('home') }}" target="_blank" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-bone-200 hover:text-maroon-800 transition">
                                 <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-arrow-up-right-from-square w-5 text-center text-sm text-rose-400"></i>
+                                    <i class="fa-solid fa-arrow-up-right-from-square w-5 text-center text-sm text-slate-400"></i>
                                     <span>Lihat Portal Publik</span>
                                 </div>
-                                <i class="fa-solid fa-chevron-right text-[10px] text-rose-300/40"></i>
+                                <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
                             </a>
                         </nav>
                     </div>
 
                     <!-- Grup 2: Layanan Izin & Rekomendasi Riset -->
                     <div>
-                        <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-rose-300/60">
+                        <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
                             Layanan Penelitian
                         </div>
                         <nav class="space-y-1">
-                            <a href="{{ route('dashboard.riset.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition {{ request()->routeIs('dashboard.riset.*') ? 'bg-rose-700/80 text-white shadow-md' : 'text-rose-100/70 hover:bg-white/10 hover:text-white' }}">
+                            <a href="{{ route('dashboard.riset.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.riset.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-file-signature w-5 text-center text-sm {{ request()->routeIs('dashboard.riset.*') ? 'text-white' : 'text-rose-400' }}"></i>
+                                    <i class="fa-solid fa-file-signature w-5 text-center text-sm {{ request()->routeIs('dashboard.riset.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                     <span>Pengajuan Izin Riset</span>
                                 </div>
-                                <span class="bg-amber-500/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold px-2 py-0.5 rounded-full">Aktif</span>
+                                <span class="{{ request()->routeIs('dashboard.riset.*') ? 'bg-white/20 text-white' : 'bg-rose-100 text-maroon-800 border border-rose-200' }} text-[10px] font-bold px-2 py-0.5 rounded-full">Aktif</span>
                             </a>
-                            <a href="{{ route('dashboard.riset.create') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
-                                <i class="fa-solid fa-plus-circle w-5 text-center text-sm text-rose-400"></i>
+                            <a href="{{ route('dashboard.riset.create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-bone-200 hover:text-maroon-800 transition">
+                                <i class="fa-solid fa-plus-circle w-5 text-center text-sm text-slate-400"></i>
                                 <span>Ajukan Riset Baru</span>
                             </a>
                         </nav>
@@ -104,16 +104,16 @@
 
                     <!-- Grup 3: Ekosistem Inovasi Daerah -->
                     <div>
-                        <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-rose-300/60">
+                        <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
                             Inovasi & Kemitraan
                         </div>
                         <nav class="space-y-1">
-                            <a href="{{ route('dashboard.inovasi.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition {{ request()->routeIs('dashboard.inovasi.*') ? 'bg-rose-700/80 text-white shadow-md' : 'text-rose-100/70 hover:bg-white/10 hover:text-white' }}">
-                                <i class="fa-solid fa-lightbulb w-5 text-center text-sm {{ request()->routeIs('dashboard.inovasi.*') ? 'text-white' : 'text-rose-400' }}"></i>
+                            <a href="{{ route('dashboard.inovasi.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.inovasi.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <i class="fa-solid fa-lightbulb w-5 text-center text-sm {{ request()->routeIs('dashboard.inovasi.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Katalog Inovasi OPD</span>
                             </a>
-                            <a href="{{ route('dashboard.inovasi.create') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-rose-100/70 hover:bg-white/10 hover:text-white transition">
-                                <i class="fa-solid fa-plus w-5 text-center text-sm text-rose-400"></i>
+                            <a href="{{ route('dashboard.inovasi.create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-bone-200 hover:text-maroon-800 transition">
+                                <i class="fa-solid fa-plus w-5 text-center text-sm text-slate-400"></i>
                                 <span>Input Inovasi Baru</span>
                             </a>
                         </nav>
@@ -121,18 +121,18 @@
 
                     <!-- Grup 4: Administrasi & Sistem (Khusus Admin & Profil) -->
                     <div>
-                        <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-rose-300/60">
+                        <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
                             Pengaturan & Pengguna
                         </div>
                         <nav class="space-y-1">
                             @if(Auth::user()->hasRole('Admin'))
-                            <a href="{{ route('dashboard.users.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition {{ request()->routeIs('dashboard.users.*') ? 'bg-rose-700/80 text-white shadow-md' : 'text-rose-100/70 hover:bg-white/10 hover:text-white' }}">
-                                <i class="fa-solid fa-users-gear w-5 text-center text-sm {{ request()->routeIs('dashboard.users.*') ? 'text-white' : 'text-rose-400' }}"></i>
+                            <a href="{{ route('dashboard.users.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.users.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <i class="fa-solid fa-users-gear w-5 text-center text-sm {{ request()->routeIs('dashboard.users.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Manajemen Pengguna</span>
                             </a>
                             @endif
-                            <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition {{ request()->routeIs('profile.edit') ? 'bg-rose-700/80 text-white' : 'text-rose-100/70 hover:bg-white/10 hover:text-white' }}">
-                                <i class="fa-solid fa-user-gear w-5 text-center text-sm text-rose-400"></i>
+                            <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition {{ request()->routeIs('profile.edit') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <i class="fa-solid fa-user-gear w-5 text-center text-sm {{ request()->routeIs('profile.edit') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Profil Akun Saya</span>
                             </a>
                         </nav>
@@ -141,15 +141,15 @@
                 </div>
 
                 <!-- Bagian Bawah: Profil Singkat & Tombol Logout -->
-                <div class="p-4 border-t border-maroon-800/80 bg-maroon-950/60">
+                <div class="p-4 border-t border-bone-300 bg-white">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-10 h-10 rounded-xl bg-rose-600/30 border border-rose-400/40 text-rose-200 flex items-center justify-center font-black text-sm shrink-0">
+                            <div class="w-10 h-10 rounded-xl bg-maroon-700 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-sm">
                                 {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
                             </div>
                             <div class="min-w-0">
-                                <p class="text-xs font-bold text-white truncate">{{ Auth::user()->name }}</p>
-                                <span class="text-[10px] text-rose-300 font-semibold block truncate">
+                                <p class="text-xs font-bold text-slate-900 truncate">{{ Auth::user()->name }}</p>
+                                <span class="text-[10px] text-maroon-700 font-semibold block truncate">
                                     {{ Auth::user()->getRoleNames()->first() ?? 'Pengguna' }}
                                 </span>
                             </div>
@@ -158,7 +158,7 @@
                         <!-- Form Logout Cepat -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" title="Keluar dari Dashboard" class="p-2 text-rose-300 hover:text-white hover:bg-white/10 rounded-lg transition focus:outline-none">
+                            <button type="submit" title="Keluar dari Dashboard" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition focus:outline-none">
                                 <i class="fa-solid fa-arrow-right-from-bracket text-sm"></i>
                             </button>
                         </form>
@@ -204,11 +204,54 @@
                             <span>{{ $roleName }}</span>
                         </span>
 
-                        <!-- Tombol Lonceng Notifikasi -->
-                        <button class="relative p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-bone-100 transition focus:outline-none">
-                            <i class="fa-regular fa-bell text-base"></i>
-                            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-600 ring-2 ring-white"></span>
-                        </button>
+                        <!-- Tombol Lonceng Notifikasi Terintegrasi Database -->
+                        <div class="relative" x-data="{ notifDropdownOpen: false }">
+                            <button @click="notifDropdownOpen = !notifDropdownOpen" class="relative p-2 rounded-xl text-slate-500 hover:text-maroon-700 hover:bg-bone-100 transition focus:outline-none">
+                                <i class="fa-regular fa-bell text-base"></i>
+                                @php $unreadCount = Auth::user()->unreadNotifications->count(); @endphp
+                                @if($unreadCount > 0)
+                                    <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-600 ring-2 ring-white"></span>
+                                @endif
+                            </button>
+
+                            <!-- Dropdown Notifikasi Cepat -->
+                            <div 
+                                x-show="notifDropdownOpen" 
+                                x-cloak
+                                @click.away="notifDropdownOpen = false" 
+                                class="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-xl border border-bone-300 py-3 z-50">
+                                
+                                <div class="px-4 pb-2 border-b border-bone-200 flex items-center justify-between">
+                                    <h4 class="text-xs font-bold text-slate-900">Pemberitahuan Sistem</h4>
+                                    <a href="{{ route('dashboard.notifications.index') }}" class="text-[11px] font-semibold text-maroon-700 hover:underline">Lihat Semua</a>
+                                </div>
+
+                                <div class="divide-y divide-bone-100 max-h-72 overflow-y-auto">
+                                    @forelse(Auth::user()->unreadNotifications->take(4) as $notif)
+                                    <div class="p-3.5 hover:bg-bone-50 transition flex items-start gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-rose-50 text-maroon-700 flex items-center justify-center text-xs shrink-0 mt-0.5">
+                                            <i class="fa-solid fa-bell"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-xs font-bold text-slate-900 truncate">{{ $notif->data['nomor_registrasi'] ?? 'Notifikasi' }}</p>
+                                            <p class="text-[11px] text-slate-500 truncate">{{ $notif->data['keterangan'] ?? '' }}</p>
+                                            <span class="text-[10px] text-slate-400 mt-1 block">{{ $notif->created_at->diffForHumans() }}</span>
+                                        </div>
+                                    </div>
+                                    @empty
+                                    <div class="py-6 text-center text-slate-400 text-xs">
+                                        Tidak ada notifikasi baru
+                                    </div>
+                                    @endforelse
+                                </div>
+
+                                <div class="pt-2 px-4 border-t border-bone-200">
+                                    <a href="{{ route('dashboard.notifications.index') }}" class="block text-center text-xs font-bold text-maroon-700 hover:underline py-1">
+                                        Buka Pusat Notifikasi & Log Aktivitas →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="h-6 w-px bg-bone-300 mx-1"></div>
 

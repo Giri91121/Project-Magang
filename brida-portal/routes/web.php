@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermohonanRisetController;
 use App\Http\Controllers\InovasiDaerahController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Publik (Landing Page BRIDA Kota Makassar)
@@ -41,6 +42,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [InovasiDaerahController::class, 'create'])->name('create');
         Route::post('/', [InovasiDaerahController::class, 'store'])->name('store');
         Route::get('/{id}', [InovasiDaerahController::class, 'show'])->name('show');
+    });
+
+    // Modul Notifikasi & Log Aktivitas
+    Route::prefix('dashboard/notifications')->name('dashboard.notifications.')->group(function () {
+        Route::get('/', [NotificationController::class, 'index'])->name('index');
+        Route::patch('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read');
+        Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
     });
 
     // Modul Manajemen Pengguna & Hak Akses (Khusus Admin)

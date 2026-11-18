@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -46,6 +47,9 @@ class UserController extends Controller
 
         // Sinkronisasi role Spatie
         $user->syncRoles([$request->role]);
+
+        // Catat ke Log Aktivitas
+        ActivityLog::log('change_role', "Hak akses role akun {$user->name} diubah menjadi {$request->role} oleh " . auth()->user()->name, $user);
 
         return back()->with('success', "Hak akses role akun {$user->name} berhasil diperbarui menjadi {$request->role}.");
     }

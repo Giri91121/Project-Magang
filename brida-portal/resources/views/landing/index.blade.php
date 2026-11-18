@@ -198,7 +198,7 @@
                                 <i class="fa-solid fa-location-dot text-maroon-700 text-base mt-0.5"></i>
                                 <div>
                                     <strong class="text-slate-900 block">Alamat Sekretariat</strong>
-                                    Balai Kota Makassar, Jl. Ahmad Yani No. 2, Kota Makassar
+                                    {{ $portalSettings['office_address'] ?? 'Balai Kota Makassar, Jl. Ahmad Yani No. 2, Kota Makassar' }}
                                 </div>
                             </div>
 
@@ -206,7 +206,7 @@
                                 <i class="fa-solid fa-envelope text-maroon-700 text-base mt-0.5"></i>
                                 <div>
                                     <strong class="text-slate-900 block">Surat Elektronik</strong>
-                                    brida@makassarkota.go.id
+                                    {{ $portalSettings['contact_email'] ?? 'brida@makassarkota.go.id' }}
                                 </div>
                             </div>
                         </div>
@@ -215,9 +215,9 @@
                     <div class="lg:col-span-5 bg-bone-100 p-6 rounded-2xl border border-bone-300 space-y-4">
                         <h4 class="font-bold text-sm text-slate-900">Tautan Pintasan Resmi</h4>
                         <ul class="text-xs space-y-2 text-slate-600">
-                            <li><a href="https://makassarkota.go.id" target="_blank" class="hover:text-maroon-700 flex items-center justify-between py-1 border-b border-bone-300"><span>Portal Resmi Pemerintah Kota Makassar</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a></li>
-                            <li><a href="https://brin.go.id" target="_blank" class="hover:text-maroon-700 flex items-center justify-between py-1 border-b border-bone-300"><span>Badan Riset dan Inovasi Nasional (BRIN)</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a></li>
-                            <li><a href="informasi-publik.html#regulasi" class="hover:text-maroon-700 flex items-center justify-between py-1 border-b border-bone-300"><span>Pedoman Pengusulan Inovasi Daerah</span><i class="fa-solid fa-arrow-right text-[10px]"></i></a></li>
+                            <li><a href="{{ $portalSettings['quicklink_1_url'] ?? 'https://makassarkota.go.id' }}" target="_blank" class="hover:text-maroon-700 flex items-center justify-between py-1 border-b border-bone-300"><span>{{ $portalSettings['quicklink_1_label'] ?? 'Portal Resmi Pemerintah Kota Makassar' }}</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a></li>
+                            <li><a href="{{ $portalSettings['quicklink_2_url'] ?? 'https://brin.go.id' }}" target="_blank" class="hover:text-maroon-700 flex items-center justify-between py-1 border-b border-bone-300"><span>{{ $portalSettings['quicklink_2_label'] ?? 'Badan Riset dan Inovasi Nasional (BRIN)' }}</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a></li>
+                            <li><a href="{{ $portalSettings['quicklink_3_url'] ?? '/informasi-publik#regulasi' }}" class="hover:text-maroon-700 flex items-center justify-between py-1 border-b border-bone-300"><span>{{ $portalSettings['quicklink_3_label'] ?? 'Pedoman Pengusulan Inovasi Daerah' }}</span><i class="fa-solid fa-arrow-right text-[10px]"></i></a></li>
                         </ul>
                     </div>
 

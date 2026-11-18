@@ -30,6 +30,33 @@ class LandingCmsSeeder extends Seeder
             ['key' => 'layanan_section_badge', 'value' => 'Layanan Publik & Kedinasan', 'group' => 'hero'],
             ['key' => 'layanan_section_title', 'value' => 'Layanan Terpadu BRIDA Kota Makassar', 'group' => 'hero'],
             ['key' => 'layanan_section_desc', 'value' => 'Akses layanan pengusulan riset kebijakan, fasilitasi inovasi daerah, serta kemitraan ilmiah.', 'group' => 'hero'],
+
+            // Top Announcement Bar
+            ['key' => 'topbar_enabled', 'value' => '1', 'group' => 'topbar'],
+            ['key' => 'topbar_text', 'value' => 'Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar', 'group' => 'topbar'],
+            ['key' => 'topbar_bg_color', 'value' => '#3D000E', 'group' => 'topbar'],
+            ['key' => 'topbar_text_color', 'value' => '#F5F4EE', 'group' => 'topbar'],
+
+            // Halaman Pemerintahan (Profil, Foto Kantor, Visi, & Misi)
+            ['key' => 'gov_office_photo', 'value' => 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80', 'group' => 'pemerintahan'],
+            ['key' => 'gov_office_caption', 'value' => 'Sekretariat BRIDA Kota Makassar', 'group' => 'pemerintahan'],
+            ['key' => 'gov_profile_title', 'value' => 'Badan Riset dan Inovasi Daerah (BRIDA)', 'group' => 'pemerintahan'],
+            ['key' => 'gov_profile_p1', 'value' => 'Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar merupakan unsur penunjang urusan pemerintahan di bidang penelitian dan pengembangan yang menjadi kewenangan daerah. BRIDA dibentuk untuk mengintegrasikan seluruh ekosistem riset terapan dan inovasi demi memperkuat pengambilan kebijakan berbasis data dan bukti ilmiah (evidence-based policy).', 'group' => 'pemerintahan'],
+            ['key' => 'gov_profile_p2', 'value' => 'Sesuai dengan amanat peraturan perundang-undangan dan koordinasi bersama Badan Riset dan Inovasi Nasional (BRIN), BRIDA Kota Makassar berfungsi sebagai jembatan strategis antara akademisi, industri, masyarakat, dan pemerintah (Pentahelix) guna mempercepat terwujudnya Makassar sebagai Kota Dunia yang Maju, Tangguh, dan Rendah Karbon.', 'group' => 'pemerintahan'],
+            ['key' => 'gov_visi', 'value' => '"Menjadi Pusat Rujukan Riset dan Inovasi yang Adaptif Menuju Makassar Kota Dunia yang Berdaya Saing."', 'group' => 'pemerintahan'],
+            ['key' => 'gov_misi_1', 'value' => 'Meningkatkan Kualitas Riset Kebijakan: Menyusun kajian ilmiah tematik strategis untuk mendukung respon kebijakan Wali Kota terhadap tantangan perkotaan terkini.', 'group' => 'pemerintahan'],
+            ['key' => 'gov_misi_2', 'value' => 'Mengakselerasi Ekosistem Inovasi SKPD: Mendorong dan mendampingi karya inovasi pelayanan publik dan tata kelola di lingkungan perangkat daerah Kota Makassar.', 'group' => 'pemerintahan'],
+            ['key' => 'gov_misi_3', 'value' => 'Memperkuat Kemitraan Pentahelix: Membangun kolaborasi riset terapan bersama perguruan tinggi (Unhas, UNM, dll.), industri, dan lembaga riset nasional (BRIN).', 'group' => 'pemerintahan'],
+            ['key' => 'gov_misi_4', 'value' => 'Mendorong Difusi & Hilirisasi Inovasi: Memastikan hasil riset terapan dapat diaplikasikan langsung untuk meningkatkan mutu taraf hidup warga kota.', 'group' => 'pemerintahan'],
+
+            // Tautan Pintasan Beranda & Peta Google Maps
+            ['key' => 'quicklink_1_label', 'value' => 'Portal Resmi Pemerintah Kota Makassar', 'group' => 'links'],
+            ['key' => 'quicklink_1_url', 'value' => 'https://makassarkota.go.id', 'group' => 'links'],
+            ['key' => 'quicklink_2_label', 'value' => 'Badan Riset dan Inovasi Nasional (BRIN)', 'group' => 'links'],
+            ['key' => 'quicklink_2_url', 'value' => 'https://brin.go.id', 'group' => 'links'],
+            ['key' => 'quicklink_3_label', 'value' => 'Pedoman Pengusulan Inovasi Daerah', 'group' => 'links'],
+            ['key' => 'quicklink_3_url', 'value' => '/informasi-publik#regulasi', 'group' => 'links'],
+            ['key' => 'google_maps_embed', 'value' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.8118318855523!2d119.4069811756598!3d-5.133932794843075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbf02939e60be1b%3A0xe54e5658fe969418!2sKantor%20Walikota%20Makassar!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid', 'group' => 'links'],
         ];
 
         foreach ($heroSettings as $set) {

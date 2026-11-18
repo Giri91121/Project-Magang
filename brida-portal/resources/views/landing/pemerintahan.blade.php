@@ -26,16 +26,16 @@
     <!-- Konten Utama Pemerintahan -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
         
-        <!-- Bagian 1: Tentang Lembaga & Kedudukan -->
+        <!-- Bagian 1: Tentang Lembaga & Kedudukan (Dinamis dari Editor Landing Page) -->
         <section id="profil" class="grid lg:grid-cols-12 gap-10 items-center">
             <div class="lg:col-span-5">
                 <div class="relative rounded-2xl overflow-hidden border-2 border-bone-300 shadow-xl bg-slate-900">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Gedung Balai Kota Makassar" class="w-full h-80 object-cover opacity-90">
+                    <img src="{{ $portalSettings['gov_office_photo'] ?? 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80' }}" alt="Gedung Balai Kota Makassar" class="w-full h-80 object-cover opacity-90">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                     <div class="absolute bottom-5 left-5 right-5 text-white">
                         <span class="text-[10px] uppercase font-bold tracking-wider text-rose-300">Pemerintah Kota Makassar</span>
-                        <h4 class="font-bold text-sm sm:text-base">Sekretariat BRIDA Kota Makassar</h4>
-                        <p class="text-xs text-bone-300 mt-1">Balai Kota Makassar, Jl. Ahmad Yani No. 2</p>
+                        <h4 class="font-bold text-sm sm:text-base">{{ $portalSettings['gov_office_caption'] ?? 'Sekretariat BRIDA Kota Makassar' }}</h4>
+                        <p class="text-xs text-bone-300 mt-1">{{ $portalSettings['office_address'] ?? 'Balai Kota Makassar, Jl. Ahmad Yani No. 2' }}</p>
                     </div>
                 </div>
             </div>
@@ -44,16 +44,16 @@
                 <div>
                     <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">Profil Lembaga</span>
                     <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
-                        Badan Riset dan Inovasi Daerah (BRIDA)
+                        {{ $portalSettings['gov_profile_title'] ?? 'Badan Riset dan Inovasi Daerah (BRIDA)' }}
                     </h2>
                 </div>
 
                 <p class="text-sm text-slate-600 leading-relaxed">
-                    Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar merupakan unsur penunjang urusan pemerintahan di bidang penelitian dan pengembangan yang menjadi kewenangan daerah. BRIDA dibentuk untuk mengintegrasikan seluruh ekosistem riset terapan dan inovasi demi memperkuat pengambilan kebijakan berbasis data dan bukti ilmiah (<em>evidence-based policy</em>).
+                    {{ $portalSettings['gov_profile_p1'] ?? 'Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar merupakan unsur penunjang urusan pemerintahan di bidang penelitian dan pengembangan yang menjadi kewenangan daerah. BRIDA dibentuk untuk mengintegrasikan seluruh ekosistem riset terapan dan inovasi demi memperkuat pengambilan kebijakan berbasis data dan bukti ilmiah.' }}
                 </p>
 
                 <p class="text-sm text-slate-600 leading-relaxed">
-                    Sesuai dengan amanat peraturan perundang-undangan dan koordinasi bersama Badan Riset dan Inovasi Nasional (BRIN), BRIDA Kota Makassar berfungsi sebagai jembatan strategis antara akademisi, industri, masyarakat, dan pemerintah (Pentahelix) guna mempercepat terwujudnya Makassar sebagai Kota Dunia yang Maju, Tangguh, dan Rendah Karbon.
+                    {{ $portalSettings['gov_profile_p2'] ?? 'Sesuai dengan amanat peraturan perundang-undangan dan koordinasi bersama Badan Riset dan Inovasi Nasional (BRIN), BRIDA Kota Makassar berfungsi sebagai jembatan strategis antara akademisi, industri, masyarakat, dan pemerintah (Pentahelix) guna mempercepat terwujudnya Makassar sebagai Kota Dunia yang Maju, Tangguh, dan Rendah Karbon.' }}
                 </p>
 
                 <div class="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-slate-700">
@@ -69,7 +69,7 @@
             </div>
         </section>
 
-        <!-- Bagian 2: Visi & Misi -->
+        <!-- Bagian 2: Visi & Misi (Dinamis dari Editor Landing Page) -->
         <section id="visi-misi" class="bg-bone-100/80 rounded-3xl p-8 sm:p-12 border border-bone-300 shadow-sm space-y-8">
             <div class="text-center max-w-2xl mx-auto space-y-2">
                 <span class="text-xs font-bold uppercase tracking-widest text-maroon-700">Arah & Haluan Strategis</span>
@@ -86,7 +86,7 @@
                         </div>
                         <span class="text-xs font-bold uppercase tracking-wider text-rose-300">Visi Pembangunan</span>
                         <h4 class="text-xl sm:text-2xl font-bold leading-snug">
-                            "Menjadi Pusat Rujukan Riset dan Inovasi yang Adaptif Menuju Makassar Kota Dunia yang Berdaya Saing."
+                            {{ $portalSettings['gov_visi'] ?? '"Menjadi Pusat Rujukan Riset dan Inovasi yang Adaptif Menuju Makassar Kota Dunia yang Berdaya Saing."' }}
                         </h4>
                     </div>
                     <p class="text-xs text-bone-300 mt-6 pt-4 border-t border-white/20 leading-relaxed italic">
@@ -110,19 +110,19 @@
                         <div class="space-y-4 text-xs sm:text-sm text-slate-600">
                             <div class="flex items-start gap-3">
                                 <span class="w-6 h-6 rounded-full bg-maroon-700 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
-                                <p class="leading-relaxed"><strong>Meningkatkan Kualitas Riset Kebijakan:</strong> Menyusun kajian ilmiah tematik strategis untuk mendukung respon kebijakan Wali Kota terhadap tantangan perkotaan terkini.</p>
+                                <p class="leading-relaxed">{{ $portalSettings['gov_misi_1'] ?? 'Meningkatkan Kualitas Riset Kebijakan: Menyusun kajian ilmiah tematik strategis untuk mendukung respon kebijakan Wali Kota terhadap tantangan perkotaan terkini.' }}</p>
                             </div>
                             <div class="flex items-start gap-3">
                                 <span class="w-6 h-6 rounded-full bg-maroon-700 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
-                                <p class="leading-relaxed"><strong>Mengakselerasi Ekosistem Inovasi SKPD:</strong> Mendorong dan mendampingi karya inovasi pelayanan publik dan tata kelola di lingkungan perangkat daerah Kota Makassar.</p>
+                                <p class="leading-relaxed">{{ $portalSettings['gov_misi_2'] ?? 'Mengakselerasi Ekosistem Inovasi SKPD: Mendorong dan mendampingi karya inovasi pelayanan publik dan tata kelola di lingkungan perangkat daerah Kota Makassar.' }}</p>
                             </div>
                             <div class="flex items-start gap-3">
                                 <span class="w-6 h-6 rounded-full bg-maroon-700 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
-                                <p class="leading-relaxed"><strong>Memperkuat Kemitraan Pentahelix:</strong> Membangun kolaborasi riset terapan bersama perguruan tinggi (Unhas, UNM, dll.), industri, dan lembaga riset nasional (BRIN).</p>
+                                <p class="leading-relaxed">{{ $portalSettings['gov_misi_3'] ?? 'Memperkuat Kemitraan Pentahelix: Membangun kolaborasi riset terapan bersama perguruan tinggi (Unhas, UNM, dll.), industri, dan lembaga riset nasional (BRIN).' }}</p>
                             </div>
                             <div class="flex items-start gap-3">
                                 <span class="w-6 h-6 rounded-full bg-maroon-700 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
-                                <p class="leading-relaxed"><strong>Mendorong Difusi & Hilirisasi Inovasi:</strong> Memastikan hasil riset terapan dapat diaplikasikan langsung untuk meningkatkan mutu taraf hidup warga kota.</p>
+                                <p class="leading-relaxed">{{ $portalSettings['gov_misi_4'] ?? 'Mendorong Difusi & Hilirisasi Inovasi: Memastikan hasil riset terapan dapat diaplikasikan langsung untuk meningkatkan mutu taraf hidup warga kota.' }}</p>
                             </div>
                         </div>
                     </div>

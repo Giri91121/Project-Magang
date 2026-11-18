@@ -28,21 +28,23 @@
 </head>
 <body class="bg-bone-100 text-slate-800 font-sans antialiased selection:bg-maroon-700 selection:text-white flex flex-col min-h-screen">
 
-    <!-- Top Announcement Bar Resmi Pemkot -->
-    <aside class="bg-maroon-950 text-bone-200 text-xs py-2 px-4 sm:px-6 lg:px-8 border-b border-maroon-900" aria-label="Informasi Operasional">
+    <!-- Top Announcement Bar Resmi Pemkot (Dapat Diatur dari Editor Landing Page) -->
+    @if(($portalSettings['topbar_enabled'] ?? '1') == '1')
+    <aside style="background-color: {{ $portalSettings['topbar_bg_color'] ?? '#3D000E' }}; color: {{ $portalSettings['topbar_text_color'] ?? '#F5F4EE' }};" class="text-xs py-2 px-4 sm:px-6 lg:px-8 border-b border-maroon-900" aria-label="Informasi Operasional">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <div class="flex items-center gap-2.5">
                 <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-rose-600/30 text-rose-300 text-[10px]">
                     <i class="fa-solid fa-bullhorn"></i>
                 </span>
-                <span class="font-medium">Portal Resmi {{ $portalSettings['agency_name'] ?? 'Badan Riset dan Inovasi Daerah (BRIDA)' }} Kota Makassar</span>
+                <span class="font-medium">{{ $portalSettings['topbar_text'] ?? 'Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar' }}</span>
             </div>
-            <div class="flex items-center gap-5 text-[11px] text-bone-300">
+            <div class="flex items-center gap-5 text-[11px] opacity-90">
                 <span><i class="fa-regular fa-calendar-check mr-1.5 text-rose-400"></i> {{ $portalSettings['work_hours'] ?? 'Senin - Jumat, 08.00 - 16.00 WITA' }}</span>
                 <span class="hidden md:inline"><i class="fa-solid fa-location-dot mr-1 text-rose-400"></i> Balai Kota Makassar</span>
             </div>
         </div>
     </aside>
+    @endif
 
     <!-- Header / Navbar Resmi Portal Kota Makassar -->
     <header class="sticky top-0 z-50 glass-header border-b border-bone-300 shadow-sm">

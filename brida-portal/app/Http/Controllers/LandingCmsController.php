@@ -48,12 +48,42 @@ class LandingCmsController extends Controller
             'layanan_section_badge',
             'layanan_section_title',
             'layanan_section_desc',
+            // Topbar
+            'topbar_enabled',
+            'topbar_text',
+            'topbar_bg_color',
+            'topbar_text_color',
+            // Halaman Pemerintahan
+            'gov_office_caption',
+            'gov_profile_title',
+            'gov_profile_p1',
+            'gov_profile_p2',
+            'gov_visi',
+            'gov_misi_1',
+            'gov_misi_2',
+            'gov_misi_3',
+            'gov_misi_4',
+            // Tautan Pintasan & Google Maps
+            'quicklink_1_label',
+            'quicklink_1_url',
+            'quicklink_2_label',
+            'quicklink_2_url',
+            'quicklink_3_label',
+            'quicklink_3_url',
+            'google_maps_embed',
         ];
 
         foreach ($textKeys as $key) {
             if ($request->has($key)) {
-                Setting::set($key, $request->input($key), 'hero');
+                Setting::set($key, $request->input($key), 'cms');
             }
+        }
+
+        // Upload Foto Gedung Kantor di Halaman Pemerintahan jika ada
+        if ($request->hasFile('gov_office_photo_file')) {
+            $request->validate(['gov_office_photo_file' => 'image|mimes:png,jpg,jpeg,webp|max:8192']);
+            $path = $request->file('gov_office_photo_file')->store('office', 'public');
+            Setting::set('gov_office_photo', asset('storage/' . $path), 'pemerintahan');
         }
 
         // Upload Logo Header Baru jika ada

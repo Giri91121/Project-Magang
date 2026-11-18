@@ -187,7 +187,7 @@
                     <div class="rounded-2xl overflow-hidden border border-bone-200 h-64 sm:h-72 w-full">
                         <iframe 
                             title="Lokasi Kantor Balai Kota Makassar"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.8118318855523!2d119.4069811756598!3d-5.133932794843075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbf02939e60be1b%3A0xe54e5658fe969418!2sKantor%20Walikota%20Makassar!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
+                            src="{{ $portalSettings['google_maps_embed'] ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.8118318855523!2d119.4069811756598!3d-5.133932794843075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbf02939e60be1b%3A0xe54e5658fe969418!2sKantor%20Walikota%20Makassar!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid' }}" 
                             width="100%" 
                             height="100%" 
                             style="border:0;" 

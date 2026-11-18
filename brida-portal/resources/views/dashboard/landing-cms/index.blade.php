@@ -23,19 +23,27 @@
             </a>
         </div>
 
-        <!-- Navigasi Tab Editor -->
+        <!-- Navigasi Tab Editor (5 Tab Lengkap Tanpa Coding) -->
         <div class="flex flex-wrap gap-2 bg-white p-2 rounded-2xl border border-bone-300 shadow-sm">
             <button type="button" @click="activeTab = 'hero'" :class="activeTab === 'hero' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
                 <i class="fa-solid fa-images"></i>
-                <span>1. Hero Banner, Slideshow & Logo</span>
+                <span>1. Hero, Slideshow & Logo</span>
             </button>
             <button type="button" @click="activeTab = 'navbar'" :class="activeTab === 'navbar' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
                 <i class="fa-solid fa-bars"></i>
-                <span>2. Menu Navbar & Submenu Dropdown</span>
+                <span>2. Menu Navbar & Dropdown</span>
             </button>
             <button type="button" @click="activeTab = 'services'" :class="activeTab === 'services' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
                 <i class="fa-solid fa-table-cells-large"></i>
                 <span>3. Kartu Layanan Beranda</span>
+            </button>
+            <button type="button" @click="activeTab = 'pemerintahan'" :class="activeTab === 'pemerintahan' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-landmark"></i>
+                <span>4. Halaman Pemerintahan (Visi Misi)</span>
+            </button>
+            <button type="button" @click="activeTab = 'topbar_links'" :class="activeTab === 'topbar_links' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-bullhorn"></i>
+                <span>5. Bar Pengumuman, Pintasan & Maps</span>
             </button>
         </div>
 
@@ -486,6 +494,170 @@
                 </form>
             </div>
 
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TAB 4: EDITOR HALAMAN PEMERINTAHAN (PROFIL, FOTO, VISI MISI)   -->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'pemerintahan'" class="space-y-6">
+            <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
+                @csrf
+
+                <!-- Foto Gedung & Profil Lembaga -->
+                <div class="space-y-4">
+                    <div class="border-b border-bone-200 pb-2">
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Halaman /pemerintahan</span>
+                        <h3 class="text-base font-black text-slate-900">Foto Kantor Sekretariat & Profil Lembaga</h3>
+                    </div>
+
+                    <div class="grid md:grid-cols-12 gap-6 items-start">
+                        <div class="md:col-span-5 p-4 rounded-2xl bg-bone-50 border border-bone-300 space-y-3">
+                            <span class="text-xs font-bold text-slate-800 block">Foto Gedung Kantor / Sekretariat</span>
+                            <div class="h-44 rounded-xl overflow-hidden bg-slate-900 border border-bone-300">
+                                <img src="{{ $settings['gov_office_photo'] ?? 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80' }}" alt="Gedung Kantor" class="w-full h-full object-cover">
+                            </div>
+                            <input type="file" name="gov_office_photo_file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-maroon-700 file:text-white">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600">Keterangan Bawah Foto</label>
+                                <input type="text" name="gov_office_caption" value="{{ $settings['gov_office_caption'] ?? 'Sekretariat BRIDA Kota Makassar' }}" class="w-full text-xs rounded-xl border border-bone-300 py-1.5 px-2.5 bg-white mt-0.5">
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-7 space-y-4">
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-700">Judul Profil Lembaga</label>
+                                <input type="text" name="gov_profile_title" value="{{ $settings['gov_profile_title'] ?? 'Badan Riset dan Inovasi Daerah (BRIDA)' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-700">Paragraf Profil 1</label>
+                                <textarea name="gov_profile_p1" rows="4" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">{{ $settings['gov_profile_p1'] ?? '' }}</textarea>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-700">Paragraf Profil 2</label>
+                                <textarea name="gov_profile_p2" rows="4" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">{{ $settings['gov_profile_p2'] ?? '' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visi & 4 Poin Misi -->
+                <div class="space-y-4">
+                    <div class="border-b border-bone-200 pb-2">
+                        <h3 class="text-base font-black text-slate-900">Visi & Misi Inovasi Daerah</h3>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-maroon-700">Kalimat Visi Utama</label>
+                        <textarea name="gov_visi" rows="2" class="w-full text-xs font-bold rounded-xl border border-rose-300 py-2 px-3">{{ $settings['gov_visi'] ?? '' }}</textarea>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-slate-700">Misi Poin 1</label>
+                            <textarea name="gov_misi_1" rows="2" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">{{ $settings['gov_misi_1'] ?? '' }}</textarea>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-slate-700">Misi Poin 2</label>
+                            <textarea name="gov_misi_2" rows="2" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">{{ $settings['gov_misi_2'] ?? '' }}</textarea>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-slate-700">Misi Poin 3</label>
+                            <textarea name="gov_misi_3" rows="2" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">{{ $settings['gov_misi_3'] ?? '' }}</textarea>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-slate-700">Misi Poin 4</label>
+                            <textarea name="gov_misi_4" rows="2" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">{{ $settings['gov_misi_4'] ?? '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-bone-200 flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Halaman Pemerintahan</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TAB 5: BAR PENGUMUMAN ATAS, PINTASAN LINK, & GOOGLE MAPS       -->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'topbar_links'" class="space-y-6">
+            <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
+                @csrf
+
+                <!-- 1. Bar Pengumuman Paling Atas (Top Bar) -->
+                <div class="space-y-4">
+                    <div class="border-b border-bone-200 pb-2">
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Header Atas</span>
+                        <h3 class="text-base font-black text-slate-900">Bar Pengumuman Paling Atas (Top Announcement Bar)</h3>
+                    </div>
+
+                    <div class="grid sm:grid-cols-12 gap-4 items-center">
+                        <div class="sm:col-span-3">
+                            <label class="block text-xs font-bold text-slate-700">Status Tampil</label>
+                            <select name="topbar_enabled" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 mt-1 font-bold">
+                                <option value="1" {{ ($settings['topbar_enabled'] ?? '1') == '1' ? 'selected' : '' }}>Tampilkan Bar Atas</option>
+                                <option value="0" {{ ($settings['topbar_enabled'] ?? '1') == '0' ? 'selected' : '' }}>Sembunyikan Bar Atas</option>
+                            </select>
+                        </div>
+                        <div class="sm:col-span-5">
+                            <label class="block text-xs font-bold text-slate-700">Teks Pengumuman Atas</label>
+                            <input type="text" name="topbar_text" value="{{ $settings['topbar_text'] ?? 'Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 mt-1">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700">Warna Latar</label>
+                            <input type="color" name="topbar_bg_color" value="{{ $settings['topbar_bg_color'] ?? '#3D000E' }}" class="w-full h-10 rounded-xl cursor-pointer border border-bone-300 p-1 bg-white mt-1">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700">Warna Teks</label>
+                            <input type="color" name="topbar_text_color" value="{{ $settings['topbar_text_color'] ?? '#F5F4EE' }}" class="w-full h-10 rounded-xl cursor-pointer border border-bone-300 p-1 bg-white mt-1">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Tautan Pintasan Resmi di Bawah Beranda -->
+                <div class="space-y-4">
+                    <div class="border-b border-bone-200 pb-2">
+                        <h3 class="text-base font-black text-slate-900">Daftar Tautan Pintasan Resmi (Bagian Bawah Beranda)</h3>
+                    </div>
+
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-2xl bg-bone-50 border border-bone-300 space-y-2">
+                            <span class="text-xs font-bold text-maroon-700 block">Pintasan Link #1</span>
+                            <input type="text" name="quicklink_1_label" value="{{ $settings['quicklink_1_label'] ?? '' }}" placeholder="Nama Link 1" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 bg-white">
+                            <input type="text" name="quicklink_1_url" value="{{ $settings['quicklink_1_url'] ?? '' }}" placeholder="URL Link 1" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 bg-white">
+                        </div>
+                        <div class="p-4 rounded-2xl bg-bone-50 border border-bone-300 space-y-2">
+                            <span class="text-xs font-bold text-maroon-700 block">Pintasan Link #2</span>
+                            <input type="text" name="quicklink_2_label" value="{{ $settings['quicklink_2_label'] ?? '' }}" placeholder="Nama Link 2" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 bg-white">
+                            <input type="text" name="quicklink_2_url" value="{{ $settings['quicklink_2_url'] ?? '' }}" placeholder="URL Link 2" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 bg-white">
+                        </div>
+                        <div class="p-4 rounded-2xl bg-bone-50 border border-bone-300 space-y-2">
+                            <span class="text-xs font-bold text-maroon-700 block">Pintasan Link #3</span>
+                            <input type="text" name="quicklink_3_label" value="{{ $settings['quicklink_3_label'] ?? '' }}" placeholder="Nama Link 3" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 bg-white">
+                            <input type="text" name="quicklink_3_url" value="{{ $settings['quicklink_3_url'] ?? '' }}" placeholder="URL Link 3" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Embed Peta Google Maps Halaman Kontak -->
+                <div class="space-y-2">
+                    <div class="border-b border-bone-200 pb-2">
+                        <h3 class="text-base font-black text-slate-900">URL Embed Peta Google Maps (Halaman Kontak)</h3>
+                        <p class="text-xs text-slate-500">Salin URL dari menu "Bagikan -> Sematkan Peta (src)" di Google Maps jika ingin mengubah titik lokasi peta kantor.</p>
+                    </div>
+                    <input type="text" name="google_maps_embed" value="{{ $settings['google_maps_embed'] ?? '' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 font-mono text-slate-600">
+                </div>
+
+                <div class="pt-4 border-t border-bone-200 flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Pengumuman, Pintasan & Maps</span>
+                    </button>
+                </div>
+            </form>
         </div>
 
     </div>

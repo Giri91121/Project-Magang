@@ -6,6 +6,10 @@
     <title>@yield('title', 'BRIDA Kota Makassar - Badan Riset dan Inovasi Daerah')</title>
     <meta name="description" content="@yield('meta_description', 'Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar.')">
     
+    <!-- Favicon Resmi BRIDA Kota Makassar -->
+    <link rel="icon" type="image/png" href="{{ asset('images/LOGO-FIX-BRIDA.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/LOGO-FIX-BRIDA.png') }}">
+    
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -7,6 +7,10 @@
 
         <title>{{ config('app.name', 'BRIDA Kota Makassar') }} - Dashboard</title>
 
+        <!-- Favicon Resmi BRIDA Kota Makassar -->
+        <link rel="icon" type="image/png" href="{{ asset('images/LOGO-FIX-BRIDA.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('images/LOGO-FIX-BRIDA.png') }}">
+
         <!-- Google Fonts: Plus Jakarta Sans -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

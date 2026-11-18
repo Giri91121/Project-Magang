@@ -292,77 +292,58 @@
                     </a>
                 </div>
 
-                <!-- Tata Letak Media Pemda: 1 Berita Sorotan Besar + 3 Berita Daftar -->
+                <!-- Tata Letak Media Pemda: 1 Berita Sorotan Besar + 3 Berita Daftar (Dinamis dari Database) -->
+                @php
+                    $beritaUtama = $beritaTerbaru->first();
+                    $beritaSamping = $beritaTerbaru->skip(1);
+                @endphp
                 <div class="grid lg:grid-cols-12 gap-6">
                     
+                    @if($beritaUtama)
                     <!-- Berita Sorotan Utama (Kiri - 7 Kolom) -->
-                    <a href="{{ route('berita') }}" class="lg:col-span-7 bg-white rounded-2xl overflow-hidden border border-bone-300 shadow-sm flex flex-col justify-between hover:shadow-md transition group block">
-                        <div class="relative h-64 bg-slate-900 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&q=80" alt="Rapat Koordinasi Riset Daerah" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
-                            <span class="absolute top-4 left-4 bg-maroon-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    <a href="{{ route('berita.detail', $beritaUtama->slug) }}" class="lg:col-span-7 bg-white rounded-3xl overflow-hidden border border-bone-300 shadow-sm flex flex-col justify-between hover:shadow-md transition group block">
+                        <div class="relative h-64 sm:h-72 bg-slate-900 overflow-hidden">
+                            <img src="{{ $beritaUtama->gambar_url }}" alt="{{ $beritaUtama->judul }}" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-4 left-4 bg-maroon-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
                                 Sorotan Utama
                             </span>
                         </div>
                         <div class="p-6 space-y-3">
                             <div class="flex items-center gap-3 text-xs text-slate-400 font-medium">
-                                <span><i class="fa-regular fa-calendar mr-1"></i> November 2026</span>
+                                <span><i class="fa-regular fa-calendar mr-1"></i> {{ $beritaUtama->published_at ? $beritaUtama->published_at->format('d F Y') : date('d F Y') }}</span>
                                 <span>&bull;</span>
-                                <span><i class="fa-solid fa-tag mr-1"></i> Kebijakan Riset</span>
+                                <span class="text-maroon-700 font-bold"><i class="fa-solid fa-tag mr-1"></i> {{ $beritaUtama->kategori }}</span>
                             </div>
                             <h3 class="text-lg font-bold text-slate-900 leading-snug group-hover:text-maroon-700 transition">
-                                BRIDA Kota Makassar Matangkan Rencana Induk Riset Daerah Menuju Makassar Rendah Karbon
+                                {{ $beritaUtama->judul }}
                             </h3>
                             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
-                                Upaya akselerasi pembangunan perkotaan berbasis sains dan data ilmiah diwujudkan melalui perumusan peta jalan riset komprehensif bersama para akademisi dan pemangku kepentingan daerah.
+                                {{ $beritaUtama->ringkasan }}
                             </p>
                         </div>
                     </a>
+                    @endif
 
                     <!-- Daftar Berita Terkait (Kanan - 5 Kolom) -->
                     <div class="lg:col-span-5 space-y-4">
-                        
-                        <!-- Item 1 -->
-                        <a href="{{ route('berita') }}" class="bg-white p-4 rounded-xl border border-bone-300 hover:border-maroon-700 transition flex gap-4 block group">
-                            <div class="w-20 h-20 rounded-lg bg-slate-200 overflow-hidden shrink-0">
-                                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=300&q=80" alt="Penyusunan Riset Kebijakan" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        @forelse($beritaSamping as $item)
+                        <a href="{{ route('berita.detail', $item->slug) }}" class="bg-white p-4 rounded-2xl border border-bone-300 hover:border-maroon-700 transition flex gap-4 block group shadow-sm hover:shadow-md">
+                            <div class="w-20 h-20 rounded-xl bg-slate-200 overflow-hidden shrink-0">
+                                <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             </div>
-                            <div class="space-y-1">
-                                <span class="text-[10px] font-bold text-maroon-700 uppercase">Riset Daerah</span>
+                            <div class="space-y-1 min-w-0">
+                                <span class="text-[10px] font-bold text-maroon-700 uppercase">{{ $item->kategori }}</span>
                                 <h4 class="text-xs font-bold text-slate-900 leading-snug line-clamp-2 group-hover:text-maroon-700 transition">
-                                    Penyusunan Peta Jalan Riset Daerah Menuju Makassar Low Carbon City 2027
+                                    {{ $item->judul }}
                                 </h4>
-                                <span class="text-[10px] text-slate-400 block">28 Oktober 2026</span>
+                                <span class="text-[10px] text-slate-400 block">{{ $item->published_at ? $item->published_at->format('d M Y') : date('d M Y') }}</span>
                             </div>
                         </a>
-
-                        <!-- Item 2 -->
-                        <a href="{{ route('berita') }}" class="bg-white p-4 rounded-xl border border-bone-300 hover:border-maroon-700 transition flex gap-4 block group">
-                            <div class="w-20 h-20 rounded-lg bg-slate-200 overflow-hidden shrink-0">
-                                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=300&q=80" alt="Pengukuran Indeks Inovasi" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            </div>
-                            <div class="space-y-1">
-                                <span class="text-[10px] font-bold text-maroon-700 uppercase">Indeks Inovasi</span>
-                                <h4 class="text-xs font-bold text-slate-900 leading-snug line-clamp-2 group-hover:text-maroon-700 transition">
-                                    Pendampingan Penginputan Data Inovasi OPD untuk Penilaian Innovative Government Award
-                                </h4>
-                                <span class="text-[10px] text-slate-400 block">20 Oktober 2026</span>
-                            </div>
-                        </a>
-
-                        <!-- Item 3 -->
-                        <a href="{{ route('berita') }}" class="bg-white p-4 rounded-xl border border-bone-300 hover:border-maroon-700 transition flex gap-4 block group">
-                            <div class="w-20 h-20 rounded-lg bg-slate-200 overflow-hidden shrink-0">
-                                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=300&q=80" alt="Kerja Sama Universitas" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            </div>
-                            <div class="space-y-1">
-                                <span class="text-[10px] font-bold text-maroon-700 uppercase">Kerja Sama</span>
-                                <h4 class="text-xs font-bold text-slate-900 leading-snug line-clamp-2 group-hover:text-maroon-700 transition">
-                                    Kolaborasi Pengkajian Sosial Kemasyarakatan Bersama Lembaga Riset Perguruan Tinggi
-                                </h4>
-                                <span class="text-[10px] text-slate-400 block">12 Oktober 2026</span>
-                            </div>
-                        </a>
-
+                        @empty
+                        <div class="p-6 bg-white rounded-2xl border border-bone-300 text-center text-xs text-slate-400">
+                            Belum ada rilis berita tambahan.
+                        </div>
+                        @endforelse
                     </div>
 
                 </div>

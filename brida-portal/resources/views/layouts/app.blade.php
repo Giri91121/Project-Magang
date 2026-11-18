@@ -130,6 +130,10 @@
                                 <i class="fa-solid fa-users-gear w-5 text-center text-sm {{ request()->routeIs('dashboard.users.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Manajemen Pengguna</span>
                             </a>
+                            <a href="{{ route('dashboard.settings.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.settings.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <i class="fa-solid fa-sliders w-5 text-center text-sm {{ request()->routeIs('dashboard.settings.*') ? 'text-white' : 'text-slate-400' }}"></i>
+                                <span>Pengaturan Instansi</span>
+                            </a>
                             @endif
                             <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition {{ request()->routeIs('profile.edit') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <i class="fa-solid fa-user-gear w-5 text-center text-sm {{ request()->routeIs('profile.edit') ? 'text-white' : 'text-slate-400' }}"></i>

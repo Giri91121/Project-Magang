@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Publik (Landing Page BRIDA Kota Makassar)
@@ -75,6 +76,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard/users')->name('dashboard.users.')->middleware('role:Admin')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::patch('/{id}/role', [UserController::class, 'updateRole'])->name('update-role');
+    });
+
+    // Modul Pengaturan Profil & Kontak Instansi (Khusus Admin)
+    Route::prefix('dashboard/settings')->name('dashboard.settings.')->middleware('role:Admin')->group(function () {
+        Route::get('/', [SettingController::class, 'index'])->name('index');
+        Route::post('/', [SettingController::class, 'update'])->name('update');
     });
 });
 

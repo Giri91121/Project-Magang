@@ -52,6 +52,8 @@ class ActivityLog extends Model
             'update_status' => ['color' => 'bg-amber-100 text-amber-800 border-amber-300', 'icon' => 'fa-pen-to-square'],
             'create_inovasi' => ['color' => 'bg-indigo-100 text-indigo-800 border-indigo-300', 'icon' => 'fa-lightbulb'],
             'change_role' => ['color' => 'bg-rose-100 text-rose-800 border-rose-300', 'icon' => 'fa-shield-halved'],
+            'honeypot_blocked' => ['color' => 'bg-rose-100 text-rose-800 border-rose-300', 'icon' => 'fa-bug-slash'],
+            'honeypot_trap' => ['color' => 'bg-rose-100 text-rose-800 border-rose-300', 'icon' => 'fa-user-secret'],
             default => ['color' => 'bg-slate-100 text-slate-800 border-slate-300', 'icon' => 'fa-clock-rotate-left'],
         };
     }

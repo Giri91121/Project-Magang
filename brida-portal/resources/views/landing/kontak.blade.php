@@ -124,7 +124,8 @@
                     </p>
                 </div>
 
-                <form onsubmit="event.preventDefault(); window.showBridaAlert('success', 'Pesan Terkirim!', 'Terima kasih. Pesan atau pertanyaan Anda telah diterima oleh Sekretariat BRIDA Kota Makassar.'); this.reset();" class="space-y-4">
+                <form onsubmit="event.preventDefault(); if(this.website_hp_url && this.website_hp_url.value !== '') { return false; } window.showBridaAlert('success', 'Pesan Terkirim!', 'Terima kasih. Pesan atau pertanyaan Anda telah diterima oleh Sekretariat BRIDA Kota Makassar.'); this.reset();" class="space-y-4">
+                    <x-honeypot />
                     <div class="grid sm:grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label for="nama" class="block text-xs font-bold text-slate-700">Nama Lengkap <span class="text-rose-500">*</span></label>

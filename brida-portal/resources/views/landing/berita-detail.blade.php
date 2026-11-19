@@ -90,6 +90,7 @@
                 <!-- Formulir Tulis Komentar (Khusus Pengguna yang Sudah Login) -->
                 <form method="POST" action="{{ route('berita.komentar.store', $berita->slug) }}" class="bg-white rounded-3xl p-6 border border-bone-300 shadow-sm space-y-4">
                     @csrf
+                    <x-honeypot />
                     <div class="flex items-center gap-3 pb-2 border-b border-bone-200">
                         <div class="w-9 h-9 rounded-xl bg-maroon-700 text-white font-bold text-xs flex items-center justify-center shrink-0">
                             {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}

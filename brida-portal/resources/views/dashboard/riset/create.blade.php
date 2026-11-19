@@ -35,6 +35,7 @@
         <!-- Formulir Input -->
         <form method="POST" action="{{ route('dashboard.riset.store') }}" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
             @csrf
+            <x-honeypot />
 
             <!-- Bagian 1: Data Pemohon / Peneliti -->
             <div class="space-y-4">

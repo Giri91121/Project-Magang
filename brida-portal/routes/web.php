@@ -35,8 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Rute Kirim, Hapus, & Lihat Komentar Saya (Wajib Login)
-    Route::post('/berita/{slug}/komentar', [KomentarBeritaController::class, 'store'])->name('berita.komentar.store');
+    // Rute Kirim, Hapus, & Lihat Komentar Saya (Wajib Login + Proteksi Honeypot Anti-Spam)
+    Route::post('/berita/{slug}/komentar', [KomentarBeritaController::class, 'store'])
+        ->middleware('honeypot')
+        ->name('berita.komentar.store');
     Route::delete('/komentar/{id}', [KomentarBeritaController::class, 'destroy'])->name('berita.komentar.destroy');
     Route::get('/dashboard/komentar', [KomentarBeritaController::class, 'myComments'])->name('dashboard.komentar.index');
 
@@ -44,7 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard/riset')->name('dashboard.riset.')->group(function () {
         Route::get('/', [PermohonanRisetController::class, 'index'])->name('index');
         Route::get('/create', [PermohonanRisetController::class, 'create'])->name('create');
-        Route::post('/', [PermohonanRisetController::class, 'store'])->name('store');
+        Route::post('/', [PermohonanRisetController::class, 'store'])
+            ->middleware('honeypot')
+            ->name('store');
         Route::get('/{id}', [PermohonanRisetController::class, 'show'])->name('show');
         Route::patch('/{id}/status', [PermohonanRisetController::class, 'updateStatus'])
             ->middleware('role:Admin|verif_riset')
@@ -126,3 +130,12 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Jebakan URL Honeypot (Menangkap Scanner Peretas yang Mencari Celah di Web .go.id)
+Route::any('/{trap}', function (\Illuminate\Http\Request $request, $trap) {
+    \App\Models\ActivityLog::log(
+        'honeypot_trap',
+        "PERINGATAN KEAMANAN: Percobaan akses jebakan Honeypot (/{$trap}) dari IP " . $request->ip()
+    );
+    abort(403, 'Akses ditolak dan dicatat oleh Sistem Keamanan BRIDA Kota Makassar.');
+})->where('trap', 'wp-admin|wp-login\.php|phpmyadmin|administrator|admin-login|xmlrpc\.php');

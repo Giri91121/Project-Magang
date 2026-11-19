@@ -45,6 +45,10 @@
                 <i class="fa-solid fa-bullhorn"></i>
                 <span>5. Bar Pengumuman, Pintasan & Maps</span>
             </button>
+            <button type="button" @click="activeTab = 'instagram'" :class="activeTab === 'instagram' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-brands fa-instagram"></i>
+                <span>6. 3 Postingan Instagram</span>
+            </button>
         </div>
 
         <!-- ============================================================== -->
@@ -655,6 +659,66 @@
                     <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
                         <i class="fa-solid fa-floppy-disk"></i>
                         <span>Simpan Pengumuman, Pintasan & Maps</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TAB 6: KONEKSI OTOMATIS INSTAGRAM @bridakotamakassar           -->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'instagram'" class="space-y-6">
+            <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-6">
+                @csrf
+
+                <div class="border-b border-bone-200 pb-3">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-rose-600">Auto-Sync Feed Instagram</span>
+                    <h3 class="text-base font-black text-slate-900">Koneksi Otomatis 3 Postingan Terbaru Instagram @bridakotamakassar</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">
+                        Cukup hubungkan <strong>1 kali saja</strong> menggunakan Behold.so JSON Feed URL (paling mudah) atau Instagram Graph API Token. Selanjutnya 3 postingan terbaru akan otomatis terupdate setiap jam tanpa perlu diedit manual lagi!
+                    </p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-slate-700">Username Instagram Resmi</label>
+                        <input type="text" name="ig_username" value="{{ $settings['ig_username'] ?? '@bridakotamakassar' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-slate-700">URL Profil Instagram</label>
+                        <input type="url" name="ig_profile_url" value="{{ $settings['ig_profile_url'] ?? 'https://www.instagram.com/bridakotamakassar/' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3">
+                    </div>
+                </div>
+
+                <!-- Pilihan Jalur 1 (Paling Praktis): Behold.so JSON Feed URL -->
+                <div class="p-5 rounded-2xl bg-bone-50 border border-bone-300 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-extrabold text-maroon-700">
+                            <i class="fa-solid fa-bolt mr-1"></i> Opsi 1 (Paling Mudah - 1 Menit): Behold.so JSON Feed URL
+                        </label>
+                        <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">Direkomendasikan</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 leading-relaxed">
+                        Daftar gratis di <a href="https://behold.so" target="_blank" class="text-maroon-700 font-bold underline">behold.so</a>, hubungkan akun <strong>@bridakotamakassar</strong>, buat Feed bertipe <strong>JSON</strong>, lalu tempelkan URL-nya di bawah ini:
+                    </p>
+                    <input type="url" name="ig_behold_url" value="{{ $settings['ig_behold_url'] ?? '' }}" placeholder="https://feeds.behold.so/xxxxxxxxxxxx" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 bg-white font-mono">
+                </div>
+
+                <!-- Pilihan Jalur 2 (Resmi Meta Developer): Instagram Graph API Access Token -->
+                <div class="p-5 rounded-2xl bg-bone-50 border border-bone-300 space-y-2.5">
+                    <label class="block text-xs font-extrabold text-slate-800">
+                        <i class="fa-brands fa-meta mr-1 text-blue-600"></i> Opsi 2 (Resmi Meta): Instagram Graph API Access Token
+                    </label>
+                    <p class="text-[11px] text-slate-500 leading-relaxed">
+                        Jika tim IT memiliki Long-Lived Access Token resmi dari Meta for Developers untuk akun <strong>@bridakotamakassar</strong>, tempelkan tokennya di bawah ini:
+                    </p>
+                    <input type="text" name="ig_access_token" value="{{ $settings['ig_access_token'] ?? '' }}" placeholder="IGQWRP..." class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 bg-white font-mono">
+                </div>
+
+                <div class="pt-4 border-t border-bone-200 flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>Simpan & Sinkronkan Feed Instagram Sekarang</span>
                     </button>
                 </div>
             </form>

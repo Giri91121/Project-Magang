@@ -6,17 +6,19 @@ use App\Models\Berita;
 use App\Models\Regulasi;
 use App\Models\HeroSlide;
 use App\Models\LandingService;
+use App\Services\InstagramFeedService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(InstagramFeedService $instagramService)
     {
         $beritaTerbaru = Berita::where('status', 'Publikasi')->latest()->take(3)->get();
         $heroSlides = HeroSlide::where('is_active', true)->orderBy('sort_order')->get();
         $landingServices = LandingService::where('is_active', true)->orderBy('sort_order')->get();
+        $instagramPosts = $instagramService->getLatestPosts(3);
 
-        return view('landing.index', compact('beritaTerbaru', 'heroSlides', 'landingServices'));
+        return view('landing.index', compact('beritaTerbaru', 'heroSlides', 'landingServices', 'instagramPosts'));
     }
 
     public function pemerintahan()

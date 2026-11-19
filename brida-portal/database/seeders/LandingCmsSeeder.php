@@ -57,6 +57,24 @@ class LandingCmsSeeder extends Seeder
             ['key' => 'quicklink_3_label', 'value' => 'Pedoman Pengusulan Inovasi Daerah', 'group' => 'links'],
             ['key' => 'quicklink_3_url', 'value' => '/informasi-publik#regulasi', 'group' => 'links'],
             ['key' => 'google_maps_embed', 'value' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.8118318855523!2d119.4069811756598!3d-5.133932794843075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbf02939e60be1b%3A0xe54e5658fe969418!2sKantor%20Walikota%20Makassar!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid', 'group' => 'links'],
+
+            // 3 Postingan Terbaru Instagram BRIDA Kota Makassar
+            ['key' => 'ig_username', 'value' => '@brida.makassarkota', 'group' => 'instagram'],
+            ['key' => 'ig_profile_url', 'value' => 'https://www.instagram.com/brida.makassarkota/', 'group' => 'instagram'],
+            ['key' => 'ig_post_1_image', 'value' => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80', 'group' => 'instagram'],
+            ['key' => 'ig_post_1_caption', 'value' => 'Rapat Koordinasi Penyusunan Peta Jalan Riset & Inovasi Daerah Kota Makassar bersama BRIN RI dan Perguruan Tinggi. #BRIDAMakassar #MakassarKotaDunia', 'group' => 'instagram'],
+            ['key' => 'ig_post_1_url', 'value' => 'https://www.instagram.com/brida.makassarkota/', 'group' => 'instagram'],
+            ['key' => 'ig_post_1_date', 'value' => '2 hari yang lalu', 'group' => 'instagram'],
+
+            ['key' => 'ig_post_2_image', 'value' => 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80', 'group' => 'instagram'],
+            ['key' => 'ig_post_2_caption', 'value' => 'Bimbingan Teknis Penginputan Indeks Inovasi Daerah (IID) bagi seluruh Operator SKPD lingkup Pemerintah Kota Makassar menuju IGA 2026.', 'group' => 'instagram'],
+            ['key' => 'ig_post_2_url', 'value' => 'https://www.instagram.com/brida.makassarkota/', 'group' => 'instagram'],
+            ['key' => 'ig_post_2_date', 'value' => '5 hari yang lalu', 'group' => 'instagram'],
+
+            ['key' => 'ig_post_3_image', 'value' => 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80', 'group' => 'instagram'],
+            ['key' => 'ig_post_3_caption', 'value' => 'Klinik Fasilitasi HKI & Paten Sederhana bagi Inovator Muda, UMKM, dan ASN Kota Makassar. Daftarkan karya inovasi Anda secara gratis!', 'group' => 'instagram'],
+            ['key' => 'ig_post_3_url', 'value' => 'https://www.instagram.com/brida.makassarkota/', 'group' => 'instagram'],
+            ['key' => 'ig_post_3_date', 'value' => '1 minggu yang lalu', 'group' => 'instagram'],
         ];
 
         foreach ($heroSettings as $set) {

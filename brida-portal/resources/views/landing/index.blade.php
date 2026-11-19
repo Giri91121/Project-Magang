@@ -176,6 +176,78 @@
 
                 </div>
 
+                <!-- 3 Postingan Terbaru Instagram @bridakotamakassar (Otomatis dari InstagramFeedService) -->
+                <div class="mt-14 pt-10 border-t border-bone-300">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-7">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center text-lg shadow-sm shrink-0">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div>
+                                <span class="text-[11px] font-bold tracking-widest uppercase text-maroon-700">Media Sosial Resmi</span>
+                                <h3 class="text-xl font-black text-slate-900 tracking-tight">
+                                    Postingan Terbaru Instagram {{ $portalSettings['ig_username'] ?? '@bridakotamakassar' }}
+                                </h3>
+                            </div>
+                        </div>
+                        <a href="{{ $portalSettings['ig_profile_url'] ?? 'https://www.instagram.com/bridakotamakassar/' }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-white hover:bg-maroon-700 text-maroon-700 hover:text-white border border-maroon-700/30 font-bold text-xs px-4 py-2 rounded-xl transition shadow-sm w-fit">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                            <span>Ikuti @bridakotamakassar</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach($instagramPosts as $post)
+                        <a href="{{ $post['url'] }}" target="_blank" rel="noopener noreferrer" class="bg-white rounded-2xl border border-bone-300 overflow-hidden shadow-sm hover:shadow-md hover:border-maroon-700 transition group flex flex-col justify-between">
+                            <div>
+                                <!-- Header Mini Kartu Instagram -->
+                                <div class="px-4 py-3 flex items-center justify-between border-b border-bone-200/80">
+                                    <div class="flex items-center gap-2.5 min-w-0">
+                                        <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 p-[2px] shrink-0">
+                                            <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-[10px] font-black text-maroon-700">
+                                                BR
+                                            </div>
+                                        </div>
+                                        <span class="text-xs font-bold text-slate-800 truncate">{{ $portalSettings['ig_username'] ?? '@bridakotamakassar' }}</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5">
+                                        @if(($post['media_type'] ?? '') === 'VIDEO')
+                                            <span class="text-[9px] font-bold bg-rose-50 text-rose-600 px-1.5 py-0.5 rounded">REELS</span>
+                                        @endif
+                                        <i class="fa-brands fa-instagram text-rose-500 text-sm"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Foto Postingan Instagram -->
+                                <div class="relative aspect-[4/3] bg-slate-900 overflow-hidden">
+                                    <img src="{{ $post['image'] }}" alt="Postingan Instagram @bridakotamakassar" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition flex items-center justify-center">
+                                        <span class="opacity-0 group-hover:opacity-100 transition bg-white/95 text-slate-900 text-[11px] font-bold px-3 py-1.5 rounded-full shadow flex items-center gap-1.5">
+                                            <i class="fa-brands fa-instagram text-rose-600"></i> Lihat di Instagram
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Caption Singkat -->
+                                <div class="p-4">
+                                    <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                                        <strong class="text-slate-900 mr-1">{{ ltrim($portalSettings['ig_username'] ?? 'bridakotamakassar', '@') }}</strong>
+                                        {{ $post['caption'] }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Footer Waktu Postingan -->
+                            <div class="px-4 py-2.5 border-t border-bone-200/70 bg-bone-50/50 flex items-center justify-between text-[10px] text-slate-400">
+                                <span><i class="fa-regular fa-clock mr-1"></i> {{ $post['date'] }}</span>
+                                <span class="font-bold text-maroon-700 group-hover:underline">Buka Postingan &rarr;</span>
+                            </div>
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+
             </div>
         </section>
 

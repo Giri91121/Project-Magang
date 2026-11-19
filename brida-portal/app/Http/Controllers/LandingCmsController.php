@@ -7,6 +7,7 @@ use App\Models\HeroSlide;
 use App\Models\LandingService;
 use App\Models\Setting;
 use App\Models\ActivityLog;
+use App\Services\InstagramFeedService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -71,12 +72,22 @@ class LandingCmsController extends Controller
             'quicklink_3_label',
             'quicklink_3_url',
             'google_maps_embed',
+            // Koneksi Otomatis Instagram @bridakotamakassar
+            'ig_username',
+            'ig_profile_url',
+            'ig_access_token',
+            'ig_behold_url',
         ];
 
         foreach ($textKeys as $key) {
             if ($request->has($key)) {
                 Setting::set($key, $request->input($key), 'cms');
             }
+        }
+
+        // Bersihkan cache Instagram jika pengaturan IG diperbarui
+        if ($request->has('ig_access_token') || $request->has('ig_behold_url')) {
+            app(InstagramFeedService::class)->clearCache();
         }
 
         // Upload Foto Gedung Kantor di Halaman Pemerintahan jika ada

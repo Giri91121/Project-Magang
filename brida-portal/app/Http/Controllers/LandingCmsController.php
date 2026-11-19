@@ -270,13 +270,18 @@ class LandingCmsController extends Controller
     }
 
     /**
-     * Tambah Kartu Layanan Baru di Beranda
+     * Tambah Layanan Baru (Sinkron untuk Beranda & Halaman /layanan)
      */
     public function storeService(Request $request)
     {
         $validated = $request->validate([
             'judul' => 'required|string|max:150',
-            'deskripsi' => 'required|string|max:500',
+            'kategori_badge' => 'nullable|string|max:100',
+            'deskripsi' => 'required|string|max:1000',
+            'detail_title' => 'nullable|string|max:150',
+            'detail_items' => 'nullable|string',
+            'estimasi_info' => 'nullable|string|max:100',
+            'biaya_info' => 'nullable|string|max:100',
             'icon' => 'required|string|max:100',
             'link_text' => 'required|string|max:100',
             'link_url' => 'required|string|max:255',
@@ -285,7 +290,12 @@ class LandingCmsController extends Controller
 
         LandingService::create([
             'judul' => $validated['judul'],
+            'kategori_badge' => $validated['kategori_badge'] ?? 'Layanan Publik',
             'deskripsi' => $validated['deskripsi'],
+            'detail_title' => $validated['detail_title'] ?? 'Persyaratan & Cakupan:',
+            'detail_items' => $validated['detail_items'] ?? null,
+            'estimasi_info' => $validated['estimasi_info'] ?? 'Estimasi: 1 - 3 Hari Kerja',
+            'biaya_info' => $validated['biaya_info'] ?? 'Biaya: Rp 0 (Gratis)',
             'icon' => $validated['icon'],
             'link_text' => $validated['link_text'],
             'link_url' => $validated['link_url'],
@@ -293,11 +303,11 @@ class LandingCmsController extends Controller
             'is_active' => true,
         ]);
 
-        return back()->with('success', "Kartu layanan '{$validated['judul']}' berhasil ditambahkan ke Beranda!");
+        return back()->with('success', "Layanan '{$validated['judul']}' berhasil ditambahkan ke Beranda & Halaman Layanan!");
     }
 
     /**
-     * Update Kartu Layanan di Beranda
+     * Update Layanan (Sinkron untuk Beranda & Halaman /layanan)
      */
     public function updateService(Request $request, $id)
     {
@@ -305,7 +315,12 @@ class LandingCmsController extends Controller
 
         $validated = $request->validate([
             'judul' => 'required|string|max:150',
-            'deskripsi' => 'required|string|max:500',
+            'kategori_badge' => 'nullable|string|max:100',
+            'deskripsi' => 'required|string|max:1000',
+            'detail_title' => 'nullable|string|max:150',
+            'detail_items' => 'nullable|string',
+            'estimasi_info' => 'nullable|string|max:100',
+            'biaya_info' => 'nullable|string|max:100',
             'icon' => 'required|string|max:100',
             'link_text' => 'required|string|max:100',
             'link_url' => 'required|string|max:255',
@@ -314,7 +329,7 @@ class LandingCmsController extends Controller
 
         $srv->update($validated);
 
-        return back()->with('success', "Kartu layanan '{$srv->judul}' berhasil diperbarui!");
+        return back()->with('success', "Layanan '{$srv->judul}' berhasil diperbarui di Beranda & Halaman Layanan!");
     }
 
     /**

@@ -33,7 +33,8 @@ class HomeController extends Controller
 
     public function layanan()
     {
-        return view('landing.layanan');
+        $landingServices = LandingService::where('is_active', true)->orderBy('sort_order')->get();
+        return view('landing.layanan', compact('landingServices'));
     }
 
     public function informasiPublik(Request $request)

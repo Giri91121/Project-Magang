@@ -137,46 +137,67 @@ class LandingCmsSeeder extends Seeder
             NavbarMenu::create(['parent_id' => $ppid->id, 'label' => 'Permohonan Keberatan', 'url' => 'https://ppid.makassarkota.go.id/pengajuan-keberatan', 'target_blank' => true, 'sort_order' => 4, 'is_active' => true]);
         }
 
-        // 4. Seed Default 4 Kartu Layanan di Beranda
-        if (LandingService::count() === 0) {
-            $services = [
-                [
-                    'judul' => 'Riset & Pengkajian Kebijakan',
-                    'deskripsi' => 'Pelaksanaan riset ilmiah terapan dan penyusunan rekomendasi kebijakan pembangunan daerah berbasis bukti (evidence-based policy).',
-                    'icon' => 'fa-solid fa-microscope',
-                    'link_text' => 'Informasi Riset',
-                    'link_url' => '/layanan',
-                    'sort_order' => 1,
-                ],
-                [
-                    'judul' => 'Fasilitasi Inovasi Daerah',
-                    'deskripsi' => 'Pendampingan dan pemetaan inovasi perangkat daerah (OPD) untuk pengukuran Indeks Inovasi Daerah (IID) tahunan Kemendagri.',
-                    'icon' => 'fa-solid fa-lightbulb',
-                    'link_text' => 'Katalog Inovasi',
-                    'link_url' => '/layanan',
-                    'sort_order' => 2,
-                ],
-                [
-                    'judul' => 'Peta Jalan Riset Daerah',
-                    'deskripsi' => 'Penyusunan Rencana Induk Riset Daerah (RIRD) sebagai pedoman arah pembangunan sains dan teknologi jangka panjang kota.',
-                    'icon' => 'fa-solid fa-book-atlas',
-                    'link_text' => 'Dokumen RIRD',
-                    'link_url' => '/layanan',
-                    'sort_order' => 3,
-                ],
-                [
-                    'judul' => 'Kemitraan Akademisi & BRIN',
-                    'deskripsi' => 'Sinergi riset bersama Badan Riset dan Inovasi Nasional (BRIN), perguruan tinggi, dan peneliti untuk akselerasi solusi daerah.',
-                    'icon' => 'fa-solid fa-handshake-angle',
-                    'link_text' => 'Kerja Sama Riset',
-                    'link_url' => '/layanan',
-                    'sort_order' => 4,
-                ],
-            ];
+        // 4. Seed & Update Default 4 Kartu Layanan Lengkap (Sinkron Beranda & Halaman /layanan)
+        $services = [
+            [
+                'judul' => 'Riset & Pengkajian Kebijakan',
+                'kategori_badge' => 'Akademisi & Peneliti',
+                'deskripsi' => 'Pelaksanaan riset ilmiah terapan dan penyusunan rekomendasi kebijakan pembangunan daerah berbasis bukti (evidence-based policy).',
+                'detail_title' => 'Persyaratan Berkas:',
+                'detail_items' => "Surat Pengantar dari Dekan/Rektor/Pimpinan Lembaga Penelitian.\nProposal Riset yang memuat judul, tujuan, dan metode.\nKTP / Tanda Pengenal Peneliti & Nomor WhatsApp Aktif.\nSurat persetujuan lokasi OPD yang dituju (bila riset kedinasan).",
+                'estimasi_info' => 'Estimasi: 1 - 3 Hari Kerja',
+                'biaya_info' => 'Biaya: Rp 0 (Gratis)',
+                'icon' => 'fa-solid fa-microscope',
+                'link_text' => 'Informasi Riset',
+                'link_url' => '/layanan',
+                'sort_order' => 1,
+            ],
+            [
+                'judul' => 'Fasilitasi Inovasi Daerah',
+                'kategori_badge' => 'Perangkat Daerah & Masyarakat',
+                'deskripsi' => 'Pendampingan dan pemetaan inovasi perangkat daerah (OPD) untuk pengukuran Indeks Inovasi Daerah (IID) tahunan Kemendagri.',
+                'detail_title' => 'Cakupan Pendampingan:',
+                'detail_items' => "Pemetaan 20 Indikator Kematangan Inovasi Daerah.\nPenyusunan Video & Proposal Dokumentasi Replikasi.\nKlinik Inovasi berkala untuk penguatan mutu pelayanan publik.\nVerifikasi lapangan dan validasi dampak kemanfaatan sosial.",
+                'estimasi_info' => 'Jadwal: Sesuai Kalender IID',
+                'biaya_info' => 'Status: Aktif',
+                'icon' => 'fa-solid fa-lightbulb',
+                'link_text' => 'Katalog Inovasi',
+                'link_url' => '/layanan',
+                'sort_order' => 2,
+            ],
+            [
+                'judul' => 'Peta Jalan Riset Daerah',
+                'kategori_badge' => 'Perencanaan & Kebijakan',
+                'deskripsi' => 'Penyusunan Rencana Induk Riset Daerah (RIRD) sebagai pedoman arah pembangunan sains dan teknologi jangka panjang kota.',
+                'detail_title' => 'Fokus Dokumen RIRD:',
+                'detail_items' => "Kajian tematik perkotaan rendah karbon & smart city.\nRekomendasi kebijakan strategis lintas sektor (Policy Brief).\nSinkronisasi RPJMD Kota Makassar dan arah riset nasional.",
+                'estimasi_info' => 'Akses: Terbuka untuk Publik',
+                'biaya_info' => 'Status: Tersedia',
+                'icon' => 'fa-solid fa-book-atlas',
+                'link_text' => 'Dokumen RIRD',
+                'link_url' => '/layanan',
+                'sort_order' => 3,
+            ],
+            [
+                'judul' => 'Kemitraan Akademisi & BRIN',
+                'kategori_badge' => 'Pentahelix & Kolaborasi',
+                'deskripsi' => 'Sinergi riset bersama Badan Riset dan Inovasi Nasional (BRIN), perguruan tinggi, dan peneliti untuk akselerasi solusi daerah.',
+                'detail_title' => 'Ruang Lingkup Kemitraan:',
+                'detail_items' => "Nota Kesepahaman (MoU) & Perjanjian Kerja Sama (PKS) Riset.\nDiseminasi hasil penelitian bersama Perguruan Tinggi.\nFasilitasi pendaftaran Hak Kekayaan Intelektual (HKI) & Paten.",
+                'estimasi_info' => 'Layanan: Setiap Hari Kerja',
+                'biaya_info' => 'Biaya: Rp 0 (Gratis)',
+                'icon' => 'fa-solid fa-handshake-angle',
+                'link_text' => 'Kerja Sama Riset',
+                'link_url' => '/layanan',
+                'sort_order' => 4,
+            ],
+        ];
 
-            foreach ($services as $srv) {
-                LandingService::create($srv);
-            }
+        foreach ($services as $srv) {
+            LandingService::updateOrCreate(
+                ['judul' => $srv['judul']],
+                $srv
+            );
         }
     }
 }

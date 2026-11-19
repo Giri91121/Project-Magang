@@ -35,7 +35,7 @@
             </button>
             <button type="button" @click="activeTab = 'services'" :class="activeTab === 'services' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
                 <i class="fa-solid fa-table-cells-large"></i>
-                <span>3. Kartu Layanan Beranda</span>
+                <span>3. Layanan (Beranda & Halaman Layanan)</span>
             </button>
             <button type="button" @click="activeTab = 'pemerintahan'" :class="activeTab === 'pemerintahan' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
                 <i class="fa-solid fa-landmark"></i>
@@ -431,12 +431,23 @@
                         @method('PATCH')
                         <div class="grid sm:grid-cols-3 gap-3">
                             <div class="sm:col-span-2">
-                                <label class="block text-[11px] font-bold text-slate-600">Judul Kartu Layanan</label>
+                                <label class="block text-[11px] font-bold text-slate-600">Judul Layanan</label>
                                 <input type="text" name="judul" value="{{ $srv->judul }}" required class="w-full text-xs font-bold rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
                             </div>
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-600">Kode Ikon FontAwesome</label>
+                                <label class="block text-[11px] font-bold text-slate-600">Kode Ikon</label>
                                 <input type="text" name="icon" value="{{ $srv->icon }}" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600">Badge Kategori (Halaman Layanan)</label>
+                                <input type="text" name="kategori_badge" value="{{ $srv->kategori_badge ?? 'Layanan Publik' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600">Judul Daftar Poin</label>
+                                <input type="text" name="detail_title" value="{{ $srv->detail_title ?? 'Persyaratan & Cakupan:' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
                             </div>
                         </div>
 
@@ -445,9 +456,25 @@
                             <textarea name="deskripsi" rows="2" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">{{ $srv->deskripsi }}</textarea>
                         </div>
 
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600">Daftar Poin Persyaratan / Cakupan (1 Poin per Baris - Tampil di /layanan)</label>
+                            <textarea name="detail_items" rows="3" placeholder="Ketik 1 poin per baris..." class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5 bg-bone-50/50">{{ $srv->detail_items }}</textarea>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600">Estimasi Waktu / Jadwal</label>
+                                <input type="text" name="estimasi_info" value="{{ $srv->estimasi_info ?? 'Estimasi: 1 - 3 Hari Kerja' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600">Info Biaya / Status</label>
+                                <input type="text" name="biaya_info" value="{{ $srv->biaya_info ?? 'Biaya: Rp 0 (Gratis)' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
+                            </div>
+                        </div>
+
                         <div class="grid sm:grid-cols-3 gap-3">
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-600">Teks Link Bawah</label>
+                                <label class="block text-[11px] font-bold text-slate-600">Teks Link Beranda</label>
                                 <input type="text" name="link_text" value="{{ $srv->link_text }}" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
                             </div>
                             <div>
@@ -462,7 +489,7 @@
 
                         <div class="pt-2 text-right">
                             <button type="submit" class="bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow-sm">
-                                Simpan Perubahan Kartu
+                                Simpan Perubahan Layanan
                             </button>
                         </div>
                     </form>

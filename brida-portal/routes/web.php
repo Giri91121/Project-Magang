@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 // Rute Publik (Landing Page BRIDA Kota Makassar)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('pemerintahan');
+Route::get('/struktur-organisasi', [HomeController::class, 'strukturOrganisasi'])->name('struktur-organisasi');
+Route::get('/pemerintahan/struktur-organisasi', [HomeController::class, 'strukturOrganisasi']);
 Route::get('/layanan', [HomeController::class, 'layanan'])->name('layanan');
 Route::get('/informasi-publik', [HomeController::class, 'informasiPublik'])->name('informasi-publik');
 Route::get('/regulasi/download/{id}', [RegulasiController::class, 'download'])->name('regulasi.download');

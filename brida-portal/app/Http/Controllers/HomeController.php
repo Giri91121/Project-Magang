@@ -26,6 +26,11 @@ class HomeController extends Controller
         return view('landing.pemerintahan');
     }
 
+    public function strukturOrganisasi()
+    {
+        return view('landing.struktur-organisasi');
+    }
+
     public function layanan()
     {
         return view('landing.layanan');

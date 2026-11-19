@@ -49,6 +49,10 @@
                 <i class="fa-brands fa-instagram"></i>
                 <span>6. 3 Postingan Instagram</span>
             </button>
+            <button type="button" @click="activeTab = 'leaders'" :class="activeTab === 'leaders' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-user-tie"></i>
+                <span>7. Foto & Nama Pimpinan</span>
+            </button>
         </div>
 
         <!-- ============================================================== -->
@@ -719,6 +723,87 @@
                     <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
                         <i class="fa-solid fa-arrows-rotate"></i>
                         <span>Simpan & Sinkronkan Feed Instagram Sekarang</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TAB 7: FOTO & NAMA 4 PIMPINAN (WALI KOTA, WAWALI, KABAN, SEKBAN)-->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'leaders'" class="space-y-6">
+            <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
+                @csrf
+
+                <div class="border-b border-bone-200 pb-3">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Section Pimpinan Beranda</span>
+                    <h3 class="text-base font-black text-slate-900">Foto & Nama Pimpinan Daerah serta Pimpinan BRIDA</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Tampil tepat di antara Hero Banner dan Section Layanan. Unggah foto potret (JPG/PNG) untuk Wali Kota, Wakil Wali Kota, Kepala Badan, dan Sekretaris Badan.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-slate-700">Label Kecil Atas Section</label>
+                        <input type="text" name="leader_section_badge" value="{{ $settings['leader_section_badge'] ?? 'Pimpinan Daerah & Lembaga' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-slate-700">Judul Utama Section Pimpinan</label>
+                        <input type="text" name="leader_section_title" value="{{ $settings['leader_section_title'] ?? 'Pimpinan Pemerintah Kota & BRIDA Makassar' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3">
+                    </div>
+                </div>
+
+                @php
+                    $leaderLabels = [
+                        1 => '1. Wali Kota Makassar',
+                        2 => '2. Wakil Wali Kota Makassar',
+                        3 => '3. Kepala Badan (Kaban) BRIDA',
+                        4 => '4. Sekretaris Badan (Sekban) BRIDA',
+                    ];
+                @endphp
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    @for($i = 1; $i <= 4; $i++)
+                    @php
+                        $photoVal = $settings["leader_{$i}_photo"] ?? '';
+                    @endphp
+                    <div class="p-4 rounded-2xl bg-bone-50 border border-bone-300 space-y-3 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <span class="text-xs font-extrabold text-maroon-700 block">{{ $leaderLabels[$i] }}</span>
+
+                            <div class="aspect-[3/4] rounded-xl overflow-hidden bg-bone-200 border border-bone-300 flex items-center justify-center">
+                                @if(!empty($photoVal))
+                                    <img src="{{ $photoVal }}" alt="Pimpinan {{ $i }}" class="w-full h-full object-cover object-top">
+                                @else
+                                    <div class="text-center text-slate-400 p-3">
+                                        <i class="fa-solid fa-user-tie text-3xl mb-1 block"></i>
+                                        <span class="text-[10px]">Belum ada foto</span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Unggah Foto (JPG/PNG)</label>
+                                <input type="file" name="leader_{{ $i }}_photo_file" accept="image/*" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-maroon-700 file:text-white mt-0.5">
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Jabatan Resmi</label>
+                                <input type="text" name="leader_{{ $i }}_title" value="{{ $settings["leader_{$i}_title"] ?? '' }}" class="w-full text-xs font-bold rounded-xl border border-bone-300 py-1.5 px-2.5 bg-white mt-0.5">
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Nama Lengkap & Gelar</label>
+                                <input type="text" name="leader_{{ $i }}_name" value="{{ $settings["leader_{$i}_name"] ?? '' }}" class="w-full text-xs rounded-xl border border-bone-300 py-1.5 px-2.5 bg-white mt-0.5">
+                            </div>
+                        </div>
+                    </div>
+                    @endfor
+                </div>
+
+                <div class="pt-4 border-t border-bone-200 flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Foto & Nama Pimpinan</span>
                     </button>
                 </div>
             </form>

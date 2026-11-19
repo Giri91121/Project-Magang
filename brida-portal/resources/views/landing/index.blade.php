@@ -65,6 +65,69 @@
             </div>
         </section>
 
+        <!-- Section Baru: Pimpinan Daerah & Pimpinan BRIDA Kota Makassar -->
+        <section id="pimpinan" class="py-16 bg-bone-100 border-b border-bone-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+                    <span class="text-xs font-bold tracking-widest uppercase text-maroon-700">
+                        {{ $portalSettings['leader_section_badge'] ?? 'Pimpinan Daerah & Lembaga' }}
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                        {{ $portalSettings['leader_section_title'] ?? 'Pimpinan Pemerintah Kota & BRIDA Makassar' }}
+                    </h2>
+                    <div class="w-16 h-1 bg-maroon-700 mx-auto rounded-full mt-2"></div>
+                </div>
+
+                @php
+                    $defaultLeaders = [
+                        1 => ['name' => 'Munafri Arifuddin, S.H.', 'title' => 'Wali Kota Makassar'],
+                        2 => ['name' => 'Aliyah Mustika Ilham, S.E.', 'title' => 'Wakil Wali Kota Makassar'],
+                        3 => ['name' => 'Kepala Badan BRIDA Kota Makassar', 'title' => 'Kepala Badan BRIDA'],
+                        4 => ['name' => 'Sekretaris Badan BRIDA Kota Makassar', 'title' => 'Sekretaris Badan BRIDA'],
+                    ];
+                @endphp
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-7">
+                    @for($l = 1; $l <= 4; $l++)
+                    @php
+                        $lName = $portalSettings["leader_{$l}_name"] ?? $defaultLeaders[$l]['name'];
+                        $lTitle = $portalSettings["leader_{$l}_title"] ?? $defaultLeaders[$l]['title'];
+                        $lPhoto = $portalSettings["leader_{$l}_photo"] ?? '';
+                    @endphp
+                    <div class="bg-white rounded-2xl border border-bone-300 overflow-hidden shadow-sm hover:shadow-lg hover:border-maroon-700/50 transition group flex flex-col">
+                        <!-- Bingkai Foto Formal Potret 3:4 -->
+                        <div class="relative aspect-[3/4] bg-gradient-to-b from-bone-200 to-bone-100 overflow-hidden flex items-end justify-center">
+                            @if(!empty($lPhoto))
+                                <img src="{{ $lPhoto }}" alt="{{ $lName }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
+                            @else
+                                <!-- Placeholder Elegan Sebelum Foto Asli Diunggah di Dashboard -->
+                                <div class="w-full h-full flex flex-col items-center justify-center text-slate-400 p-4 text-center">
+                                    <div class="w-20 h-20 rounded-full bg-bone-300/70 flex items-center justify-center text-3xl text-maroon-700/60 mb-2">
+                                        <i class="fa-solid fa-user-tie"></i>
+                                    </div>
+                                    <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Foto {{ $lTitle }}</span>
+                                </div>
+                            @endif
+                            <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
+                        </div>
+
+                        <!-- Nama & Jabatan Resmi -->
+                        <div class="p-4 sm:p-5 text-center flex-1 flex flex-col justify-center space-y-1.5 bg-white">
+                            <span class="inline-block mx-auto bg-rose-50 text-maroon-700 border border-rose-200 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                                {{ $lTitle }}
+                            </span>
+                            <h3 class="font-extrabold text-slate-900 text-xs sm:text-sm leading-snug pt-0.5">
+                                {{ $lName }}
+                            </h3>
+                        </div>
+                    </div>
+                    @endfor
+                </div>
+
+            </div>
+        </section>
+
         <!-- Layanan Utama BRIDA Kota Makassar (Dinamis dari Database LandingService) -->
         <section id="layanan" class="py-16 bg-white border-b border-bone-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

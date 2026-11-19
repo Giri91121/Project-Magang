@@ -77,11 +77,32 @@ class LandingCmsController extends Controller
             'ig_profile_url',
             'ig_access_token',
             'ig_behold_url',
+            // 4 Pimpinan Daerah & BRIDA Makassar
+            'leader_section_badge',
+            'leader_section_title',
+            'leader_1_name',
+            'leader_1_title',
+            'leader_2_name',
+            'leader_2_title',
+            'leader_3_name',
+            'leader_3_title',
+            'leader_4_name',
+            'leader_4_title',
         ];
 
         foreach ($textKeys as $key) {
             if ($request->has($key)) {
                 Setting::set($key, $request->input($key), 'cms');
+            }
+        }
+
+        // Upload Foto 4 Pimpinan (Wali Kota, Wakil Wali Kota, Kaban, Sekban) jika ada
+        for ($i = 1; $i <= 4; $i++) {
+            $field = "leader_{$i}_photo_file";
+            if ($request->hasFile($field)) {
+                $request->validate([$field => 'image|mimes:png,jpg,jpeg,webp|max:8192']);
+                $path = $request->file($field)->store('leaders', 'public');
+                Setting::set("leader_{$i}_photo", asset('storage/' . $path), 'leaders');
             }
         }
 

@@ -75,6 +75,25 @@ class LandingCmsSeeder extends Seeder
             ['key' => 'ig_post_3_caption', 'value' => 'Klinik Fasilitasi HKI & Paten Sederhana bagi Inovator Muda, UMKM, dan ASN Kota Makassar. Daftarkan karya inovasi Anda secara gratis!', 'group' => 'instagram'],
             ['key' => 'ig_post_3_url', 'value' => 'https://www.instagram.com/brida.makassarkota/', 'group' => 'instagram'],
             ['key' => 'ig_post_3_date', 'value' => '1 minggu yang lalu', 'group' => 'instagram'],
+
+            // 4 Pimpinan Daerah & Pimpinan BRIDA Kota Makassar
+            ['key' => 'leader_section_badge', 'value' => 'Pimpinan Daerah & Lembaga', 'group' => 'leaders'],
+            ['key' => 'leader_section_title', 'value' => 'Pimpinan Pemerintah Kota & BRIDA Makassar', 'group' => 'leaders'],
+            ['key' => 'leader_1_name', 'value' => 'Munafri Arifuddin, S.H.', 'group' => 'leaders'],
+            ['key' => 'leader_1_title', 'value' => 'Wali Kota Makassar', 'group' => 'leaders'],
+            ['key' => 'leader_1_photo', 'value' => '', 'group' => 'leaders'],
+
+            ['key' => 'leader_2_name', 'value' => 'Aliyah Mustika Ilham, S.E.', 'group' => 'leaders'],
+            ['key' => 'leader_2_title', 'value' => 'Wakil Wali Kota Makassar', 'group' => 'leaders'],
+            ['key' => 'leader_2_photo', 'value' => '', 'group' => 'leaders'],
+
+            ['key' => 'leader_3_name', 'value' => 'Kepala Badan BRIDA Kota Makassar', 'group' => 'leaders'],
+            ['key' => 'leader_3_title', 'value' => 'Kepala Badan BRIDA', 'group' => 'leaders'],
+            ['key' => 'leader_3_photo', 'value' => '', 'group' => 'leaders'],
+
+            ['key' => 'leader_4_name', 'value' => 'Sekretaris Badan BRIDA Kota Makassar', 'group' => 'leaders'],
+            ['key' => 'leader_4_title', 'value' => 'Sekretaris Badan BRIDA', 'group' => 'leaders'],
+            ['key' => 'leader_4_photo', 'value' => '', 'group' => 'leaders'],
         ];
 
         foreach ($heroSettings as $set) {

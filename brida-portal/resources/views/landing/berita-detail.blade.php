@@ -71,6 +71,7 @@
         </div>
 
         <!-- Bagian Kolom Komentar & Tanggapan Publik (Wajib Login) -->
+        @if(($settings['berita_komentar_aktif'] ?? '1') === '1')
         <section id="kolom-komentar" class="pt-10 border-t border-bone-300 space-y-6">
             <div class="flex items-center justify-between">
                 <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
@@ -208,6 +209,7 @@
                 @endforelse
             </div>
         </section>
+        @endif
 
         <!-- Berita Terkait Lainnya -->
         @if($beritaTerkait->count() > 0)

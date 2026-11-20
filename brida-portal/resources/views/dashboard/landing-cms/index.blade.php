@@ -53,6 +53,10 @@
                 <i class="fa-solid fa-user-tie"></i>
                 <span>7. Foto & Nama Pimpinan</span>
             </button>
+            <button type="button" @click="activeTab = 'berita'" :class="activeTab === 'berita' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-regular fa-newspaper"></i>
+                <span>8. Halaman Berita & Publikasi</span>
+            </button>
         </div>
 
         <!-- ============================================================== -->
@@ -831,6 +835,102 @@
                     <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
                         <i class="fa-solid fa-floppy-disk"></i>
                         <span>Simpan Foto & Nama Pimpinan</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TAB 8: EDITOR HALAMAN BERITA & PUBLIKASI                       -->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'berita'" class="space-y-6" x-data="{ sorotanMode: '{{ $settings['berita_sorotan_mode'] ?? 'otomatis' }}' }">
+            <form method="POST" action="{{ route('dashboard.landing-cms.berita') }}" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-6">
+                @csrf
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-bone-200 pb-4">
+                    <div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Kustomisasi Portal Berita</span>
+                        <h3 class="text-lg font-black text-slate-900">Editor Halaman Berita & Publikasi</h3>
+                        <p class="text-xs text-slate-500">Atur banner header, berita sorotan utama (featured), filter kategori, jumlah per halaman, dan kolom komentar.</p>
+                    </div>
+                    <a href="{{ route('berita') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-maroon-700 hover:underline">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Buka Halaman Berita</span>
+                    </a>
+                </div>
+
+                <!-- 1. Banner Header -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">1. Banner Header Halaman Berita</h4>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Utama Banner</label>
+                            <input type="text" name="berita_header_title" value="{{ $settings['berita_header_title'] ?? 'Kabar & Publikasi Resmi BRIDA' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Pengantar Banner</label>
+                            <textarea name="berita_header_subtitle" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['berita_header_subtitle'] ?? 'Informasi terkini mengenai agenda riset terapan daerah, capaian inovasi SKPD, seminar diseminasi ilmiah, dan kemitraan strategis Pemerintah Kota Makassar.' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Sorotan Berita Utama -->
+                <div class="space-y-4 pt-2">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">2. Pengaturan Sorotan Berita Utama (Featured)</h4>
+                    <div class="flex items-center gap-3 bg-bone-50 p-3.5 rounded-2xl border border-bone-200">
+                        <input type="checkbox" id="berita_sorotan_aktif" name="berita_sorotan_aktif" value="1" {{ ($settings['berita_sorotan_aktif'] ?? '1') === '1' ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700">
+                        <label for="berita_sorotan_aktif" class="text-xs font-bold text-slate-800 cursor-pointer">Tampilkan Bagian Sorotan Utama di Atas Daftar Berita</label>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Mode Pemilihan Sorotan</label>
+                            <select name="berita_sorotan_mode" x-model="sorotanMode" class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                                <option value="otomatis">Otomatis (Selalu Berita Terbaru)</option>
+                                <option value="manual">Manual (Pilih 1 Berita Tertentu)</option>
+                            </select>
+                        </div>
+                        <div x-show="sorotanMode === 'manual'">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Pilih Berita Sorotan</label>
+                            <select name="berita_sorotan_id" class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                                <option value="">-- Pilih Berita --</option>
+                                @foreach($beritaPublikasi as $bp)
+                                    <option value="{{ $bp->id }}" {{ ($settings['berita_sorotan_id'] ?? '') == $bp->id ? 'selected' : '' }}>
+                                        {{ Str::limit($bp->judul, 65) }} ({{ $bp->published_at ? $bp->published_at->format('d/m/Y') : '' }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Filter Kategori, Paginasi & Komentar -->
+                <div class="space-y-4 pt-2">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">3. Kategori Filter, Paginasi & Komentar</h4>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Jumlah Berita Per Halaman</label>
+                            <select name="berita_per_page" class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                                @foreach([3, 6, 9, 12, 15] as $qty)
+                                    <option value="{{ $qty }}" {{ (int)($settings['berita_per_page'] ?? 6) === $qty ? 'selected' : '' }}>{{ $qty }} Berita / Halaman</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Daftar Tombol Filter Kategori (Pisahkan dengan koma)</label>
+                            <input type="text" name="berita_kategori_list" value="{{ $settings['berita_kategori_list'] ?? 'Kebijakan Riset, Inovasi Daerah, Kemitraan Kampus, Agenda BRIDA' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 bg-bone-50 p-3.5 rounded-2xl border border-bone-200">
+                        <input type="checkbox" id="berita_komentar_aktif" name="berita_komentar_aktif" value="1" {{ ($settings['berita_komentar_aktif'] ?? '1') === '1' ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700">
+                        <label for="berita_komentar_aktif" class="text-xs font-bold text-slate-800 cursor-pointer">Aktifkan Kolom Komentar Publik di Halaman Detail Berita</label>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-bone-200 flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Pengaturan Halaman Berita</span>
                     </button>
                 </div>
             </form>

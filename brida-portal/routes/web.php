@@ -113,6 +113,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard/landing-cms')->name('dashboard.landing-cms.')->middleware('role:Admin')->group(function () {
         Route::get('/', [LandingCmsController::class, 'index'])->name('index');
         Route::post('/hero-appearance', [LandingCmsController::class, 'updateHeroAndAppearance'])->name('update-hero');
+        Route::post('/berita-settings', [LandingCmsController::class, 'updateBeritaPageSettings'])->name('berita');
         
         // Slideshow Gambar Hero
         Route::post('/slides', [LandingCmsController::class, 'storeSlide'])->name('slides.store');

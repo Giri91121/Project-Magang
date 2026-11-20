@@ -14,10 +14,10 @@
                 <span class="text-white font-medium">Berita & Publikasi</span>
             </nav>
             <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
-                Kabar & Publikasi Resmi BRIDA
+                {{ $settings['berita_header_title'] ?? 'Kabar & Publikasi Resmi BRIDA' }}
             </h1>
             <p class="text-sm sm:text-base text-bone-200 mt-2 max-w-2xl leading-relaxed">
-                Informasi terkini mengenai agenda riset terapan daerah, capaian inovasi SKPD, seminar diseminasi ilmiah, dan kemitraan strategis Pemerintah Kota Makassar.
+                {{ $settings['berita_header_subtitle'] ?? 'Informasi terkini mengenai agenda riset terapan daerah, capaian inovasi SKPD, seminar diseminasi ilmiah, dan kemitraan strategis Pemerintah Kota Makassar.' }}
             </p>
         </div>
     </section>
@@ -68,12 +68,15 @@
                 </div>
                 
                 <!-- Filter Kategori Dinamis -->
+                @php
+                    $kategoriRaw = $settings['berita_kategori_list'] ?? 'Kebijakan Riset, Inovasi Daerah, Kemitraan Kampus, Agenda BRIDA';
+                    $kategoriItems = array_filter(array_map('trim', explode(',', $kategoriRaw)));
+                @endphp
                 <div class="flex flex-wrap gap-2 text-xs">
                     <a href="{{ route('berita') }}" class="{{ !request('kategori') ? 'bg-maroon-700 text-white font-bold' : 'bg-white border border-bone-300 text-slate-700 hover:border-maroon-700' }} px-3 py-1.5 rounded-xl transition">Semua</a>
-                    <a href="{{ route('berita', ['kategori' => 'Kebijakan Riset']) }}" class="{{ request('kategori') === 'Kebijakan Riset' ? 'bg-maroon-700 text-white font-bold' : 'bg-white border border-bone-300 text-slate-700 hover:border-maroon-700' }} px-3 py-1.5 rounded-xl transition">Kebijakan Riset</a>
-                    <a href="{{ route('berita', ['kategori' => 'Inovasi Daerah']) }}" class="{{ request('kategori') === 'Inovasi Daerah' ? 'bg-maroon-700 text-white font-bold' : 'bg-white border border-bone-300 text-slate-700 hover:border-maroon-700' }} px-3 py-1.5 rounded-xl transition">Inovasi Daerah</a>
-                    <a href="{{ route('berita', ['kategori' => 'Kemitraan Kampus']) }}" class="{{ request('kategori') === 'Kemitraan Kampus' ? 'bg-maroon-700 text-white font-bold' : 'bg-white border border-bone-300 text-slate-700 hover:border-maroon-700' }} px-3 py-1.5 rounded-xl transition">Kemitraan Kampus</a>
-                    <a href="{{ route('berita', ['kategori' => 'Agenda BRIDA']) }}" class="{{ request('kategori') === 'Agenda BRIDA' ? 'bg-maroon-700 text-white font-bold' : 'bg-white border border-bone-300 text-slate-700 hover:border-maroon-700' }} px-3 py-1.5 rounded-xl transition">Agenda BRIDA</a>
+                    @foreach($kategoriItems as $kat)
+                        <a href="{{ route('berita', ['kategori' => $kat]) }}" class="{{ request('kategori') === $kat ? 'bg-maroon-700 text-white font-bold' : 'bg-white border border-bone-300 text-slate-700 hover:border-maroon-700' }} px-3 py-1.5 rounded-xl transition">{{ $kat }}</a>
+                    @endforeach
                 </div>
             </div>
 

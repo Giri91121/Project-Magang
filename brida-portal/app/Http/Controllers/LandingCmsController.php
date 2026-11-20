@@ -6,6 +6,7 @@ use App\Models\NavbarMenu;
 use App\Models\HeroSlide;
 use App\Models\LandingService;
 use App\Models\Setting;
+use App\Models\Berita;
 use App\Models\ActivityLog;
 use App\Services\InstagramFeedService;
 use Illuminate\Http\Request;
@@ -22,8 +23,9 @@ class LandingCmsController extends Controller
         $menus = NavbarMenu::with('children')->whereNull('parent_id')->orderBy('sort_order')->get();
         $slides = HeroSlide::orderBy('sort_order')->get();
         $services = LandingService::orderBy('sort_order')->get();
+        $beritaPublikasi = Berita::where('status', 'Publikasi')->latest()->get();
 
-        return view('dashboard.landing-cms.index', compact('settings', 'menus', 'slides', 'services'));
+        return view('dashboard.landing-cms.index', compact('settings', 'menus', 'slides', 'services', 'beritaPublikasi'));
     }
 
     /**
@@ -341,5 +343,44 @@ class LandingCmsController extends Controller
         $srv->delete();
 
         return back()->with('success', 'Kartu layanan berhasil dihapus dari Beranda.');
+    }
+
+    /**
+     * Update Pengaturan Halaman Berita & Publikasi (/berita & /berita/{slug})
+     */
+    public function updateBeritaPageSettings(Request $request)
+    {
+        $request->validate([
+            'berita_header_title' => 'required|string|max:200',
+            'berita_header_subtitle' => 'required|string|max:500',
+            'berita_sorotan_mode' => 'required|in:otomatis,manual',
+            'berita_sorotan_id' => 'nullable|integer',
+            'berita_per_page' => 'required|integer|min:3|max:24',
+            'berita_kategori_list' => 'required|string|max:500',
+        ]);
+
+        $settingsToSave = [
+            'berita_header_title' => $request->berita_header_title,
+            'berita_header_subtitle' => $request->berita_header_subtitle,
+            'berita_sorotan_aktif' => $request->has('berita_sorotan_aktif') ? '1' : '0',
+            'berita_sorotan_mode' => $request->berita_sorotan_mode,
+            'berita_sorotan_id' => $request->berita_sorotan_id ?? '',
+            'berita_per_page' => $request->berita_per_page,
+            'berita_kategori_list' => $request->berita_kategori_list,
+            'berita_komentar_aktif' => $request->has('berita_komentar_aktif') ? '1' : '0',
+        ];
+
+        foreach ($settingsToSave as $key => $value) {
+            Setting::updateOrCreate(['key' => $key], ['value' => $value]);
+        }
+
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'aksi' => 'Update Editor Halaman Berita',
+            'modul' => 'Landing CMS',
+            'deskripsi' => 'Memperbarui tampilan banner, sorotan, kategori, paginasi, dan komentar halaman Berita.',
+        ]);
+
+        return back()->with('success', 'Pengaturan Halaman Berita & Publikasi berhasil disimpan!');
     }
 }

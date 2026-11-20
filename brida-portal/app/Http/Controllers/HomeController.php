@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\Regulasi;
 use App\Models\HeroSlide;
 use App\Models\LandingService;
+use App\Models\Setting;
 use App\Services\InstagramFeedService;
 use Illuminate\Http\Request;
 
@@ -61,6 +62,12 @@ class HomeController extends Controller
 
     public function berita(Request $request)
     {
+        $settings = Setting::all()->pluck('value', 'key');
+        $perPage = (int) ($settings['berita_per_page'] ?? 6);
+        if ($perPage < 3) {
+            $perPage = 6;
+        }
+
         $query = Berita::where('status', 'Publikasi')->latest();
 
         if ($request->filled('kategori')) {
@@ -71,14 +78,25 @@ class HomeController extends Controller
             $query->where('judul', 'like', "%{$request->search}%");
         }
 
-        $beritaList = $query->paginate(6)->withQueryString();
-        $sorotan = Berita::where('status', 'Publikasi')->latest()->first();
+        $beritaList = $query->paginate($perPage)->withQueryString();
 
-        return view('landing.berita', compact('beritaList', 'sorotan'));
+        $sorotan = null;
+        if (($settings['berita_sorotan_aktif'] ?? '1') === '1') {
+            if (($settings['berita_sorotan_mode'] ?? 'otomatis') === 'manual' && !empty($settings['berita_sorotan_id'])) {
+                $sorotan = Berita::where('status', 'Publikasi')->find($settings['berita_sorotan_id']);
+            }
+            if (!$sorotan) {
+                $sorotan = Berita::where('status', 'Publikasi')->latest()->first();
+            }
+        }
+
+        return view('landing.berita', compact('beritaList', 'sorotan', 'settings'));
     }
 
     public function beritaDetail($slug)
     {
+        $settings = Setting::all()->pluck('value', 'key');
+
         $berita = Berita::with(['komentars' => function($q) {
             $q->where('is_approved', true)->with('user.roles')->latest();
         }])->where('slug', $slug)->where('status', 'Publikasi')->firstOrFail();
@@ -93,7 +111,7 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
-        return view('landing.berita-detail', compact('berita', 'beritaTerkait'));
+        return view('landing.berita-detail', compact('berita', 'beritaTerkait', 'settings'));
     }
 
     public function kontak()

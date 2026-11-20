@@ -11,58 +11,58 @@
   },
   "statistik": [
     {
-      "angka": "< 1 Detik",
-      "label": "Kecepatan Transmisi Data"
+      "angka": "120+",
+      "label": "Inovasi Daerah Terdaftar"
     },
     {
-      "angka": "3 Format",
-      "label": "Surat, Disposisi & Verifikasi"
+      "angka": "Sangat Inovatif",
+      "label": "Predikat IID Kemendagri"
     },
     {
-      "angka": "100% Valid",
-      "label": "Filter Dokumen Rahasia"
+      "angka": "45+",
+      "label": "Kajian Kebijakan Strategis"
     }
   ],
   "berita": [
     {
       "id": 1,
-      "kategori": "Otomasi Sistem",
+      "kategori": "Riset Daerah",
       "tanggal": "November 2026",
-      "judul": "Implementasi Notifikasi WhatsApp Otomatis untuk Percepatan Disposisi Naskah Dinas",
-      "ringkasan": "BRIDA Kota Makassar meluncurkan otomasi sistem guna menghubungkan alur kearsipan Srikandi langsung ke ponsel aparatur secara instan.",
+      "judul": "Penyusunan Peta Jalan Riset Daerah Menuju Makassar Low Carbon City 2027",
+      "ringkasan": "BRIDA Kota Makassar menggelar forum telaah ilmiah bersama para peneliti untuk merumuskan aksi mitigasi lingkungan perkotaan berbasis sains.",
       "link": "#berita"
     },
     {
       "id": 2,
-      "kategori": "Riset & Inovasi",
+      "kategori": "Indeks Inovasi",
       "tanggal": "Oktober 2026",
-      "judul": "Penyusunan Rencana Induk Riset Daerah (RIRD) Menuju Makassar Kota Dunia",
-      "ringkasan": "Kolaborasi lintas SKPD dalam menyusun peta jalan inovasi terintegrasi berbasis data dan riset terapan berkelanjutan.",
+      "judul": "Pendampingan Penginputan Data Inovasi OPD untuk Penilaian Innovative Government Award",
+      "ringkasan": "Kolaborasi lintas SKPD dalam memetakan program inovatif perangkat daerah guna mempertahankan predikat Kota Sangat Inovatif nasional.",
       "link": "#berita"
     },
     {
       "id": 3,
-      "kategori": "Indeks Inovasi",
+      "kategori": "Kerja Sama Riset",
       "tanggal": "Oktober 2026",
-      "judul": "Penguatan Pengukuran Indeks Inovasi Daerah Kota Makassar Tahun 2026",
-      "ringkasan": "Optimalisasi pelaporan program inovatif perangkat daerah untuk meningkatkan daya saing daerah di kancah nasional.",
+      "judul": "Sinergi BRIDA dan Perguruan Tinggi Perkuat Hilirisasi Riset Terapan untuk Masyarakat",
+      "ringkasan": "Penandatanganan nota kesepahaman kajian terapan sosial ekonomi untuk mendukung program strategis Pemerintah Kota Makassar.",
       "link": "#berita"
     }
   ],
   "faq": [
     {
-      "tanya": "Apakah isi naskah dinas utuh disimpan pada server notifikasi?",
-      "jawab": "Tidak. BRIDA Kota Makassar memegang teguh asas perlindungan data. Hanya nomor naskah, asal pengirim, dan ringkasan perihal yang diteruskan ke WhatsApp. Dokumen fisik/lampiran tetap berada di server resmi Srikandi.",
+      "tanya": "Bagaimana prosedur pengusulan riset atau kerja sama penelitian dengan BRIDA Kota Makassar?",
+      "jawab": "Lembaga penelitian, akademisi, maupun instansi dapat mengajukan surat permohonan resmi dan proposal penelitian ke Sekretariat BRIDA di Balai Kota Makassar atau melalui surel resmi brida@makassarkota.go.id.",
       "buka_default": true
     },
     {
-      "tanya": "Bagaimana jika nomor WhatsApp aparatur berubah?",
-      "jawab": "Aparatur cukup melaporkan pembaruan kontak ke Sub Bagian Umum & Kepegawaian BRIDA Kota Makassar untuk dicatatkan ke direktori sistem tanpa perlu menghentikan alur otomasi.",
+      "tanya": "Apa saja kriteria inovasi daerah yang dapat difasilitasi oleh BRIDA?",
+      "jawab": "Sesuai regulasi, inovasi daerah mencakup inovasi tata kelola pemerintahan, inovasi pelayanan publik, dan inovasi bentuk lainnya yang telah berjalan minimal 1 tahun, memberikan kemanfaatan nyata, dan dapat direplikasi.",
       "buka_default": false
     },
     {
-      "tanya": "Bagaimana perlakuan terhadap surat berklasifikasi Rahasia?",
-      "jawab": "Sistem mendeteksi atribut sifat surat secara otomatis. Untuk surat rahasia/konfidensial, judul perihal akan disamarkan menjadi pemberitahuan dokumen konfidensial guna mencegah kebocoran informasi dinas.",
+      "tanya": "Apakah masyarakat atau akademisi dapat mengakses data dan laporan hasil kajian BRIDA?",
+      "jawab": "Ya. Laporan kajian kebijakan dan publikasi riset yang bersifat terbuka dapat diakses melalui layanan permohonan informasi publik PPID BRIDA Kota Makassar sesuai ketentuan perundang-undangan.",
       "buka_default": false
     }
   ]

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabar & Kegiatan - BRIDA Kota Makassar</title>
+    <meta name="description" content="Portal Berita Resmi, Rilis Pers, Agenda Kegiatan Riset, dan Dokumentasi Inovasi Daerah BRIDA Kota Makassar.">
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS (Play CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind.config.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-bone-50 text-slate-800 antialiased font-sans flex flex-col min-h-screen">
+
+    <!-- Top Bar Informasi Resmi Pemkot Makassar -->
+    <aside class="bg-maroon-900 text-bone-100 text-xs py-2 px-4 sm:px-6 lg:px-8 border-b border-maroon-950/40">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+                <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-rose-600/30 text-rose-300 text-[10px]">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </span>
+                <span class="font-medium">Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar</span>
+            </div>
+            <div class="flex items-center gap-5 text-[11px] text-bone-300">
+                <span><i class="fa-regular fa-calendar-check mr-1.5 text-rose-400"></i> Senin - Jumat, 08.00 - 16.00 WITA</span>
+                <span class="hidden md:inline"><i class="fa-solid fa-location-dot mr-1 text-rose-400"></i> Balai Kota Makassar</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Header / Navbar Resmi Portal Kota Makassar -->
+    <header class="sticky top-0 z-50 glass-header border-b border-bone-300 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 sm:h-20">
+                
+                <!-- Sisi Kiri: Logo BRIDA Kota Makassar -->
+                <div class="flex items-center shrink-0">
+                    <a href="index.html" class="flex items-center focus:outline-none py-1">
+                        <img
+                            id="brida-logo"
+                            src="images/kota makassar1-1.png"
+                            alt="BRIDA Kota Makassar"
+                            class="h-12 sm:h-14 md:h-20 w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[380px] object-contain mix-blend-multiply"
+                        >
+                    </a>
+                </div>
+
+                <!-- Navigasi Utama Desktop -->
+                <nav class="hidden lg:flex items-center space-x-8 xl:space-x-12 text-[16px] font-semibold text-slate-700" aria-label="Navigasi Utama">
+                    <a href="index.html" class="hover:text-maroon-700 transition-colors">Beranda</a>
+                    
+                    <!-- Dropdown Pemerintahan -->
+                    <div class="relative group">
+                        <button class="flex items-center gap-1 hover:text-maroon-700 transition-colors py-2 focus:outline-none">
+                            <span>Pemerintahan</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
+                        </button>
+                        <div class="dropdown-menu absolute top-full left-0 w-56 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
+                            <a href="index.html#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Profil BRIDA Makassar</a>
+                            <a href="index.html#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Visi & Misi Inovasi</a>
+                            <a href="index.html#tentang" class="block px-4 py-2 text-xs hover:bg-bone-100 hover:text-maroon-700 transition-colors">Tugas Pokok & Fungsi</a>
+                        </div>
+                    </div>
+
+                    <a href="layanan.html" class="hover:text-maroon-700 transition-colors">Layanan</a>
+                    <a href="informasi-publik.html" class="hover:text-maroon-700 transition-colors">Informasi Publik</a>
+                    <!-- Menu Aktif -->
+                    <a href="berita.html" class="text-maroon-700 font-bold border-b-2 border-maroon-700 pb-1">Berita</a>
+                    <a href="index.html#kontak" class="hover:text-maroon-700 transition-colors">Kontak</a>
+
+                    <!-- Dropdown PPID -->
+                    <div class="relative group">
+                        <button class="flex items-center gap-1 hover:text-maroon-700 transition-colors py-2 focus:outline-none">
+                            <span>PPID</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 group-hover:rotate-180 transition-transform"></i>
+                        </button>
+                        <div class="dropdown-menu absolute top-full right-0 w-64 bg-white rounded-xl shadow-xl border border-bone-300 py-2 mt-1 z-50">
+                            <a href="https://ppid.makassarkota.go.id/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
+                                <span>PPID Makassar</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
+                            </a>
+                            <a href="https://ppid.makassarkota.go.id/daftar-informasi-publik" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
+                                <span>Informasi Publik</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
+                            </a>
+                            <a href="https://ppid.makassarkota.go.id/permohonan-informasi" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
+                                <span>Permohonan Informasi Publik</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
+                            </a>
+                            <a href="https://ppid.makassarkota.go.id/pengajuan-keberatan" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-bone-100 hover:text-maroon-700 transition-colors">
+                                <span>Permohonan Keberatan</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Tombol Mobile Hamburger -->
+                <div class="flex items-center lg:hidden">
+                    <button id="mobile-menu-btn" class="p-2.5 rounded-xl text-slate-700 hover:text-maroon-700 hover:bg-bone-200 focus:outline-none" aria-label="Buka Menu Navigasi">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Navigasi -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-bone-50 border-b border-bone-300 px-4 pt-2 pb-6 space-y-3">
+            <a href="index.html" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Beranda</a>
+            <div>
+                <button class="mobile-dropdown-toggle w-full flex items-center justify-between px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">
+                    <span>Pemerintahan</span>
+                    <i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
+                </button>
+                <div class="hidden pl-6 py-1 space-y-1 bg-white/50 rounded-lg mt-1 border border-bone-200">
+                    <a href="index.html#tentang" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Profil BRIDA Makassar</a>
+                    <a href="index.html#tentang" class="block py-1.5 text-xs text-slate-600 hover:text-maroon-700">Visi & Misi Inovasi</a>
+                </div>
+            </div>
+            <a href="layanan.html" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Layanan Riset & Publik</a>
+            <a href="informasi-publik.html" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Informasi Publik</a>
+            <a href="berita.html" class="block px-3 py-2 text-sm font-bold text-maroon-700 bg-rose-50 rounded-lg">Berita Terkini</a>
+            <a href="index.html#kontak" class="block px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">Kontak Instansi</a>
+            <div>
+                <button class="mobile-dropdown-toggle w-full flex items-center justify-between px-3 py-2 text-sm font-bold text-slate-700 rounded-lg hover:bg-bone-200">
+                    <span>PPID</span>
+                    <i class="fa-solid fa-chevron-down text-xs transition-transform"></i>
+                </button>
+                <div class="hidden pl-6 py-1 space-y-1 bg-white/50 rounded-lg mt-1 border border-bone-200">
+                    <a href="https://ppid.makassarkota.go.id/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between py-1.5 pr-3 text-xs text-slate-600 hover:text-maroon-700">
+                        <span>PPID Makassar</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </a>
+                    <a href="https://ppid.makassarkota.go.id/daftar-informasi-publik" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between py-1.5 pr-3 text-xs text-slate-600 hover:text-maroon-700">
+                        <span>Informasi Publik</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </a>
+                    <a href="https://ppid.makassarkota.go.id/permohonan-informasi" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between py-1.5 pr-3 text-xs text-slate-600 hover:text-maroon-700">
+                        <span>Permohonan Informasi Publik</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </a>
+                    <a href="https://ppid.makassarkota.go.id/pengajuan-keberatan" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between py-1.5 pr-3 text-xs text-slate-600 hover:text-maroon-700">
+                        <span>Permohonan Keberatan</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Header Banner Halaman -->
+    <section class="bg-gradient-to-r from-maroon-950 via-maroon-900 to-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-maroon-900">
+        <div class="max-w-7xl mx-auto">
+            <nav class="flex items-center text-xs text-rose-200/80 mb-3" aria-label="Breadcrumb">
+                <a href="index.html" class="hover:text-white transition">Beranda</a>
+                <i class="fa-solid fa-chevron-right text-[10px] mx-2 text-rose-300/60"></i>
+                <span class="text-white font-medium">Berita & Publikasi</span>
+            </nav>
+            <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
+                Kabar & Publikasi Kegiatan BRIDA
+            </h1>
+            <p class="text-sm sm:text-base text-bone-200 mt-2 max-w-2xl leading-relaxed">
+                Informasi terkini mengenai agenda riset terapan daerah, capaian inovasi SKPD, seminar desiminasi ilmiah, dan kemitraan strategis Pemerintah Kota Makassar.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content Berita -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-12">
+
+        <!-- Sorotan Berita Utama (Featured News) -->
+        <section class="bg-white rounded-2xl border border-bone-300 overflow-hidden shadow-sm grid lg:grid-cols-12 gap-0">
+            <div class="lg:col-span-7 relative h-72 sm:h-96 bg-slate-900 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80" alt="Rapat Koordinasi Riset Daerah" class="w-full h-full object-cover opacity-90 hover:scale-105 transition duration-500">
+                <span class="absolute top-4 left-4 bg-maroon-700 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                    Sorotan Utama
+                </span>
+            </div>
+            <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-xs text-slate-400 font-medium">
+                        <span><i class="fa-regular fa-calendar mr-1"></i> 14 November 2026</span>
+                        <span>&bull;</span>
+                        <span class="text-maroon-700 font-bold uppercase"><i class="fa-solid fa-tag mr-1"></i> Kebijakan Riset</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-black text-slate-900 leading-snug hover:text-maroon-700 transition">
+                        BRIDA Kota Makassar Matangkan Rencana Induk Riset Daerah Menuju Makassar Rendah Karbon 2027
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Pemerintah Kota Makassar melalui Badan Riset dan Inovasi Daerah (BRIDA) menggelar lokakarya strategis bersama pakar lingkungan, perwakilan perguruan tinggi, dan BRIN guna merumuskan Peta Jalan Riset Rendah Karbon (Low Carbon City) yang berbasis bukti ilmiah dan indikator terukur.
+                    </p>
+                </div>
+                <div class="pt-4 border-t border-bone-300 flex items-center justify-between text-xs text-slate-500">
+                    <span>Oleh: <strong>Humas BRIDA Makassar</strong></span>
+                    <span class="text-maroon-700 font-bold cursor-pointer hover:underline">Baca Selengkapnya &rarr;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid Berita & Artikel Terbaru -->
+        <section class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-bone-300 pb-4">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-maroon-700">Daftar Rilis</span>
+                    <h3 class="text-2xl font-black text-slate-900 mt-0.5">Semua Artikel & Kabar Kegiatan</h3>
+                </div>
+                <!-- Filter Kategori Sederhana -->
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <button class="bg-maroon-700 text-white font-bold px-3 py-1.5 rounded-lg">Semua</button>
+                    <button class="bg-white border border-bone-300 text-slate-700 hover:border-maroon-700 px-3 py-1.5 rounded-lg transition">Riset Daerah</button>
+                    <button class="bg-white border border-bone-300 text-slate-700 hover:border-maroon-700 px-3 py-1.5 rounded-lg transition">Inovasi Perangkat Daerah</button>
+                    <button class="bg-white border border-bone-300 text-slate-700 hover:border-maroon-700 px-3 py-1.5 rounded-lg transition">Kemitraan Kampus</button>
+                </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Artikel 1 -->
+                <div class="bg-white rounded-2xl border border-bone-300 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                        <div class="h-44 bg-slate-200 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80" alt="Pendampingan Inovasi" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        </div>
+                        <div class="p-5 space-y-2">
+                            <div class="flex items-center gap-2 text-[11px] text-slate-400">
+                                <span class="text-maroon-700 font-bold uppercase">Inovasi Daerah</span>
+                                <span>&bull;</span>
+                                <span>28 Oktober 2026</span>
+                            </div>
+                            <h4 class="font-bold text-sm text-slate-900 leading-snug hover:text-maroon-700 transition cursor-pointer">
+                                Pendampingan Penginputan Data Inovasi OPD untuk Penilaian IGA Kemendagri
+                            </h4>
+                            <p class="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                                BRIDA Makassar menggelar desk konsultasi teknis bagi seluruh operator SKPD guna memastikan seluruh kelengkapan eviden indikator kematangan inovasi terunggah sesuai standar Kemendagri.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5 pt-2 border-t border-bone-300/80 flex items-center justify-between text-xs text-maroon-700 font-bold">
+                        <span>Rilis Resmi</span>
+                        <span class="hover:underline cursor-pointer">Selengkapnya &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- Artikel 2 -->
+                <div class="bg-white rounded-2xl border border-bone-300 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                        <div class="h-44 bg-slate-200 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80" alt="Kerja Sama Universitas" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        </div>
+                        <div class="p-5 space-y-2">
+                            <div class="flex items-center gap-2 text-[11px] text-slate-400">
+                                <span class="text-maroon-700 font-bold uppercase">Kemitraan Riset</span>
+                                <span>&bull;</span>
+                                <span>15 Oktober 2026</span>
+                            </div>
+                            <h4 class="font-bold text-sm text-slate-900 leading-snug hover:text-maroon-700 transition cursor-pointer">
+                                Sinergi BRIDA dan Universitas Hasanuddin Perkuat Hilirisasi Riset Maritim Perkotaan
+                            </h4>
+                            <p class="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                                Kesepakatan bersama pemanfaatan laboratorium dan hilirisasi produk riset nelayan pesisir Makassar guna memperkuat daya saing ekonomi berbasis potensi kelautan lokal.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5 pt-2 border-t border-bone-300/80 flex items-center justify-between text-xs text-maroon-700 font-bold">
+                        <span>Rilis Resmi</span>
+                        <span class="hover:underline cursor-pointer">Selengkapnya &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- Artikel 3 -->
+                <div class="bg-white rounded-2xl border border-bone-300 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                        <div class="h-44 bg-slate-200 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="Sosialisasi HAKI" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        </div>
+                        <div class="p-5 space-y-2">
+                            <div class="flex items-center gap-2 text-[11px] text-slate-400">
+                                <span class="text-maroon-700 font-bold uppercase">Kekayaan Intelektual</span>
+                                <span>&bull;</span>
+                                <span>02 Oktober 2026</span>
+                            </div>
+                            <h4 class="font-bold text-sm text-slate-900 leading-snug hover:text-maroon-700 transition cursor-pointer">
+                                Fasilitasi Perlindungan Hak Cipta dan Paten bagi Inovator Perangkat Daerah Kota Makassar
+                            </h4>
+                            <p class="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                                Sosialisasi tata cara pendaftaran Hak Kekayaan Intelektual (HAKI) agar karya cipta dan aplikasi pelayanan publik terlindungi secara legal formal.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5 pt-2 border-t border-bone-300/80 flex items-center justify-between text-xs text-maroon-700 font-bold">
+                        <span>Rilis Resmi</span>
+                        <span class="hover:underline cursor-pointer">Selengkapnya &rarr;</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Resmi Pemerintah Kota Makassar -->
+    <footer class="bg-maroon-950 text-bone-300 py-12 text-xs border-t border-maroon-900 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                
+                <div class="md:col-span-2 space-y-3">
+                    <div class="flex items-center">
+                        <a href="index.html" class="flex items-center focus:outline-none py-1">
+                            <img
+                                id="brida-footer-logo"
+                                src="images/logo-brida-white.png"
+                                alt="BRIDA Kota Makassar"
+                                class="h-12 sm:h-14 md:h-16 w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[380px] object-contain opacity-95 hover:opacity-100 transition-opacity"
+                            >
+                        </a>
+                    </div>
+                    <p class="text-bone-400 max-w-sm leading-relaxed text-xs">
+                        Portal resmi layanan riset, kajian kebijakan strategis, serta fasilitasi ekosistem inovasi daerah Pemerintah Kota Makassar.
+                    </p>
+                    <p class="text-[11px] text-rose-300/80">
+                        Pemerintah Kota Makassar &bull; Kerja Praktik Teknik Informatika Unhas.
+                    </p>
+                </div>
+
+                <div class="space-y-2">
+                    <h5 class="text-white font-bold text-sm">Portal Terkait</h5>
+                    <ul class="space-y-1.5 text-bone-400 text-xs">
+                        <li><a href="https://makassarkota.go.id" target="_blank" class="hover:text-white transition">Pemerintah Kota Makassar</a></li>
+                        <li><a href="https://brin.go.id" target="_blank" class="hover:text-white transition">Badan Riset & Inovasi Nasional (BRIN)</a></li>
+                        <li><a href="docs/Panduan_Pengguna_BRIDA_Makassar.txt" download class="hover:text-white transition">Unduh Panduan Layanan</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-2">
+                    <h5 class="text-white font-bold text-sm">Pemerintahan</h5>
+                    <ul class="space-y-1.5 text-bone-400 text-xs">
+                        <li><a href="index.html#tentang" class="hover:text-white transition">Profil BRIDA Makassar</a></li>
+                        <li><a href="layanan.html" class="hover:text-white transition">Layanan Riset Terpadu</a></li>
+                        <li><a href="informasi-publik.html" class="hover:text-white transition">Keterbukaan Informasi</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-maroon-900/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-bone-400 text-[11px]">
+                <div>&copy; 2026 Badan Riset dan Inovasi Daerah Kota Makassar. Seluruh hak cipta dilindungi.</div>
+                <div>Portal Resmi BRIDA Kota Makassar &bull; Pemerintah Kota Makassar</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

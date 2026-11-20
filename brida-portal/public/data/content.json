@@ -1,0 +1,69 @@
+{
+  "instansi": {
+    "nama": "Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar",
+    "akronim": "BRIDA KOTA MAKASSAR",
+    "peran": "Badan Riset dan Inovasi Daerah",
+    "sub_peran": "Pemerintah Kota Makassar",
+    "alamat": "Balai Kota Makassar, Jl. Ahmad Yani No. 2, Kota Makassar, Sulawesi Selatan",
+    "email": "brida@makassarkota.go.id",
+    "telepon": "(0411) Balai Kota Makassar",
+    "jam_kerja": "Senin - Jumat, 08.00 - 16.00 WITA"
+  },
+  "statistik": [
+    {
+      "angka": "120+",
+      "label": "Inovasi Daerah Terdaftar"
+    },
+    {
+      "angka": "Sangat Inovatif",
+      "label": "Predikat IID Kemendagri"
+    },
+    {
+      "angka": "45+",
+      "label": "Kajian Kebijakan Strategis"
+    }
+  ],
+  "berita": [
+    {
+      "id": 1,
+      "kategori": "Riset Daerah",
+      "tanggal": "November 2026",
+      "judul": "Penyusunan Peta Jalan Riset Daerah Menuju Makassar Low Carbon City 2027",
+      "ringkasan": "BRIDA Kota Makassar menggelar forum telaah ilmiah bersama para peneliti untuk merumuskan aksi mitigasi lingkungan perkotaan berbasis sains.",
+      "link": "#berita"
+    },
+    {
+      "id": 2,
+      "kategori": "Indeks Inovasi",
+      "tanggal": "Oktober 2026",
+      "judul": "Pendampingan Penginputan Data Inovasi OPD untuk Penilaian Innovative Government Award",
+      "ringkasan": "Kolaborasi lintas SKPD dalam memetakan program inovatif perangkat daerah guna mempertahankan predikat Kota Sangat Inovatif nasional.",
+      "link": "#berita"
+    },
+    {
+      "id": 3,
+      "kategori": "Kerja Sama Riset",
+      "tanggal": "Oktober 2026",
+      "judul": "Sinergi BRIDA dan Perguruan Tinggi Perkuat Hilirisasi Riset Terapan untuk Masyarakat",
+      "ringkasan": "Penandatanganan nota kesepahaman kajian terapan sosial ekonomi untuk mendukung program strategis Pemerintah Kota Makassar.",
+      "link": "#berita"
+    }
+  ],
+  "faq": [
+    {
+      "tanya": "Bagaimana prosedur pengusulan riset atau kerja sama penelitian dengan BRIDA Kota Makassar?",
+      "jawab": "Lembaga penelitian, akademisi, maupun instansi dapat mengajukan surat permohonan resmi dan proposal penelitian ke Sekretariat BRIDA di Balai Kota Makassar atau melalui surel resmi brida@makassarkota.go.id.",
+      "buka_default": true
+    },
+    {
+      "tanya": "Apa saja kriteria inovasi daerah yang dapat difasilitasi oleh BRIDA?",
+      "jawab": "Sesuai regulasi, inovasi daerah mencakup inovasi tata kelola pemerintahan, inovasi pelayanan publik, dan inovasi bentuk lainnya yang telah berjalan minimal 1 tahun, memberikan kemanfaatan nyata, dan dapat direplikasi.",
+      "buka_default": false
+    },
+    {
+      "tanya": "Apakah masyarakat atau akademisi dapat mengakses data dan laporan hasil kajian BRIDA?",
+      "jawab": "Ya. Laporan kajian kebijakan dan publikasi riset yang bersifat terbuka dapat diakses melalui layanan permohonan informasi publik PPID BRIDA Kota Makassar sesuai ketentuan perundang-undangan.",
+      "buka_default": false
+    }
+  ]
+}

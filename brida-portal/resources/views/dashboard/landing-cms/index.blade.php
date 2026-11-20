@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="space-y-6" x-data="{ activeTab: 'beranda' }">
+    <div class="space-y-6" x-data="{ activeTab: localStorage.getItem('landingCmsActiveTab') || 'beranda' }" x-init="$watch('activeTab', val => localStorage.setItem('landingCmsActiveTab', val))">
 
         <!-- Top Header & Breadcrumb -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2 border-b border-bone-300">
@@ -398,6 +398,32 @@
                     @endforeach
                 </div>
             </div>
+
+            <!-- Pengaturan Teks Footer Global -->
+            <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" class="lg:col-span-12 bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-5">
+                @csrf
+                <div class="border-b border-bone-200 pb-3">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Tampilan Global</span>
+                    <h3 class="text-base font-black text-slate-900">Teks Deskripsi & Hak Cipta Footer</h3>
+                    <p class="text-xs text-slate-500">Ubah teks deskripsi singkat instansi dan tulisan hak cipta (copyright) di bagian bawah seluruh halaman.</p>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Singkat Instansi di Footer</label>
+                        <textarea name="tagline" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['tagline'] ?? 'Portal resmi layanan riset, kajian kebijakan strategis, serta fasilitasi ekosistem inovasi daerah Pemerintah Kota Makassar.' }}</textarea>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Teks Hak Cipta (Copyright)</label>
+                        <input type="text" name="footer_copyright" value="{{ $settings['footer_copyright'] ?? ('© ' . date('Y') . ' Badan Riset dan Inovasi Daerah Kota Makassar. Seluruh hak cipta dilindungi.') }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition shadow-sm">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Teks Footer</span>
+                    </button>
+                </div>
+            </form>
 
         </div>
 

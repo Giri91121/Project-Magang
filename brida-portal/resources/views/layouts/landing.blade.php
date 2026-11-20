@@ -226,7 +226,7 @@
             </div>
 
             <div class="pt-8 border-t border-maroon-900/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-bone-400 text-[11px]">
-                <div>&copy; {{ date('Y') }} Badan Riset dan Inovasi Daerah Kota Makassar. Seluruh hak cipta dilindungi.</div>
+                <div>{!! $portalSettings['footer_copyright'] ?? ('&copy; ' . date('Y') . ' Badan Riset dan Inovasi Daerah Kota Makassar. Seluruh hak cipta dilindungi.') !!}</div>
                 <div>Portal Resmi BRIDA Kota Makassar &bull; Pemerintah Kota Makassar</div>
             </div>
         </div>

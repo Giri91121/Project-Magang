@@ -59,6 +59,9 @@ class LandingCmsController extends Controller
             // Halaman Pemerintahan
             'pemerintahan_header_title',
             'pemerintahan_header_subtitle',
+            // Footer Global
+            'tagline',
+            'footer_copyright',
             'gov_office_caption',
             'gov_profile_title',
             'gov_profile_p1',

@@ -376,9 +376,10 @@ class LandingCmsController extends Controller
 
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'aksi' => 'Update Editor Halaman Berita',
-            'modul' => 'Landing CMS',
-            'deskripsi' => 'Memperbarui tampilan banner, sorotan, kategori, paginasi, dan komentar halaman Berita.',
+            'action' => 'Update Editor Halaman Berita',
+            'description' => 'Memperbarui tampilan banner, sorotan, kategori, paginasi, dan komentar halaman Berita.',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
         ]);
 
         return back()->with('success', 'Pengaturan Halaman Berita & Publikasi berhasil disimpan!');

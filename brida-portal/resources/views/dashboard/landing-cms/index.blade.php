@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="space-y-6" x-data="{ activeTab: 'hero' }">
+    <div class="space-y-6" x-data="{ activeTab: 'beranda' }">
 
         <!-- Top Header & Breadcrumb -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2 border-b border-bone-300">
@@ -23,46 +23,34 @@
             </a>
         </div>
 
-        <!-- Navigasi Tab Editor -->
+        <!-- Navigasi Tab Editor (Berbasis Menu Landing Page) -->
         <div class="flex flex-wrap gap-2 bg-white p-2 rounded-2xl border border-bone-300 shadow-sm">
-            <button type="button" @click="activeTab = 'hero'" :class="activeTab === 'hero' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
-                <i class="fa-solid fa-images"></i>
-                <span>1. Hero, Slideshow & Logo</span>
-            </button>
-            <button type="button" @click="activeTab = 'navbar'" :class="activeTab === 'navbar' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+            <button type="button" @click="activeTab = 'global'" :class="activeTab === 'global' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
                 <i class="fa-solid fa-bars"></i>
-                <span>2. Menu Navbar & Dropdown</span>
+                <span>1. Navbar & Global</span>
             </button>
-            <button type="button" @click="activeTab = 'services'" :class="activeTab === 'services' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
-                <i class="fa-solid fa-table-cells-large"></i>
-                <span>3. Layanan (Beranda & Halaman Layanan)</span>
+            <button type="button" @click="activeTab = 'beranda'" :class="activeTab === 'beranda' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-house"></i>
+                <span>2. Beranda</span>
             </button>
             <button type="button" @click="activeTab = 'pemerintahan'" :class="activeTab === 'pemerintahan' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
                 <i class="fa-solid fa-landmark"></i>
-                <span>4. Halaman Pemerintahan (Visi Misi)</span>
+                <span>3. Pemerintahan</span>
             </button>
-            <button type="button" @click="activeTab = 'topbar_links'" :class="activeTab === 'topbar_links' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
-                <i class="fa-solid fa-bullhorn"></i>
-                <span>5. Bar Pengumuman, Pintasan & Maps</span>
-            </button>
-            <button type="button" @click="activeTab = 'instagram'" :class="activeTab === 'instagram' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
-                <i class="fa-brands fa-instagram"></i>
-                <span>6. 3 Postingan Instagram</span>
-            </button>
-            <button type="button" @click="activeTab = 'leaders'" :class="activeTab === 'leaders' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
-                <i class="fa-solid fa-user-tie"></i>
-                <span>7. Foto & Nama Pimpinan</span>
+            <button type="button" @click="activeTab = 'layanan'" :class="activeTab === 'layanan' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-table-cells-large"></i>
+                <span>4. Layanan</span>
             </button>
             <button type="button" @click="activeTab = 'berita'" :class="activeTab === 'berita' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
                 <i class="fa-regular fa-newspaper"></i>
-                <span>8. Halaman Berita & Publikasi</span>
+                <span>5. Berita</span>
             </button>
         </div>
 
         <!-- ============================================================== -->
         <!-- TAB 1: HERO BANNER, GAMBAR SLIDESHOW, & LOGO                   -->
         <!-- ============================================================== -->
-        <div x-show="activeTab === 'hero'" class="space-y-8">
+        <div x-show="activeTab === 'beranda'" class="space-y-8">
 
             <!-- A. Gambar Background Slideshow Beranda -->
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-6">
@@ -268,7 +256,7 @@
         <!-- ============================================================== -->
         <!-- TAB 2: MANAJEMEN MENU NAVBAR & SUBMENU DROPDOWN                -->
         <!-- ============================================================== -->
-        <div x-show="activeTab === 'navbar'" class="grid lg:grid-cols-12 gap-6 items-start">
+        <div x-show="activeTab === 'global'" class="grid lg:grid-cols-12 gap-6 items-start">
 
             <!-- Kolom Kiri: Form Tambah Menu / Submenu Baru -->
             <div class="lg:col-span-4 bg-white rounded-3xl p-6 border border-bone-300 shadow-sm space-y-5">
@@ -408,7 +396,7 @@
         <!-- ============================================================== -->
         <!-- TAB 3: KARTU LAYANAN UTAMA DI BERANDA                          -->
         <!-- ============================================================== -->
-        <div x-show="activeTab === 'services'" class="space-y-6">
+        <div x-show="activeTab === 'layanan'" class="space-y-6">
 
             <!-- Daftar Kartu Layanan yang Dapat Diedit -->
             <div class="grid md:grid-cols-2 gap-6">
@@ -622,7 +610,7 @@
         <!-- ============================================================== -->
         <!-- TAB 5: BAR PENGUMUMAN ATAS, PINTASAN LINK, & GOOGLE MAPS       -->
         <!-- ============================================================== -->
-        <div x-show="activeTab === 'topbar_links'" class="space-y-6">
+        <div x-show="activeTab === 'beranda'" class="space-y-6">
             <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
                 @csrf
 
@@ -702,7 +690,7 @@
         <!-- ============================================================== -->
         <!-- TAB 6: KONEKSI OTOMATIS INSTAGRAM @bridakotamakassar           -->
         <!-- ============================================================== -->
-        <div x-show="activeTab === 'instagram'" class="space-y-6">
+        <div x-show="activeTab === 'beranda'" class="space-y-6">
             <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-6">
                 @csrf
 
@@ -762,7 +750,7 @@
         <!-- ============================================================== -->
         <!-- TAB 7: FOTO & NAMA 4 PIMPINAN (WALI KOTA, WAWALI, KABAN, SEKBAN)-->
         <!-- ============================================================== -->
-        <div x-show="activeTab === 'leaders'" class="space-y-6">
+        <div x-show="activeTab === 'beranda'" class="space-y-6">
             <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
                 @csrf
 

@@ -546,4 +546,49 @@ class LandingCmsController extends Controller
 
         return back()->with('success', 'Pengaturan Halaman Informasi Publik berhasil disimpan!');
     }
+
+    /**
+     * Geser Urutan Slide Hero Naik atau Turun
+     */
+    public function moveSlide(Request $request, $id)
+    {
+        $this->moveItemOrder(HeroSlide::class, $id, $request->input('direction'));
+        return back()->with('success', 'Urutan slide hero berhasil diperbarui!');
+    }
+
+    /**
+     * Geser Urutan Kartu Layanan Naik atau Turun
+     */
+    public function moveService(Request $request, $id)
+    {
+        $this->moveItemOrder(LandingService::class, $id, $request->input('direction'));
+        return back()->with('success', 'Urutan kartu layanan berhasil diperbarui!');
+    }
+
+    /**
+     * Helper untuk menukar sort_order item dengan tetangga atas/bawahnya
+     */
+    private function moveItemOrder(string $modelClass, $id, ?string $direction): void
+    {
+        $items = $modelClass::orderBy('sort_order')->orderBy('id')->get()->values();
+        foreach ($items as $idx => $item) {
+            if ($item->sort_order !== $idx + 1) {
+                $item->update(['sort_order' => $idx + 1]);
+            }
+        }
+
+        $currentIndex = $items->search(fn($item) => $item->id == $id);
+        if ($currentIndex === false) {
+            return;
+        }
+
+        $targetIndex = $direction === 'up' ? $currentIndex - 1 : $currentIndex + 1;
+        if ($targetIndex >= 0 && $targetIndex < $items->count()) {
+            $current = $items[$currentIndex];
+            $target = $items[$targetIndex];
+            $tempOrder = $current->sort_order;
+            $current->update(['sort_order' => $target->sort_order]);
+            $target->update(['sort_order' => $tempOrder]);
+        }
+    }
 }

@@ -79,6 +79,22 @@
                             <span class="absolute top-3 left-3 bg-maroon-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow">
                                 Slide #{{ $slide->sort_order }}
                             </span>
+                            <div class="absolute top-3 right-3 flex items-center gap-1">
+                                <form method="POST" action="{{ route('dashboard.landing-cms.slides.move', $slide->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="direction" value="up">
+                                    <button type="submit" {{ $loop->first ? 'disabled' : '' }} class="w-7 h-7 rounded-lg bg-white/90 text-slate-700 hover:bg-maroon-700 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center text-[10px] shadow transition" title="Geser Kiri / Naik">
+                                        <i class="fa-solid fa-chevron-left"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('dashboard.landing-cms.slides.move', $slide->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="direction" value="down">
+                                    <button type="submit" {{ $loop->last ? 'disabled' : '' }} class="w-7 h-7 rounded-lg bg-white/90 text-slate-700 hover:bg-maroon-700 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center text-[10px] shadow transition" title="Geser Kanan / Turun">
+                                        <i class="fa-solid fa-chevron-right"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                         <div class="p-4 space-y-3">
                             <form method="POST" action="{{ route('dashboard.landing-cms.slides.update', $slide->id) }}" enctype="multipart/form-data" class="space-y-2.5">
@@ -551,13 +567,31 @@
                             </div>
                             <h4 class="font-black text-sm text-slate-900">{{ $srv->judul }}</h4>
                         </div>
-                        <form method="POST" action="{{ route('dashboard.landing-cms.services.destroy', $srv->id) }}" data-confirm="Hapus kartu layanan '{{ $srv->judul }}' dari beranda?" data-confirm-title="Hapus Kartu Layanan" data-confirm-btn="Ya, Hapus">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-xs font-bold text-rose-600 hover:underline">
-                                <i class="fa-solid fa-trash-can mr-1"></i> Hapus
-                            </button>
-                        </form>
+                        <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-1">
+                                <form method="POST" action="{{ route('dashboard.landing-cms.services.move', $srv->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="direction" value="up">
+                                    <button type="submit" {{ $loop->first ? 'disabled' : '' }} class="w-7 h-7 rounded-lg border border-bone-300 bg-bone-50 text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[10px] transition" title="Naikkan Urutan">
+                                        <i class="fa-solid fa-chevron-up"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('dashboard.landing-cms.services.move', $srv->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="direction" value="down">
+                                    <button type="submit" {{ $loop->last ? 'disabled' : '' }} class="w-7 h-7 rounded-lg border border-bone-300 bg-bone-50 text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[10px] transition" title="Turunkan Urutan">
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <form method="POST" action="{{ route('dashboard.landing-cms.services.destroy', $srv->id) }}" data-confirm="Hapus kartu layanan '{{ $srv->judul }}' dari beranda?" data-confirm-title="Hapus Kartu Layanan" data-confirm-btn="Ya, Hapus">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-xs font-bold text-rose-600 hover:underline">
+                                    <i class="fa-solid fa-trash-can mr-1"></i> Hapus
+                                </button>
+                            </form>
+                        </div>
                     </div>
 
                     <form method="POST" action="{{ route('dashboard.landing-cms.services.update', $srv->id) }}" class="space-y-3">

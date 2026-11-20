@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
         // Slideshow Gambar Hero
         Route::post('/slides', [LandingCmsController::class, 'storeSlide'])->name('slides.store');
         Route::patch('/slides/{id}', [LandingCmsController::class, 'updateSlide'])->name('slides.update');
+        Route::post('/slides/{id}/move', [LandingCmsController::class, 'moveSlide'])->name('slides.move');
         Route::delete('/slides/{id}', [LandingCmsController::class, 'destroySlide'])->name('slides.destroy');
 
         // Menu Navbar & Submenu Dropdown
@@ -132,6 +133,7 @@ Route::middleware('auth')->group(function () {
         // Kartu Layanan Beranda
         Route::post('/services', [LandingCmsController::class, 'storeService'])->name('services.store');
         Route::patch('/services/{id}', [LandingCmsController::class, 'updateService'])->name('services.update');
+        Route::post('/services/{id}/move', [LandingCmsController::class, 'moveService'])->name('services.move');
         Route::delete('/services/{id}', [LandingCmsController::class, 'destroyService'])->name('services.destroy');
     });
 });

@@ -384,4 +384,50 @@ class LandingCmsController extends Controller
 
         return back()->with('success', 'Pengaturan Halaman Berita & Publikasi berhasil disimpan!');
     }
+
+    /**
+     * Update Pengaturan Halaman Kontak (/kontak)
+     */
+    public function updateKontakPageSettings(Request $request)
+    {
+        $request->validate([
+            'kontak_header_title' => 'required|string|max:200',
+            'kontak_header_subtitle' => 'required|string|max:500',
+            'office_address' => 'required|string|max:500',
+            'kontak_maps_url' => 'nullable|url|max:500',
+            'work_hours' => 'required|string|max:255',
+            'contact_phone' => 'required|string|max:100',
+            'contact_email' => 'required|email|max:150',
+            'contact_whatsapp' => 'required|string|max:50',
+            'social_instagram' => 'nullable|url|max:255',
+            'social_youtube' => 'nullable|url|max:255',
+        ]);
+
+        $keys = [
+            'kontak_header_title',
+            'kontak_header_subtitle',
+            'office_address',
+            'kontak_maps_url',
+            'work_hours',
+            'contact_phone',
+            'contact_email',
+            'contact_whatsapp',
+            'social_instagram',
+            'social_youtube',
+        ];
+
+        foreach ($keys as $key) {
+            Setting::updateOrCreate(['key' => $key], ['value' => $request->input($key, '') ?? '']);
+        }
+
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Update Editor Halaman Kontak',
+            'description' => 'Memperbarui banner, alamat sekretariat, jam kerja, kontak, dan tautan media sosial pada halaman Kontak.',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
+        return back()->with('success', 'Pengaturan Halaman Kontak berhasil disimpan!');
+    }
 }

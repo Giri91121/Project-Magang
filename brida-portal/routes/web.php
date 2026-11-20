@@ -114,6 +114,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [LandingCmsController::class, 'index'])->name('index');
         Route::post('/hero-appearance', [LandingCmsController::class, 'updateHeroAndAppearance'])->name('update-hero');
         Route::post('/berita-settings', [LandingCmsController::class, 'updateBeritaPageSettings'])->name('berita');
+        Route::post('/kontak-settings', [LandingCmsController::class, 'updateKontakPageSettings'])->name('kontak');
         
         // Slideshow Gambar Hero
         Route::post('/slides', [LandingCmsController::class, 'storeSlide'])->name('slides.store');

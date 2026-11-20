@@ -45,6 +45,10 @@
                 <i class="fa-regular fa-newspaper"></i>
                 <span>5. Berita</span>
             </button>
+            <button type="button" @click="activeTab = 'kontak'" :class="activeTab === 'kontak' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-address-book"></i>
+                <span>6. Kontak</span>
+            </button>
         </div>
 
         <!-- ============================================================== -->
@@ -919,6 +923,87 @@
                     <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
                         <i class="fa-solid fa-floppy-disk"></i>
                         <span>Simpan Pengaturan Halaman Berita</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TAB 6: EDITOR HALAMAN KONTAK                                   -->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'kontak'" class="space-y-6">
+            <form method="POST" action="{{ route('dashboard.landing-cms.kontak') }}" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-6">
+                @csrf
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-bone-200 pb-4">
+                    <div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Kustomisasi Halaman Kontak</span>
+                        <h3 class="text-lg font-black text-slate-900">Editor Halaman Kontak & Saluran Resmi</h3>
+                        <p class="text-xs text-slate-500">Atur banner header, alamat sekretariat, jam kerja, call center, email, WhatsApp, dan media sosial.</p>
+                    </div>
+                    <a href="{{ route('kontak') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-maroon-700 hover:underline">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Buka Halaman Kontak</span>
+                    </a>
+                </div>
+
+                <!-- 1. Banner Header -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">1. Banner Header Halaman Kontak</h4>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Utama Banner</label>
+                            <input type="text" name="kontak_header_title" value="{{ $settings['kontak_header_title'] ?? 'Kontak & Saluran Komunikasi Resmi' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Pengantar Banner</label>
+                            <textarea name="kontak_header_subtitle" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['kontak_header_subtitle'] ?? 'Kami siap melayani kebutuhan konsultasi riset, fasilitasi inovasi daerah, serta koordinasi kelembagaan. Silakan hubungi kami melalui saluran komunikasi tertera di bawah.' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Alamat, Jam Operasional & Saluran Komunikasi -->
+                <div class="space-y-4 pt-2">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">2. Alamat Sekretariat, Jam Kerja & Kontak</h4>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Alamat Lengkap Sekretariat</label>
+                            <textarea name="office_address" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['office_address'] ?? 'Gedung Balai Kota Makassar Lantai 2, Jl. Ahmad Yani No. 2, Baru, Kec. Ujung Pandang, Kota Makassar, Sulawesi Selatan 90111' }}</textarea>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Tautan Google Maps (Tombol Buka di Google Maps)</label>
+                            <input type="url" name="kontak_maps_url" value="{{ $settings['kontak_maps_url'] ?? 'https://maps.google.com/?q=Balai+Kota+Makassar' }}" placeholder="https://maps.google.com/..." class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Jam Operasional</label>
+                            <input type="text" name="work_hours" value="{{ $settings['work_hours'] ?? 'Senin - Kamis (08.00 - 16.00 WITA), Jumat (08.00 - 16.30 WITA)' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Telepon / Call Center</label>
+                            <input type="text" name="contact_phone" value="{{ $settings['contact_phone'] ?? '112 (Bebas Pulsa)' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Email Sekretariat</label>
+                            <input type="email" name="contact_email" value="{{ $settings['contact_email'] ?? 'brida@makassarkota.go.id' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Nomor WhatsApp Layanan</label>
+                            <input type="text" name="contact_whatsapp" value="{{ $settings['contact_whatsapp'] ?? '081144002233' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">URL Instagram Resmi (Opsional)</label>
+                            <input type="url" name="social_instagram" value="{{ $settings['social_instagram'] ?? '' }}" placeholder="https://instagram.com/bridakotamakassar" class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">URL YouTube Resmi (Opsional)</label>
+                            <input type="url" name="social_youtube" value="{{ $settings['social_youtube'] ?? '' }}" placeholder="https://youtube.com/@..." class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-bone-200 flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Pengaturan Halaman Kontak</span>
                     </button>
                 </div>
             </form>

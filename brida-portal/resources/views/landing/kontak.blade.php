@@ -15,10 +15,10 @@
                 <span class="text-white font-medium">Kontak</span>
             </nav>
             <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
-                Kontak & Saluran Komunikasi Resmi
+                {{ $portalSettings['kontak_header_title'] ?? 'Kontak & Saluran Komunikasi Resmi' }}
             </h1>
             <p class="text-sm sm:text-base text-bone-200 mt-2 max-w-2xl leading-relaxed">
-                Kami siap melayani kebutuhan konsultasi riset, fasilitasi inovasi daerah, serta koordinasi kelembagaan. Silakan hubungi kami melalui saluran komunikasi tertera di bawah.
+                {{ $portalSettings['kontak_header_subtitle'] ?? 'Kami siap melayani kebutuhan konsultasi riset, fasilitasi inovasi daerah, serta koordinasi kelembagaan. Silakan hubungi kami melalui saluran komunikasi tertera di bawah.' }}
             </p>
         </div>
     </section>
@@ -41,7 +41,7 @@
                     {{ $portalSettings['office_address'] ?? 'Gedung Balai Kota Makassar Lantai 2, Jl. Ahmad Yani No. 2, Baru, Kec. Ujung Pandang, Kota Makassar, Sulawesi Selatan 90111' }}
                 </p>
                 <div class="pt-2 text-xs font-semibold text-maroon-700">
-                    <a href="https://maps.google.com/?q=Balai+Kota+Makassar" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 hover:underline">
+                    <a href="{{ $portalSettings['kontak_maps_url'] ?: 'https://maps.google.com/?q=Balai+Kota+Makassar' }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 hover:underline">
                         <span>Buka di Google Maps</span>
                         <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                     </a>

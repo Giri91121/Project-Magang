@@ -14,10 +14,10 @@
                 <span class="text-white font-medium">Informasi Publik & Regulasi</span>
             </nav>
             <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
-                Keterbukaan Informasi Publik & Regulasi Riset
+                {{ $portalSettings['info_header_title'] ?? 'Keterbukaan Informasi Publik & Regulasi Riset' }}
             </h1>
             <p class="text-sm sm:text-base text-bone-200 mt-2 max-w-2xl leading-relaxed">
-                Dokumentasi regulasi inovasi daerah, laporan kinerja, statistik ekosistem riset, dan layanan Pejabat Pengelola Informasi dan Dokumentasi (PPID) BRIDA Kota Makassar.
+                {{ $portalSettings['info_header_subtitle'] ?? 'Dokumentasi regulasi inovasi daerah, laporan kinerja, statistik ekosistem riset, dan layanan Pejabat Pengelola Informasi dan Dokumentasi (PPID) BRIDA Kota Makassar.' }}
             </p>
         </div>
     </section>
@@ -28,19 +28,19 @@
         <!-- 3 Kartu Capaian & Keterbukaan Informasi -->
         <section class="grid sm:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-3xl border border-bone-300 shadow-sm text-center">
-                <div class="text-3xl font-black text-maroon-700">120+</div>
-                <div class="text-xs font-bold text-slate-800 uppercase mt-1">Inovasi Terdaftar</div>
-                <p class="text-[11px] text-slate-500 mt-1">Basis data inovasi perangkat daerah dalam database IGA Kemendagri.</p>
+                <div class="text-3xl font-black text-maroon-700">{{ $portalSettings['info_stat_1_value'] ?? '120+' }}</div>
+                <div class="text-xs font-bold text-slate-800 uppercase mt-1">{{ $portalSettings['info_stat_1_title'] ?? 'Inovasi Terdaftar' }}</div>
+                <p class="text-[11px] text-slate-500 mt-1">{{ $portalSettings['info_stat_1_desc'] ?? 'Basis data inovasi perangkat daerah dalam database IGA Kemendagri.' }}</p>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-bone-300 shadow-sm text-center">
-                <div class="text-3xl font-black text-emerald-600">Sangat Inovatif</div>
-                <div class="text-xs font-bold text-slate-800 uppercase mt-1">Predikat IID Nasional</div>
-                <p class="text-[11px] text-slate-500 mt-1">Penilaian Indeks Inovasi Daerah Kementerian Dalam Negeri RI.</p>
+                <div class="text-3xl font-black text-emerald-600">{{ $portalSettings['info_stat_2_value'] ?? 'Sangat Inovatif' }}</div>
+                <div class="text-xs font-bold text-slate-800 uppercase mt-1">{{ $portalSettings['info_stat_2_title'] ?? 'Predikat IID Nasional' }}</div>
+                <p class="text-[11px] text-slate-500 mt-1">{{ $portalSettings['info_stat_2_desc'] ?? 'Penilaian Indeks Inovasi Daerah Kementerian Dalam Negeri RI.' }}</p>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-bone-300 shadow-sm text-center">
-                <div class="text-3xl font-black text-indigo-700">100%</div>
-                <div class="text-xs font-bold text-slate-800 uppercase mt-1">Keterbukaan Informasi</div>
-                <p class="text-[11px] text-slate-500 mt-1">Akses publik terhadap dokumen kebijakan dan telaahan staf terbuka.</p>
+                <div class="text-3xl font-black text-indigo-700">{{ $portalSettings['info_stat_3_value'] ?? '100%' }}</div>
+                <div class="text-xs font-bold text-slate-800 uppercase mt-1">{{ $portalSettings['info_stat_3_title'] ?? 'Keterbukaan Informasi' }}</div>
+                <p class="text-[11px] text-slate-500 mt-1">{{ $portalSettings['info_stat_3_desc'] ?? 'Akses publik terhadap dokumen kebijakan dan telaahan staf terbuka.' }}</p>
             </div>
         </section>
 

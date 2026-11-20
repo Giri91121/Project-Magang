@@ -49,6 +49,10 @@
                 <i class="fa-solid fa-address-book"></i>
                 <span>6. Kontak</span>
             </button>
+            <button type="button" @click="activeTab = 'informasi-publik'" :class="activeTab === 'informasi-publik' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-book-open"></i>
+                <span>7. Informasi Publik</span>
+            </button>
         </div>
 
         <!-- ============================================================== -->
@@ -402,6 +406,45 @@
         <!-- ============================================================== -->
         <div x-show="activeTab === 'layanan'" class="space-y-6">
 
+            <!-- Banner Header & Judul Section Halaman Layanan -->
+            <form method="POST" action="{{ route('dashboard.landing-cms.layanan-header') }}" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-5">
+                @csrf
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-bone-200 pb-3">
+                    <div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Kustomisasi Halaman /layanan</span>
+                        <h3 class="text-base font-black text-slate-900">Banner Header & Judul Section Layanan</h3>
+                    </div>
+                    <a href="{{ route('layanan') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-maroon-700 hover:underline">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Buka Halaman Layanan</span>
+                    </a>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Utama Banner (/layanan)</label>
+                        <input type="text" name="layanan_header_title" value="{{ $settings['layanan_header_title'] ?? 'Katalog Layanan Terpadu BRIDA' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Pengantar Banner (/layanan)</label>
+                        <textarea name="layanan_header_subtitle" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['layanan_header_subtitle'] ?? 'Fasilitasi riset kebijakan berbasis bukti ilmiah, rekomendasi izin penelitian, pendampingan inovasi perangkat daerah, serta kemitraan riset perguruan tinggi dan BRIN.' }}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Badge Section Layanan</label>
+                        <input type="text" name="layanan_section_badge" value="{{ $settings['layanan_section_badge'] ?? 'Pelayanan Prima' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Section Layanan</label>
+                        <input type="text" name="layanan_section_title" value="{{ $settings['layanan_section_title'] ?? 'Layanan Riset & Inovasi' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition shadow-sm">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Header Halaman Layanan</span>
+                    </button>
+                </div>
+            </form>
+
             <!-- Daftar Kartu Layanan yang Dapat Diedit -->
             <div class="grid md:grid-cols-2 gap-6">
                 @foreach($services as $srv)
@@ -533,6 +576,30 @@
         <div x-show="activeTab === 'pemerintahan'" class="space-y-6">
             <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
                 @csrf
+
+                <!-- Banner Header Halaman Pemerintahan -->
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-bone-200 pb-2">
+                        <div>
+                            <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Banner Atas /pemerintahan</span>
+                            <h3 class="text-base font-black text-slate-900">Banner Header Halaman Pemerintahan</h3>
+                        </div>
+                        <a href="{{ route('pemerintahan') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-maroon-700 hover:underline">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>Buka Halaman Pemerintahan</span>
+                        </a>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Utama Banner</label>
+                            <input type="text" name="pemerintahan_header_title" value="{{ $settings['pemerintahan_header_title'] ?? 'Profil & Tata Kelola Kelembagaan' }}" class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Pengantar Banner</label>
+                            <textarea name="pemerintahan_header_subtitle" rows="2" class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['pemerintahan_header_subtitle'] ?? 'Mengenal lebih dekat Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar, fungsi penunjang urusan pemerintahan daerah di bidang penelitian, pengembangan, pengkajian, dan inovasi.' }}</textarea>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Foto Gedung & Profil Lembaga -->
                 <div class="space-y-4">
@@ -1004,6 +1071,118 @@
                     <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
                         <i class="fa-solid fa-floppy-disk"></i>
                         <span>Simpan Pengaturan Halaman Kontak</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TAB 7: EDITOR HALAMAN INFORMASI PUBLIK                         -->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'informasi-publik'" class="space-y-6">
+            <form method="POST" action="{{ route('dashboard.landing-cms.informasi-publik') }}" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-6">
+                @csrf
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-bone-200 pb-4">
+                    <div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Kustomisasi Informasi Publik</span>
+                        <h3 class="text-lg font-black text-slate-900">Editor Halaman Informasi Publik & Regulasi</h3>
+                        <p class="text-xs text-slate-500">Atur banner header, 3 kartu capaian keterbukaan informasi, dan jumlah dokumen regulasi per halaman.</p>
+                    </div>
+                    <a href="{{ route('informasi-publik') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-maroon-700 hover:underline">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Buka Halaman Informasi Publik</span>
+                    </a>
+                </div>
+
+                <!-- 1. Banner Header -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">1. Banner Header Halaman Informasi Publik</h4>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Utama Banner</label>
+                            <input type="text" name="info_header_title" value="{{ $settings['info_header_title'] ?? 'Keterbukaan Informasi Publik & Regulasi Riset' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Pengantar Banner</label>
+                            <textarea name="info_header_subtitle" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['info_header_subtitle'] ?? 'Dokumentasi regulasi inovasi daerah, laporan kinerja, statistik ekosistem riset, dan layanan Pejabat Pengelola Informasi dan Dokumentasi (PPID) BRIDA Kota Makassar.' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 3 Kartu Capaian & Keterbukaan Informasi -->
+                <div class="space-y-4 pt-2">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">2. 3 Kartu Capaian & Keterbukaan Informasi</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <!-- Kartu 1 -->
+                        <div class="p-4 rounded-2xl bg-bone-50 border border-bone-200 space-y-3">
+                            <span class="text-[11px] font-extrabold text-maroon-700 uppercase block">Kartu 1</span>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Angka / Nilai</label>
+                                <input type="text" name="info_stat_1_value" value="{{ $settings['info_stat_1_value'] ?? '120+' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-bold px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Judul Kartu</label>
+                                <input type="text" name="info_stat_1_title" value="{{ $settings['info_stat_1_title'] ?? 'Inovasi Terdaftar' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Deskripsi Singkat</label>
+                                <textarea name="info_stat_1_desc" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2">{{ $settings['info_stat_1_desc'] ?? 'Basis data inovasi perangkat daerah dalam database IGA Kemendagri.' }}</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Kartu 2 -->
+                        <div class="p-4 rounded-2xl bg-bone-50 border border-bone-200 space-y-3">
+                            <span class="text-[11px] font-extrabold text-emerald-700 uppercase block">Kartu 2</span>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Angka / Predikat</label>
+                                <input type="text" name="info_stat_2_value" value="{{ $settings['info_stat_2_value'] ?? 'Sangat Inovatif' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-bold px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Judul Kartu</label>
+                                <input type="text" name="info_stat_2_title" value="{{ $settings['info_stat_2_title'] ?? 'Predikat IID Nasional' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Deskripsi Singkat</label>
+                                <textarea name="info_stat_2_desc" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2">{{ $settings['info_stat_2_desc'] ?? 'Penilaian Indeks Inovasi Daerah Kementerian Dalam Negeri RI.' }}</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Kartu 3 -->
+                        <div class="p-4 rounded-2xl bg-bone-50 border border-bone-200 space-y-3">
+                            <span class="text-[11px] font-extrabold text-indigo-700 uppercase block">Kartu 3</span>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Angka / Nilai</label>
+                                <input type="text" name="info_stat_3_value" value="{{ $settings['info_stat_3_value'] ?? '100%' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-bold px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Judul Kartu</label>
+                                <input type="text" name="info_stat_3_title" value="{{ $settings['info_stat_3_title'] ?? 'Keterbukaan Informasi' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Deskripsi Singkat</label>
+                                <textarea name="info_stat_3_desc" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2">{{ $settings['info_stat_3_desc'] ?? 'Akses publik terhadap dokumen kebijakan dan telaahan staf terbuka.' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Paginasi Dokumen Regulasi -->
+                <div class="space-y-4 pt-2">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">3. Pengaturan Daftar Regulasi</h4>
+                    <div class="max-w-xs">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Jumlah Dokumen Per Halaman</label>
+                        <select name="info_per_page" class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                            @foreach([6, 8, 12, 16] as $qty)
+                                <option value="{{ $qty }}" {{ (int)($settings['info_per_page'] ?? 8) === $qty ? 'selected' : '' }}>{{ $qty }} Dokumen / Halaman</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-bone-200 flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Pengaturan Informasi Publik</span>
                     </button>
                 </div>
             </form>

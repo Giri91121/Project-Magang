@@ -55,7 +55,11 @@ class HomeController extends Controller
             });
         }
 
-        $regulasiList = $query->paginate(8)->withQueryString();
+        $infoPerPage = (int) (Setting::where('key', 'info_per_page')->value('value') ?? 8);
+        if ($infoPerPage < 4) {
+            $infoPerPage = 8;
+        }
+        $regulasiList = $query->paginate($infoPerPage)->withQueryString();
 
         return view('landing.informasi-publik', compact('regulasiList'));
     }

@@ -57,6 +57,8 @@ class LandingCmsController extends Controller
             'topbar_bg_color',
             'topbar_text_color',
             // Halaman Pemerintahan
+            'pemerintahan_header_title',
+            'pemerintahan_header_subtitle',
             'gov_office_caption',
             'gov_profile_title',
             'gov_profile_p1',
@@ -429,5 +431,75 @@ class LandingCmsController extends Controller
         ]);
 
         return back()->with('success', 'Pengaturan Halaman Kontak berhasil disimpan!');
+    }
+
+    /**
+     * Update Pengaturan Banner Header & Judul Section Halaman Layanan (/layanan)
+     */
+    public function updateLayananHeaderSettings(Request $request)
+    {
+        $request->validate([
+            'layanan_header_title' => 'required|string|max:200',
+            'layanan_header_subtitle' => 'required|string|max:500',
+            'layanan_section_badge' => 'required|string|max:100',
+            'layanan_section_title' => 'required|string|max:200',
+        ]);
+
+        foreach (['layanan_header_title', 'layanan_header_subtitle', 'layanan_section_badge', 'layanan_section_title'] as $key) {
+            Setting::updateOrCreate(['key' => $key], ['value' => $request->input($key, '') ?? '']);
+        }
+
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Update Editor Halaman Layanan',
+            'description' => 'Memperbarui banner header dan judul section pada halaman Layanan.',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
+        return back()->with('success', 'Pengaturan Banner & Judul Halaman Layanan berhasil disimpan!');
+    }
+
+    /**
+     * Update Pengaturan Halaman Informasi Publik (/informasi-publik)
+     */
+    public function updateInformasiPublikSettings(Request $request)
+    {
+        $request->validate([
+            'info_header_title' => 'required|string|max:200',
+            'info_header_subtitle' => 'required|string|max:500',
+            'info_stat_1_value' => 'required|string|max:50',
+            'info_stat_1_title' => 'required|string|max:100',
+            'info_stat_1_desc' => 'required|string|max:255',
+            'info_stat_2_value' => 'required|string|max:50',
+            'info_stat_2_title' => 'required|string|max:100',
+            'info_stat_2_desc' => 'required|string|max:255',
+            'info_stat_3_value' => 'required|string|max:50',
+            'info_stat_3_title' => 'required|string|max:100',
+            'info_stat_3_desc' => 'required|string|max:255',
+            'info_per_page' => 'required|integer|min:4|max:24',
+        ]);
+
+        $keys = [
+            'info_header_title', 'info_header_subtitle',
+            'info_stat_1_value', 'info_stat_1_title', 'info_stat_1_desc',
+            'info_stat_2_value', 'info_stat_2_title', 'info_stat_2_desc',
+            'info_stat_3_value', 'info_stat_3_title', 'info_stat_3_desc',
+            'info_per_page',
+        ];
+
+        foreach ($keys as $key) {
+            Setting::updateOrCreate(['key' => $key], ['value' => $request->input($key, '') ?? '']);
+        }
+
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Update Editor Informasi Publik',
+            'description' => 'Memperbarui banner header, 3 kartu capaian, dan paginasi pada halaman Informasi Publik.',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
+        return back()->with('success', 'Pengaturan Halaman Informasi Publik berhasil disimpan!');
     }
 }

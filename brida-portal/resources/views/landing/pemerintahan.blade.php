@@ -15,10 +15,10 @@
                 <span class="text-white font-medium">Pemerintahan</span>
             </nav>
             <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
-                Profil & Tata Kelola Kelembagaan
+                {{ $portalSettings['pemerintahan_header_title'] ?? 'Profil & Tata Kelola Kelembagaan' }}
             </h1>
             <p class="text-sm sm:text-base text-bone-200 mt-2 max-w-2xl leading-relaxed">
-                Mengenal lebih dekat Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar, fungsi penunjang urusan pemerintahan daerah di bidang penelitian, pengembangan, pengkajian, dan inovasi.
+                {{ $portalSettings['pemerintahan_header_subtitle'] ?? 'Mengenal lebih dekat Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar, fungsi penunjang urusan pemerintahan daerah di bidang penelitian, pengembangan, pengkajian, dan inovasi.' }}
             </p>
         </div>
     </section>

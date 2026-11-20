@@ -115,6 +115,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/hero-appearance', [LandingCmsController::class, 'updateHeroAndAppearance'])->name('update-hero');
         Route::post('/berita-settings', [LandingCmsController::class, 'updateBeritaPageSettings'])->name('berita');
         Route::post('/kontak-settings', [LandingCmsController::class, 'updateKontakPageSettings'])->name('kontak');
+        Route::post('/layanan-header', [LandingCmsController::class, 'updateLayananHeaderSettings'])->name('layanan-header');
+        Route::post('/informasi-publik-settings', [LandingCmsController::class, 'updateInformasiPublikSettings'])->name('informasi-publik');
         
         // Slideshow Gambar Hero
         Route::post('/slides', [LandingCmsController::class, 'storeSlide'])->name('slides.store');

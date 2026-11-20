@@ -13,10 +13,10 @@
                 <span class="text-white font-medium">Layanan Riset & Inovasi</span>
             </nav>
             <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
-                Katalog Layanan Terpadu BRIDA
+                {{ $portalSettings['layanan_header_title'] ?? 'Katalog Layanan Terpadu BRIDA' }}
             </h1>
             <p class="text-sm sm:text-base text-bone-200 mt-2 max-w-2xl leading-relaxed">
-                Fasilitasi riset kebijakan berbasis bukti ilmiah, rekomendasi izin penelitian, pendampingan inovasi perangkat daerah, serta kemitraan riset perguruan tinggi dan BRIN.
+                {{ $portalSettings['layanan_header_subtitle'] ?? 'Fasilitasi riset kebijakan berbasis bukti ilmiah, rekomendasi izin penelitian, pendampingan inovasi perangkat daerah, serta kemitraan riset perguruan tinggi dan BRIN.' }}
             </p>
         </div>
     </section>

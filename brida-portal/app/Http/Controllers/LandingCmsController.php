@@ -48,6 +48,7 @@ class LandingCmsController extends Controller
             'hero_btn1_text_color',
             'hero_btn2_text',
             'hero_btn2_url',
+            'hero_slide_interval',
             'layanan_section_badge',
             'layanan_section_title',
             'layanan_section_desc',
@@ -224,11 +225,14 @@ class LandingCmsController extends Controller
             'target_blank' => 'nullable|boolean',
         ]);
 
+        $maxOrder = NavbarMenu::where('parent_id', $validated['parent_id'] ?? null)->max('sort_order') ?? 0;
+
         $menu = NavbarMenu::create([
             'parent_id' => $validated['parent_id'] ?? null,
             'label' => $validated['label'],
             'url' => $validated['url'],
             'icon' => $validated['icon'] ?? null,
+            'sort_order' => $validated['sort_order'] ?? ($maxOrder + 1),
             'sort_order' => $validated['sort_order'] ?? 10,
             'target_blank' => $request->has('target_blank'),
             'is_active' => true,
@@ -256,12 +260,49 @@ class LandingCmsController extends Controller
         $menu->update([
             'label' => $validated['label'],
             'url' => $validated['url'],
-            'icon' => $validated['icon'] ?? $menu->icon,
+            'icon' => $request->has('icon') ? $validated['icon'] : $menu->icon,
             'sort_order' => $validated['sort_order'] ?? $menu->sort_order,
             'target_blank' => $request->has('target_blank'),
+            'is_active' => $request->has('is_active') ? (bool)$request->is_active : $menu->is_active,
         ]);
 
         return back()->with('success', "Menu '{$menu->label}' berhasil diperbarui!");
+    }
+
+    /**
+     * Geser Urutan Menu / Submenu Naik atau Turun
+     */
+    public function moveMenu(Request $request, $id)
+    {
+        $menu = NavbarMenu::findOrFail($id);
+        $direction = $request->input('direction'); // 'up' or 'down'
+
+        $siblings = NavbarMenu::where('parent_id', $menu->parent_id)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get()
+            ->values();
+
+        foreach ($siblings as $idx => $item) {
+            if ($item->sort_order !== $idx + 1) {
+                $item->update(['sort_order' => $idx + 1]);
+            }
+        }
+
+        $currentIndex = $siblings->search(fn($item) => $item->id === $menu->id);
+        if ($currentIndex === false) {
+            return back();
+        }
+
+        $targetIndex = $direction === 'up' ? $currentIndex - 1 : $currentIndex + 1;
+        if ($targetIndex >= 0 && $targetIndex < $siblings->count()) {
+            $target = $siblings[$targetIndex];
+            $tempOrder = $menu->sort_order;
+            $menu->update(['sort_order' => $target->sort_order]);
+            $target->update(['sort_order' => $tempOrder]);
+        }
+
+        return back()->with('success', "Urutan menu '{$menu->label}' berhasil diperbarui!");
     }
 
     /**

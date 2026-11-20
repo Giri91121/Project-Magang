@@ -360,4 +360,18 @@
             </div>
         </section>
     </main>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const slides = document.querySelectorAll('#hero-slideshow .hero-slide');
+    if (slides.length > 1) {
+        let current = 0;
+        const intervalMs = {{ max(2, (int)($portalSettings['hero_slide_interval'] ?? 5)) * 1000 }};
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, intervalMs);
+    }
+});
+</script>
 @endsection

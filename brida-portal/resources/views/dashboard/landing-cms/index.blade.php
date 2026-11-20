@@ -250,6 +250,19 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Durasi Perpindahan Gambar Slideshow -->
+                    <div class="p-4 rounded-2xl bg-bone-50 border border-bone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800">Durasi Perpindahan Gambar Slideshow</label>
+                            <p class="text-[11px] text-slate-500">Atur berapa detik sekali gambar background hero berganti otomatis.</p>
+                        </div>
+                        <select name="hero_slide_interval" class="rounded-xl border border-bone-300 text-xs font-bold px-3 py-2 bg-white focus:ring-maroon-700 focus:border-maroon-700">
+                            @foreach([2, 3, 4, 5, 7, 10, 15] as $sec)
+                                <option value="{{ $sec }}" {{ (int)($settings['hero_slide_interval'] ?? 5) === $sec ? 'selected' : '' }}>{{ $sec }} Detik</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <div class="pt-4 border-t border-bone-200 flex justify-end">
@@ -295,14 +308,20 @@
                         <input type="text" name="url" required placeholder="Contoh: /layanan atau https://..." class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">Nomor Urutan</label>
-                            <input type="number" name="sort_order" value="{{ $menus->count() + 1 }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                    <div class="space-y-1.5" x-data="{ iconVal: '' }">
+                        <label class="block text-xs font-bold text-slate-700">Ikon Menu / Submenu (Opsional)</label>
+                        <div class="flex items-center gap-2">
+                            <div class="w-9 h-9 rounded-xl bg-bone-100 border border-bone-300 flex items-center justify-center text-maroon-700 shrink-0">
+                                <i :class="iconVal || 'fa-solid fa-circle-dot'" class="text-sm"></i>
+                            </div>
+                            <input type="text" name="icon" x-model="iconVal" placeholder="fa-solid fa-sitemap" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
                         </div>
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">Ikon (Opsional)</label>
-                            <input type="text" name="icon" placeholder="fa-solid fa-star" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            @foreach(['fa-solid fa-sitemap', 'fa-solid fa-landmark', 'fa-solid fa-flask', 'fa-solid fa-file-lines', 'fa-solid fa-users', 'fa-solid fa-bullhorn', 'fa-solid fa-envelope', 'fa-solid fa-book-open'] as $ic)
+                                <button type="button" @click="iconVal = '{{ $ic }}'" class="w-7 h-7 rounded-lg border border-bone-300 bg-white hover:border-maroon-700 hover:text-maroon-700 text-slate-600 flex items-center justify-center text-xs transition" title="{{ $ic }}">
+                                    <i class="{{ $ic }}"></i>
+                                </button>
+                            @endforeach
                         </div>
                     </div>
 
@@ -331,17 +350,42 @@
                     <div class="p-4 rounded-2xl border border-bone-300 bg-bone-50/60 space-y-3">
                         <!-- Baris Edit Menu Utama -->
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                            <form method="POST" action="{{ route('dashboard.landing-cms.menus.update', $menu->id) }}" class="flex-1 grid sm:grid-cols-12 gap-2 items-center">
+                            <!-- Tombol Naik / Turun Menu Utama -->
+                            <div class="flex items-center gap-1 shrink-0">
+                                <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $menu->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="direction" value="up">
+                                    <button type="submit" {{ $loop->first ? 'disabled' : '' }} class="w-7 h-7 rounded-lg border border-bone-300 bg-white text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[10px] transition" title="Naikkan Urutan">
+                                        <i class="fa-solid fa-chevron-up"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $menu->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="direction" value="down">
+                                    <button type="submit" {{ $loop->last ? 'disabled' : '' }} class="w-7 h-7 rounded-lg border border-bone-300 bg-white text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[10px] transition" title="Turunkan Urutan">
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <form method="POST" action="{{ route('dashboard.landing-cms.menus.update', $menu->id) }}" class="flex-1 grid sm:grid-cols-12 gap-2 items-center" x-data="{ iconVal: '{{ $menu->icon }}' }">
                                 @csrf
                                 @method('PATCH')
-                                <div class="sm:col-span-2">
-                                    <input type="number" name="sort_order" value="{{ $menu->sort_order }}" title="Urutan" class="w-full text-xs font-bold text-center rounded-xl border border-bone-300 py-1.5 px-2 bg-white">
+                                <div class="sm:col-span-3 flex items-center gap-1.5">
+                                    <div class="w-7 h-7 rounded-lg bg-white border border-bone-300 flex items-center justify-center text-maroon-700 shrink-0 text-xs">
+                                        <i :class="iconVal || 'fa-solid fa-circle-dot'"></i>
+                                    </div>
+                                    <input type="text" name="icon" x-model="iconVal" placeholder="fa-solid fa-..." title="Class Ikon FontAwesome" class="w-full text-[11px] rounded-xl border border-bone-300 py-1.5 px-2 bg-white">
                                 </div>
-                                <div class="sm:col-span-4">
+                                <div class="sm:col-span-3">
                                     <input type="text" name="label" value="{{ $menu->label }}" required class="w-full text-xs font-extrabold text-slate-900 rounded-xl border border-bone-300 py-1.5 px-3 bg-white">
                                 </div>
-                                <div class="sm:col-span-4">
+                                <div class="sm:col-span-3">
                                     <input type="text" name="url" value="{{ $menu->url }}" required class="w-full text-xs text-slate-600 rounded-xl border border-bone-300 py-1.5 px-3 bg-white">
+                                </div>
+                                <div class="sm:col-span-1 flex items-center justify-center">
+                                    <input type="hidden" name="is_active" value="0">
+                                    <input type="checkbox" name="is_active" value="1" {{ $menu->is_active ? 'checked' : '' }} title="Aktif / Tampilkan di Navbar" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
                                 </div>
                                 <div class="sm:col-span-2 flex justify-end">
                                     <button type="submit" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-[11px] px-3 py-1.5 rounded-xl transition">
@@ -363,19 +407,44 @@
                         @if($menu->children->count() > 0)
                         <div class="pl-6 border-l-2 border-rose-300 space-y-2 pt-1">
                             <span class="text-[10px] font-extrabold uppercase tracking-wider text-maroon-700 block">Submenu Dropdown ({{ $menu->label }}):</span>
-                            @foreach($menu->children as $child)
-                            <div class="flex items-center justify-between gap-2 bg-white p-2.5 rounded-xl border border-bone-200">
-                                <form method="POST" action="{{ route('dashboard.landing-cms.menus.update', $child->id) }}" class="flex-1 grid sm:grid-cols-12 gap-2 items-center">
+                            @foreach($menu->children->sortBy('sort_order') as $child)
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white p-2.5 rounded-xl border border-bone-200">
+                                <!-- Tombol Naik / Turun Submenu -->
+                                <div class="flex items-center gap-1 shrink-0">
+                                    <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $child->id) }}">
+                                        @csrf
+                                        <input type="hidden" name="direction" value="up">
+                                        <button type="submit" {{ $loop->first ? 'disabled' : '' }} class="w-6 h-6 rounded-md border border-bone-300 bg-bone-50 text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[9px] transition" title="Naikkan Submenu">
+                                            <i class="fa-solid fa-chevron-up"></i>
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $child->id) }}">
+                                        @csrf
+                                        <input type="hidden" name="direction" value="down">
+                                        <button type="submit" {{ $loop->last ? 'disabled' : '' }} class="w-6 h-6 rounded-md border border-bone-300 bg-bone-50 text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[9px] transition" title="Turunkan Submenu">
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <form method="POST" action="{{ route('dashboard.landing-cms.menus.update', $child->id) }}" class="flex-1 grid sm:grid-cols-12 gap-2 items-center" x-data="{ iconVal: '{{ $child->icon }}' }">
                                     @csrf
                                     @method('PATCH')
-                                    <div class="sm:col-span-2">
-                                        <input type="number" name="sort_order" value="{{ $child->sort_order }}" class="w-full text-[11px] text-center rounded-lg border border-bone-300 py-1 px-1.5">
+                                    <div class="sm:col-span-3 flex items-center gap-1.5">
+                                        <div class="w-6 h-6 rounded-md bg-bone-50 border border-bone-300 flex items-center justify-center text-maroon-700 shrink-0 text-[11px]">
+                                            <i :class="iconVal || 'fa-solid fa-circle-dot'"></i>
+                                        </div>
+                                        <input type="text" name="icon" x-model="iconVal" placeholder="fa-solid fa-..." title="Class Ikon FontAwesome" class="w-full text-[11px] rounded-lg border border-bone-300 py-1 px-2">
                                     </div>
-                                    <div class="sm:col-span-4">
+                                    <div class="sm:col-span-3">
                                         <input type="text" name="label" value="{{ $child->label }}" required class="w-full text-[11px] font-bold text-slate-800 rounded-lg border border-bone-300 py-1 px-2.5">
                                     </div>
-                                    <div class="sm:col-span-4">
+                                    <div class="sm:col-span-3">
                                         <input type="text" name="url" value="{{ $child->url }}" required class="w-full text-[11px] text-slate-500 rounded-lg border border-bone-300 py-1 px-2.5">
+                                    </div>
+                                    <div class="sm:col-span-1 flex items-center justify-center">
+                                        <input type="hidden" name="is_active" value="0">
+                                        <input type="checkbox" name="is_active" value="1" {{ $child->is_active ? 'checked' : '' }} title="Aktif / Tampilkan" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
                                     </div>
                                     <div class="sm:col-span-2 flex justify-end">
                                         <button type="submit" class="bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition">

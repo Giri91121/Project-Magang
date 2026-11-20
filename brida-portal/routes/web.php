@@ -126,6 +126,7 @@ Route::middleware('auth')->group(function () {
         // Menu Navbar & Submenu Dropdown
         Route::post('/menus', [LandingCmsController::class, 'storeMenu'])->name('menus.store');
         Route::patch('/menus/{id}', [LandingCmsController::class, 'updateMenu'])->name('menus.update');
+        Route::post('/menus/{id}/move', [LandingCmsController::class, 'moveMenu'])->name('menus.move');
         Route::delete('/menus/{id}', [LandingCmsController::class, 'destroyMenu'])->name('menus.destroy');
 
         // Kartu Layanan Beranda

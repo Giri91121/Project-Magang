@@ -114,7 +114,7 @@
                                 </div>
                             </div>
                             @if($permohonan->file_surat_pengantar)
-                                <a href="{{ asset('storage/' . $permohonan->file_surat_pengantar) }}" target="_blank" class="text-maroon-700 hover:underline font-bold text-[11px]">Unduh</a>
+                                <a href="{{ route('dashboard.riset.download', [$permohonan->id, 'surat']) }}" class="text-maroon-700 hover:underline font-bold text-[11px]">Unduh</a>
                             @endif
                         </div>
 
@@ -127,7 +127,7 @@
                                 </div>
                             </div>
                             @if($permohonan->file_proposal)
-                                <a href="{{ asset('storage/' . $permohonan->file_proposal) }}" target="_blank" class="text-maroon-700 hover:underline font-bold text-[11px]">Unduh</a>
+                                <a href="{{ route('dashboard.riset.download', [$permohonan->id, 'proposal']) }}" class="text-maroon-700 hover:underline font-bold text-[11px]">Unduh</a>
                             @endif
                         </div>
                     </div>

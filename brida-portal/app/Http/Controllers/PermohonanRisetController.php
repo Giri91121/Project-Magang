@@ -154,4 +154,33 @@ class PermohonanRisetController extends Controller
 
         return back()->with('success', 'Status permohonan riset berhasil diperbarui.');
     }
+
+    /**
+     * Unduh berkas terlampir (Surat Pengantar / Proposal) secara aman melalui controller
+     */
+    public function downloadFile($id, $type)
+    {
+        $permohonan = PermohonanRiset::findOrFail($id);
+
+        if (!Auth::user()->hasAnyRole(['Admin', 'verif_riset']) && $permohonan->user_id !== Auth::id()) {
+            abort(403, 'Anda tidak memiliki akses ke dokumen ini.');
+        }
+
+        $relativePath = match ($type) {
+            'surat' => $permohonan->file_surat_pengantar,
+            'proposal' => $permohonan->file_proposal,
+            default => null,
+        };
+
+        if (!$relativePath) {
+            abort(404, 'Berkas tidak ditemukan.');
+        }
+
+        $fullPath = storage_path('app/public/' . $relativePath);
+        if (!file_exists($fullPath)) {
+            abort(404, 'File fisik berkas tidak ditemukan di server.');
+        }
+
+        return response()->download($fullPath);
+    }
 }

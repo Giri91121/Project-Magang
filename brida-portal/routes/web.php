@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
             ->middleware('honeypot')
             ->name('store');
         Route::get('/{id}', [PermohonanRisetController::class, 'show'])->name('show');
+        Route::get('/{id}/download/{type}', [PermohonanRisetController::class, 'downloadFile'])->name('download');
         Route::patch('/{id}/status', [PermohonanRisetController::class, 'updateStatus'])
             ->middleware('role:Admin|verif_riset')
             ->name('update-status');

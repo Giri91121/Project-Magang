@@ -103,12 +103,6 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{id}/role', [UserController::class, 'updateRole'])->name('update-role');
     });
 
-    // Modul Pengaturan Profil & Kontak Instansi (Khusus Admin)
-    Route::prefix('dashboard/settings')->name('dashboard.settings.')->middleware('role:Admin')->group(function () {
-        Route::get('/', [SettingController::class, 'index'])->name('index');
-        Route::post('/', [SettingController::class, 'update'])->name('update');
-    });
-
     // Modul Editor Penuh Landing Page & Navbar Tanpa Coding (Khusus Admin)
     Route::prefix('dashboard/landing-cms')->name('dashboard.landing-cms.')->middleware('role:Admin')->group(function () {
         Route::get('/', [LandingCmsController::class, 'index'])->name('index');

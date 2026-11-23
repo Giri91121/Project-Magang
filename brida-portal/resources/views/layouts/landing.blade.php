@@ -180,7 +180,7 @@
                                 id="brida-footer-logo"
                                 src="{{ asset($portalSettings['logo_footer'] ?? 'images/logo-brida-white.png') }}"
                                 alt="BRIDA Kota Makassar"
-                                class="h-12 sm:h-14 md:h-16 w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[380px] object-contain opacity-95 hover:opacity-100 transition-opacity"
+                                class="h-12 sm:h-14 md:h-16 w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[380px] object-contain opacity-95 hover:opacity-100 transition-opacity {{ ($portalSettings['logo_footer_white'] ?? '0') === '1' ? 'brightness-0 invert' : '' }}"
                             >
                         </a>
                     </div>

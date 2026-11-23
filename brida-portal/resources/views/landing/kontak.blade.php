@@ -41,7 +41,7 @@
                     {{ $portalSettings['office_address'] ?? 'Gedung Balai Kota Makassar Lantai 2, Jl. Ahmad Yani No. 2, Baru, Kec. Ujung Pandang, Kota Makassar, Sulawesi Selatan 90111' }}
                 </p>
                 <div class="pt-2 text-xs font-semibold text-maroon-700">
-                    <a href="{{ $portalSettings['kontak_maps_url'] ?: 'https://maps.google.com/?q=Balai+Kota+Makassar' }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 hover:underline">
+                    <a href="{{ !empty($portalSettings['kontak_maps_url']) ? $portalSettings['kontak_maps_url'] : 'https://maps.google.com/?q=Balai+Kota+Makassar' }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 hover:underline">
                         <span>Buka di Google Maps</span>
                         <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                     </a>

@@ -172,6 +172,11 @@
                                 <img src="{{ asset($settings['logo_footer'] ?? 'images/logo-brida-white.png') }}" alt="Logo Footer" class="max-h-12 w-auto object-contain">
                             </div>
                             <input type="file" name="logo_footer_file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-maroon-700 file:text-white">
+                            <label class="flex items-center gap-2 pt-2 cursor-pointer">
+                                <input type="hidden" name="logo_footer_white" value="0">
+                                <input type="checkbox" name="logo_footer_white" value="1" {{ ($settings['logo_footer_white'] ?? '0') === '1' ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
+                                <span class="text-[11px] font-semibold text-slate-700">Jadikan Logo Footer Berwarna Putih Otomatis</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -493,6 +498,10 @@
                     <p class="text-xs text-slate-500">Ubah teks deskripsi singkat instansi dan tulisan hak cipta (copyright) di bagian bawah seluruh halaman.</p>
                 </div>
                 <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Nama Instansi / Judul Website</label>
+                        <input type="text" name="site_name" value="{{ $settings['site_name'] ?? 'BRIDA Kota Makassar' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                    </div>
                     <div class="sm:col-span-2">
                         <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Singkat Instansi di Footer</label>
                         <textarea name="tagline" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['tagline'] ?? 'Portal resmi layanan riset, kajian kebijakan strategis, serta fasilitasi ekosistem inovasi daerah Pemerintah Kota Makassar.' }}</textarea>

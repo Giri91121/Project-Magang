@@ -49,6 +49,7 @@ class LandingCmsController extends Controller
             'hero_btn2_text',
             'hero_btn2_url',
             'hero_slide_interval',
+            'logo_footer_white',
             'layanan_section_badge',
             'layanan_section_title',
             'layanan_section_desc',
@@ -61,6 +62,7 @@ class LandingCmsController extends Controller
             'pemerintahan_header_title',
             'pemerintahan_header_subtitle',
             // Footer Global
+            'site_name',
             'tagline',
             'footer_copyright',
             'gov_office_caption',

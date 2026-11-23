@@ -30,45 +30,59 @@
             </div>
         @endif
 
-        <!-- Panduan Singkat Sistem Role & Sub-Role -->
-        <div class="grid sm:grid-cols-3 gap-4 text-xs">
-            <div class="bg-white p-4 rounded-2xl border border-bone-300 shadow-sm space-y-1">
-                <span class="font-extrabold text-maroon-700 flex items-center gap-1.5">
-                    <i class="fa-solid fa-crown"></i> Role Utama: Admin
+        <!-- Panduan Singkat Sistem Role & Sub-Role (Kompak & Bisa Dibuka/Tutup) -->
+        <div x-data="{ showGuide: false }" class="bg-white rounded-2xl border border-bone-300 shadow-sm overflow-hidden">
+            <button type="button" @click="showGuide = !showGuide" class="w-full px-5 py-3 flex items-center justify-between text-xs font-bold text-slate-700 hover:bg-bone-50 transition">
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-maroon-700"></i>
+                    <span>Panduan Singkat Role & Sub-Role Pengguna</span>
                 </span>
-                <p class="text-[11px] text-slate-500 leading-relaxed">
-                    Memiliki akses penuh ke seluruh modul, pengaturan instansi, dan manajemen pengguna tanpa perlu sub-role.
-                </p>
-            </div>
-            <div class="bg-white p-4 rounded-2xl border border-bone-300 shadow-sm space-y-1">
-                <span class="font-extrabold text-slate-800 flex items-center gap-1.5">
-                    <i class="fa-solid fa-user"></i> Role Utama: User
-                </span>
-                <p class="text-[11px] text-slate-500 leading-relaxed">
-                    Hanya dapat mengakses layanan pribadinya (mengajukan permohonan riset, melihat komentar berita yang dibuatnya, dan profil).
-                </p>
-            </div>
-            <div class="bg-white p-4 rounded-2xl border border-bone-300 shadow-sm space-y-1">
-                <span class="font-extrabold text-emerald-700 flex items-center gap-1.5">
-                    <i class="fa-solid fa-user-check"></i> Sub-Role (Khusus User)
-                </span>
-                <p class="text-[11px] text-slate-500 leading-relaxed">
-                    <strong>verif_berita</strong> membuka akses Dashboard Berita. <strong>verif_riset</strong> membuka akses Verifikasi Riset.
-                </p>
+                <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition-transform" :class="showGuide ? 'rotate-180' : ''"></i>
+            </button>
+            <div x-show="showGuide" x-collapse class="px-5 pb-4 pt-1 border-t border-bone-200 grid sm:grid-cols-3 gap-4 text-xs bg-bone-50/50">
+                <div class="space-y-1 pt-2">
+                    <span class="font-extrabold text-maroon-700 flex items-center gap-1.5">
+                        <i class="fa-solid fa-crown"></i> Role Utama: Admin
+                    </span>
+                    <p class="text-[11px] text-slate-500 leading-relaxed">
+                        Akses penuh ke seluruh modul, editor landing page, dan manajemen pengguna tanpa perlu sub-role.
+                    </p>
+                </div>
+                <div class="space-y-1 pt-2">
+                    <span class="font-extrabold text-slate-800 flex items-center gap-1.5">
+                        <i class="fa-solid fa-user"></i> Role Utama: User
+                    </span>
+                    <p class="text-[11px] text-slate-500 leading-relaxed">
+                        Hanya mengakses layanan pribadi (ajukan permohonan riset, komentar berita, dan profil).
+                    </p>
+                </div>
+                <div class="space-y-1 pt-2">
+                    <span class="font-extrabold text-emerald-700 flex items-center gap-1.5">
+                        <i class="fa-solid fa-user-check"></i> Sub-Role (Khusus User)
+                    </span>
+                    <p class="text-[11px] text-slate-500 leading-relaxed">
+                        <strong>verif_berita</strong>: kelola berita. <strong>verif_riset</strong>: verifikasi permohonan riset.
+                    </p>
+                </div>
             </div>
         </div>
 
         <!-- Card Datatable Pengguna -->
         <div class="bg-white rounded-2xl border border-bone-300 shadow-sm overflow-hidden">
             <!-- Filter Bar -->
-            <div class="p-5 border-b border-bone-300 bg-white">
+            <div class="p-4 sm:p-5 border-b border-bone-300 bg-white">
                 <form method="GET" action="{{ route('dashboard.users.index') }}" class="flex flex-col sm:flex-row gap-3 items-center justify-between">
-                    <div class="relative w-full sm:w-80">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-400"></i>
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau email pengguna..." class="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700">
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <div class="relative w-full sm:w-72">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-400"></i>
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau email pengguna..." class="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700">
+                        </div>
+                        <span class="hidden md:inline-flex items-center px-2.5 py-1 rounded-lg bg-bone-100 text-slate-600 text-[11px] font-bold whitespace-nowrap">
+                            Total: {{ $users->total() }} Pengguna
+                        </span>
                     </div>
                     <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <select name="role" onchange="this.form.submit()" class="text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-1.5 px-3">
+                        <select name="role" onchange="this.form.submit()" class="text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-1.5 pl-3 pr-8">
                             <option value="">-- Filter Role / Sub-Role --</option>
                             <option value="Admin" {{ request('role') === 'Admin' ? 'selected' : '' }}>Role Utama: Admin</option>
                             <option value="User" {{ request('role') === 'User' ? 'selected' : '' }}>Role Utama: User</option>
@@ -87,9 +101,10 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-bone-100/70 border-b border-bone-200 text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">
-                            <th class="py-3.5 px-6">Pengguna & Email</th>
-                            <th class="py-3.5 px-6">Status Role & Sub-Role Aktif</th>
-                            <th class="py-3.5 px-6">Pengaturan Role Utama & Sub-Role</th>
+                            <th class="py-3.5 px-5">Pengguna</th>
+                            <th class="py-3.5 px-4">Status Aktif</th>
+                            <th class="py-3.5 px-4">Ubah Role & Sub-Role</th>
+                            <th class="py-3.5 px-5 text-right">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-bone-200 text-xs text-slate-700">
@@ -101,35 +116,35 @@
                             $hasVerifRiset = $u->hasRole('verif_riset');
                         @endphp
                         <tr class="hover:bg-bone-50/80 transition" x-data="{ selectedMain: '{{ $mainRole }}' }">
-                            <td class="py-4 px-6 align-top">
+                            <td class="py-3.5 px-5 align-middle">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 rounded-xl {{ $isAdmin ? 'bg-maroon-700 text-white' : 'bg-bone-200 text-slate-700' }} font-black text-xs flex items-center justify-center shrink-0">
                                         {{ strtoupper(substr($u->name, 0, 2)) }}
                                     </div>
-                                    <div>
-                                        <strong class="text-slate-900 block">{{ $u->name }}</strong>
-                                        <span class="text-[11px] text-slate-500">{{ $u->email }}</span>
+                                    <div class="min-w-0">
+                                        <strong class="text-slate-900 block truncate">{{ $u->name }}</strong>
+                                        <span class="text-[11px] text-slate-500 block truncate">{{ $u->email }}</span>
                                     </div>
                                 </div>
                             </td>
 
-                            <td class="py-4 px-6 align-top">
+                            <td class="py-3.5 px-4 align-middle">
                                 <div class="flex flex-wrap items-center gap-1.5">
                                     @if($isAdmin)
-                                        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-maroon-800 border border-rose-300">
-                                            <i class="fa-solid fa-crown mr-1 text-[10px]"></i> Admin (Akses Penuh)
+                                        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-maroon-800 border border-rose-300 whitespace-nowrap">
+                                            <i class="fa-solid fa-crown mr-1 text-[10px]"></i> Admin
                                         </span>
                                     @else
-                                        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-800 border border-slate-300">
+                                        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-800 border border-slate-300 whitespace-nowrap">
                                             <i class="fa-solid fa-user mr-1 text-[10px]"></i> User
                                         </span>
                                         @if($hasVerifRiset)
-                                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 whitespace-nowrap">
                                                 + verif_riset
                                             </span>
                                         @endif
                                         @if($hasVerifBerita)
-                                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-300">
+                                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-300 whitespace-nowrap">
                                                 + verif_berita
                                             </span>
                                         @endif
@@ -137,45 +152,37 @@
                                 </div>
                             </td>
 
-                            <td class="py-4 px-6 align-top">
-                                <form method="POST" action="{{ route('dashboard.users.update-role', $u->id) }}" class="flex flex-col sm:flex-row sm:items-center gap-3">
+                            <td class="py-3.5 px-4 align-middle">
+                                <form id="form-role-{{ $u->id }}" method="POST" action="{{ route('dashboard.users.update-role', $u->id) }}" class="flex flex-wrap items-center gap-2.5">
                                     @csrf
                                     @method('PATCH')
 
-                                    <!-- Pilih Role Utama -->
-                                    <div>
-                                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Role Utama</label>
-                                        <select name="main_role" x-model="selectedMain" class="text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-1.5 px-3 bg-white font-bold text-slate-800">
-                                            <option value="User">User</option>
-                                            <option value="Admin">Admin</option>
-                                        </select>
+                                    <select name="main_role" x-model="selectedMain" class="text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-1.5 pl-3 pr-8 min-w-[96px] bg-white font-bold text-slate-800">
+                                        <option value="User">User</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
+
+                                    <div x-show="selectedMain === 'User'" class="flex flex-wrap items-center gap-2.5 bg-bone-50 px-3 py-1.5 rounded-xl border border-bone-300">
+                                        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
+                                            <input type="checkbox" name="sub_roles[]" value="verif_riset" {{ $hasVerifRiset ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
+                                            <span class="text-xs font-semibold text-slate-700">verif_riset</span>
+                                        </label>
+                                        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
+                                            <input type="checkbox" name="sub_roles[]" value="verif_berita" {{ $hasVerifBerita ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
+                                            <span class="text-xs font-semibold text-slate-700">verif_berita</span>
+                                        </label>
                                     </div>
 
-                                    <!-- Pilih Sub-Role (Hanya muncul/aktif jika Role Utama == User) -->
-                                    <div x-show="selectedMain === 'User'" class="flex-1">
-                                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sub-Role Tambahan (Khusus User)</label>
-                                        <div class="flex flex-wrap items-center gap-3 bg-bone-50 px-3 py-1.5 rounded-xl border border-bone-300">
-                                            <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
-                                                <input type="checkbox" name="sub_roles[]" value="verif_riset" {{ $hasVerifRiset ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
-                                                <span class="text-xs font-semibold text-slate-700">verif_riset</span>
-                                            </label>
-                                            <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
-                                                <input type="checkbox" name="sub_roles[]" value="verif_berita" {{ $hasVerifBerita ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
-                                                <span class="text-xs font-semibold text-slate-700">verif_berita</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div x-show="selectedMain === 'Admin'" class="flex-1 text-[11px] text-slate-400 italic pt-3">
-                                        Role Admin otomatis mengakses semua fitur tanpa sub-role.
-                                    </div>
-
-                                    <div class="pt-3 sm:pt-4">
-                                        <button type="submit" class="bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow-sm whitespace-nowrap">
-                                            Simpan Akses
-                                        </button>
-                                    </div>
+                                    <span x-show="selectedMain === 'Admin'" class="text-[11px] text-slate-400 italic">
+                                        Akses penuh semua modul
+                                    </span>
                                 </form>
+                            </td>
+
+                            <td class="py-3.5 px-5 align-middle text-right">
+                                <button type="submit" form="form-role-{{ $u->id }}" class="bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-4 py-1.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                                    Simpan
+                                </button>
                             </td>
                         </tr>
                         @endforeach

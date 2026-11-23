@@ -56,7 +56,7 @@
                     <a href="{{ route('home') }}" class="flex items-center justify-center focus:outline-none -translate-y-1">
                         <img
                             id="brida-logo"
-                            src="{{ asset($portalSettings['logo_header'] ?? 'images/LOGO-FIX-BRIDA.png') }}"
+                            src="{{ asset($portalSettings['logo_header'] ?? 'images\LOGO-FIX-BRIDA-removebg-preview.png') }}"
                             alt="BRIDA Kota Makassar"
                             class="h-12 sm:h-14 md:h-16 w-auto max-w-[280px] sm:max-w-[340px] object-contain drop-shadow-sm"
                         >

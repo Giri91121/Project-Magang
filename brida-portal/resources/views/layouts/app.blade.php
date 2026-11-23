@@ -56,7 +56,7 @@
                 <!-- Sidebar Brand / Logo (Sejajar h-16 dengan Topbar Header dan Logo Berwarna) -->
                 <div class="h-16 flex items-center justify-between px-5 border-b border-bone-300 bg-white">
                     <a href="{{ route('home') }}" class="flex items-center -translate-y-0.5">
-                        <img src="{{ asset('images/LOGO-FIX-BRIDA.png') }}" alt="BRIDA Kota Makassar" class="h-10 sm:h-11 w-auto max-w-[200px] object-contain drop-shadow-sm">
+                        <img src="{{ asset('images\LOGO-FIX-BRIDA-removebg-preview.png') }}" alt="BRIDA Kota Makassar" class="h-10 sm:h-11 w-auto max-w-[200px] object-contain drop-shadow-sm">
                     </a>
                     <button @click="sidebarOpen = false" class="lg:hidden text-slate-500 hover:text-slate-800 p-1 rounded-lg focus:outline-none">
                         <i class="fa-solid fa-xmark text-lg"></i>

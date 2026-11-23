@@ -105,7 +105,7 @@
                         <i class="fa-brands fa-facebook text-sm"></i>
                     </a>
                     @endif
-                    <a href="https://makassarkota.go.id" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-bone-200 hover:bg-maroon-700 hover:text-white text-slate-700 flex items-center justify-center transition" title="Portal Makassar">
+                    <a href="{{ !empty($portalSettings['social_website']) ? $portalSettings['social_website'] : 'https://makassarkota.go.id' }}" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-bone-200 hover:bg-maroon-700 hover:text-white text-slate-700 flex items-center justify-center transition" title="Website Resmi">
                         <i class="fa-solid fa-globe text-sm"></i>
                     </a>
                 </div>

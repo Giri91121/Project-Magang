@@ -449,6 +449,8 @@ class LandingCmsController extends Controller
             'contact_whatsapp' => 'required|string|max:50',
             'social_instagram' => 'nullable|url|max:255',
             'social_youtube' => 'nullable|url|max:255',
+            'social_facebook' => 'nullable|url|max:255',
+            'social_website' => 'nullable|url|max:255',
         ]);
 
         $keys = [
@@ -462,6 +464,8 @@ class LandingCmsController extends Controller
             'contact_whatsapp',
             'social_instagram',
             'social_youtube',
+            'social_facebook',
+            'social_website',
         ];
 
         foreach ($keys as $key) {

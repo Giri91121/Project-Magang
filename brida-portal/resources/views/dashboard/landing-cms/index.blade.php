@@ -151,36 +151,6 @@
             <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
                 @csrf
 
-                <!-- Bagian Ganti Logo Header & Footer -->
-                <div class="space-y-4">
-                    <div class="border-b border-bone-200 pb-2">
-                        <h3 class="text-base font-black text-slate-900">Logo Website (Header & Footer)</h3>
-                        <p class="text-xs text-slate-500">Pilih file gambar baru dari komputer Anda jika ingin mengganti logo.</p>
-                    </div>
-                    <div class="grid sm:grid-cols-2 gap-6">
-                        <div class="p-4 rounded-2xl bg-bone-50 border border-bone-300 space-y-3">
-                            <span class="text-xs font-bold text-slate-800 block">Logo Header Utama (Atas)</span>
-                            <div class="h-16 bg-white rounded-xl border border-bone-200 flex items-center justify-center p-2">
-                                <img src="{{ asset($settings['logo_header'] ?? 'images/LOGO-FIX-BRIDA.png') }}" alt="Logo Header" class="max-h-12 w-auto object-contain">
-                            </div>
-                            <input type="file" name="logo_header_file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-maroon-700 file:text-white">
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-bone-50 border border-bone-300 space-y-3">
-                            <span class="text-xs font-bold text-slate-800 block">Logo Footer (Bawah - Versi Putih)</span>
-                            <div class="h-16 bg-maroon-950 rounded-xl border border-maroon-800 flex items-center justify-center p-2">
-                                <img src="{{ asset($settings['logo_footer'] ?? 'images/logo-brida-white.png') }}" alt="Logo Footer" class="max-h-12 w-auto object-contain">
-                            </div>
-                            <input type="file" name="logo_footer_file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-maroon-700 file:text-white">
-                            <label class="flex items-center gap-2 pt-2 cursor-pointer">
-                                <input type="hidden" name="logo_footer_white" value="0">
-                                <input type="checkbox" name="logo_footer_white" value="1" {{ ($settings['logo_footer_white'] ?? '0') === '1' ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
-                                <span class="text-[11px] font-semibold text-slate-700">Jadikan Logo Footer Berwarna Putih Otomatis</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Bagian Teks Headline & Tombol Hero (Dilengkapi Color Picker Visual) -->
                 <div class="space-y-4">
                     <div class="border-b border-bone-200 pb-2">
@@ -488,6 +458,68 @@
                     @endforeach
                 </div>
             </div>
+
+            <!-- Pengaturan Logo & Bar Pengumuman Atas (Global) -->
+            <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" enctype="multipart/form-data" class="lg:col-span-12 bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-6">
+                @csrf
+                <div class="border-b border-bone-200 pb-3">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Tampilan Global</span>
+                    <h3 class="text-base font-black text-slate-900">Logo Website (Header & Footer) & Bar Pengumuman Atas</h3>
+                    <p class="text-xs text-slate-500">Pengaturan ini berlaku di seluruh halaman website publik.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <div class="p-4 rounded-2xl bg-bone-50 border border-bone-300 space-y-3">
+                        <span class="text-xs font-bold text-slate-800 block">Logo Header Utama (Atas)</span>
+                        <div class="h-16 bg-white rounded-xl border border-bone-200 flex items-center justify-center p-2">
+                            <img src="{{ asset($settings['logo_header'] ?? 'images/LOGO-FIX-BRIDA.png') }}" alt="Logo Header" class="max-h-12 w-auto object-contain">
+                        </div>
+                        <input type="file" name="logo_header_file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-maroon-700 file:text-white">
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-bone-50 border border-bone-300 space-y-3">
+                        <span class="text-xs font-bold text-slate-800 block">Logo Footer (Bawah - Versi Putih)</span>
+                        <div class="h-16 bg-maroon-950 rounded-xl border border-maroon-800 flex items-center justify-center p-2">
+                            <img src="{{ asset($settings['logo_footer'] ?? 'images/logo-brida-white.png') }}" alt="Logo Footer" class="max-h-12 w-auto object-contain">
+                        </div>
+                        <input type="file" name="logo_footer_file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-maroon-700 file:text-white">
+                        <label class="flex items-center gap-2 pt-2 cursor-pointer">
+                            <input type="hidden" name="logo_footer_white" value="0">
+                            <input type="checkbox" name="logo_footer_white" value="1" {{ ($settings['logo_footer_white'] ?? '0') === '1' ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
+                            <span class="text-[11px] font-semibold text-slate-700">Jadikan Logo Footer Berwarna Putih Otomatis</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-12 gap-4 items-center pt-2 border-t border-bone-200">
+                    <div class="sm:col-span-3">
+                        <label class="block text-xs font-bold text-slate-700">Status Bar Pengumuman</label>
+                        <select name="topbar_enabled" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 mt-1 font-bold">
+                            <option value="1" {{ ($settings['topbar_enabled'] ?? '1') == '1' ? 'selected' : '' }}>Tampilkan Bar Atas</option>
+                            <option value="0" {{ ($settings['topbar_enabled'] ?? '1') == '0' ? 'selected' : '' }}>Sembunyikan Bar Atas</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-5">
+                        <label class="block text-xs font-bold text-slate-700">Teks Pengumuman Atas</label>
+                        <input type="text" name="topbar_text" value="{{ $settings['topbar_text'] ?? 'Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 mt-1">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-700">Warna Latar</label>
+                        <input type="color" name="topbar_bg_color" value="{{ $settings['topbar_bg_color'] ?? '#3D000E' }}" class="w-full h-10 rounded-xl cursor-pointer border border-bone-300 p-1 bg-white mt-1">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-700">Warna Teks</label>
+                        <input type="color" name="topbar_text_color" value="{{ $settings['topbar_text_color'] ?? '#F5F4EE' }}" class="w-full h-10 rounded-xl cursor-pointer border border-bone-300 p-1 bg-white mt-1">
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition shadow-sm">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Logo & Bar Pengumuman</span>
+                    </button>
+                </div>
+            </form>
 
             <!-- Pengaturan Teks Footer Global -->
             <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" class="lg:col-span-12 bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-5">
@@ -822,36 +854,6 @@
         <div x-show="activeTab === 'beranda'" class="space-y-6">
             <form method="POST" action="{{ route('dashboard.landing-cms.update-hero') }}" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
                 @csrf
-
-                <!-- 1. Bar Pengumuman Paling Atas (Top Bar) -->
-                <div class="space-y-4">
-                    <div class="border-b border-bone-200 pb-2">
-                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Header Atas</span>
-                        <h3 class="text-base font-black text-slate-900">Bar Pengumuman Paling Atas (Top Announcement Bar)</h3>
-                    </div>
-
-                    <div class="grid sm:grid-cols-12 gap-4 items-center">
-                        <div class="sm:col-span-3">
-                            <label class="block text-xs font-bold text-slate-700">Status Tampil</label>
-                            <select name="topbar_enabled" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 mt-1 font-bold">
-                                <option value="1" {{ ($settings['topbar_enabled'] ?? '1') == '1' ? 'selected' : '' }}>Tampilkan Bar Atas</option>
-                                <option value="0" {{ ($settings['topbar_enabled'] ?? '1') == '0' ? 'selected' : '' }}>Sembunyikan Bar Atas</option>
-                            </select>
-                        </div>
-                        <div class="sm:col-span-5">
-                            <label class="block text-xs font-bold text-slate-700">Teks Pengumuman Atas</label>
-                            <input type="text" name="topbar_text" value="{{ $settings['topbar_text'] ?? 'Portal Resmi Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 mt-1">
-                        </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Warna Latar</label>
-                            <input type="color" name="topbar_bg_color" value="{{ $settings['topbar_bg_color'] ?? '#3D000E' }}" class="w-full h-10 rounded-xl cursor-pointer border border-bone-300 p-1 bg-white mt-1">
-                        </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Warna Teks</label>
-                            <input type="color" name="topbar_text_color" value="{{ $settings['topbar_text_color'] ?? '#F5F4EE' }}" class="w-full h-10 rounded-xl cursor-pointer border border-bone-300 p-1 bg-white mt-1">
-                        </div>
-                    </div>
-                </div>
 
                 <!-- 2. Tautan Pintasan Resmi di Bawah Beranda -->
                 <div class="space-y-4">
@@ -1201,6 +1203,14 @@
                         <div>
                             <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">URL YouTube Resmi (Opsional)</label>
                             <input type="url" name="social_youtube" value="{{ $settings['social_youtube'] ?? '' }}" placeholder="https://youtube.com/@..." class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">URL Facebook Resmi (Opsional)</label>
+                            <input type="url" name="social_facebook" value="{{ $settings['social_facebook'] ?? '' }}" placeholder="https://facebook.com/..." class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">URL Website Resmi / Portal Pemkot (Opsional)</label>
+                            <input type="url" name="social_website" value="{{ $settings['social_website'] ?? 'https://makassarkota.go.id' }}" placeholder="https://makassarkota.go.id" class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
                         </div>
                     </div>
                 </div>

@@ -115,7 +115,19 @@
                             $hasVerifBerita = $u->hasRole('verif_berita');
                             $hasVerifRiset = $u->hasRole('verif_riset');
                         @endphp
-                        <tr class="hover:bg-bone-50/80 transition" x-data="{ selectedMain: '{{ $mainRole }}' }">
+                        <tr class="hover:bg-bone-50/80 transition" x-data="{
+                            initMain: '{{ $mainRole }}',
+                            selectedMain: '{{ $mainRole }}',
+                            initRiset: {{ $hasVerifRiset ? 'true' : 'false' }},
+                            verifRiset: {{ $hasVerifRiset ? 'true' : 'false' }},
+                            initBerita: {{ $hasVerifBerita ? 'true' : 'false' }},
+                            verifBerita: {{ $hasVerifBerita ? 'true' : 'false' }},
+                            get isDirty() {
+                                if (this.selectedMain !== this.initMain) return true;
+                                if (this.selectedMain === 'User' && (this.verifRiset !== this.initRiset || this.verifBerita !== this.initBerita)) return true;
+                                return false;
+                            }
+                        }">
                             <td class="py-3.5 px-5 align-middle">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 rounded-xl {{ $isAdmin ? 'bg-maroon-700 text-white' : 'bg-bone-200 text-slate-700' }} font-black text-xs flex items-center justify-center shrink-0">
@@ -164,11 +176,11 @@
 
                                     <div x-show="selectedMain === 'User'" class="flex flex-wrap items-center gap-2.5 bg-bone-50 px-3 py-1.5 rounded-xl border border-bone-300">
                                         <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
-                                            <input type="checkbox" name="sub_roles[]" value="verif_riset" {{ $hasVerifRiset ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
+                                            <input type="checkbox" name="sub_roles[]" value="verif_riset" x-model="verifRiset" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
                                             <span class="text-xs font-semibold text-slate-700">verif_riset</span>
                                         </label>
                                         <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
-                                            <input type="checkbox" name="sub_roles[]" value="verif_berita" {{ $hasVerifBerita ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
+                                            <input type="checkbox" name="sub_roles[]" value="verif_berita" x-model="verifBerita" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
                                             <span class="text-xs font-semibold text-slate-700">verif_berita</span>
                                         </label>
                                     </div>
@@ -180,7 +192,7 @@
                             </td>
 
                             <td class="py-3.5 px-5 align-middle text-right">
-                                <button type="submit" form="form-role-{{ $u->id }}" class="bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-4 py-1.5 rounded-xl transition shadow-sm whitespace-nowrap">
+                                <button type="submit" form="form-role-{{ $u->id }}" :disabled="!isDirty" :class="isDirty ? 'bg-maroon-700 hover:bg-maroon-800 text-white shadow-sm cursor-pointer' : 'bg-slate-200 text-slate-400 opacity-60 cursor-not-allowed'" class="font-bold text-xs px-4 py-1.5 rounded-xl transition whitespace-nowrap">
                                     Simpan
                                 </button>
                             </td>

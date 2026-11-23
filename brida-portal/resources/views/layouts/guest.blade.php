@@ -38,7 +38,7 @@
             <!-- Logo Resmi BRIDA Kota Makassar -->
             <div class="mb-6 text-center relative z-10">
                 <a href="{{ route('home') }}" class="inline-block focus:outline-none">
-                    <img src="{{ asset('images/LOGO-FIX-BRIDA.png') }}" alt="BRIDA Kota Makassar" class="h-14 sm:h-16 w-auto mx-auto object-contain drop-shadow-sm">
+                    <img src="{{ asset('images/LOGO-FIX-BRIDA-removebg-preview.png') }}" alt="BRIDA Kota Makassar" class="h-14 sm:h-16 w-auto mx-auto object-contain">
                 </a>
                 <p class="text-xs font-bold uppercase tracking-widest text-maroon-700 mt-2">
                     Portal Layanan Riset & Inovasi Daerah

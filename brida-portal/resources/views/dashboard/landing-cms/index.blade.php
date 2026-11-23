@@ -1337,4 +1337,51 @@
         </div>
 
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            const action = form.getAttribute('action') || '';
+            const methodInput = form.querySelector('input[name="_method"]');
+            const method = methodInput ? methodInput.value.toUpperCase() : (form.method || 'GET').toUpperCase();
+
+            // Skip Delete, Move, Add-new (store), and Logout forms
+            if (method === 'DELETE' || action.includes('/move') || action.includes('logout')) return;
+            if (method === 'POST' && (action.endsWith('/menus') || action.endsWith('/slides') || action.endsWith('/services'))) return;
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (!submitBtn) return;
+
+            const serializeForm = () => {
+                const pairs = [];
+                const fd = new FormData(form);
+                for (const [k, v] of fd.entries()) {
+                    if (v instanceof File) {
+                        pairs.push(k + '=' + (v.name || ''));
+                    } else {
+                        pairs.push(k + '=' + v);
+                    }
+                }
+                return pairs.join('&');
+            };
+
+            const initialSnapshot = serializeForm();
+
+            const updateBtnState = () => {
+                const isDirty = serializeForm() !== initialSnapshot;
+                submitBtn.disabled = !isDirty;
+                if (isDirty) {
+                    submitBtn.classList.remove('opacity-45', 'cursor-not-allowed', 'pointer-events-none');
+                } else {
+                    submitBtn.classList.add('opacity-45', 'cursor-not-allowed');
+                }
+            };
+
+            updateBtnState();
+            form.addEventListener('input', updateBtnState);
+            form.addEventListener('change', updateBtnState);
+        });
+    });
+    </script>
 </x-app-layout>

@@ -319,10 +319,6 @@
                                     <i class="fa-regular fa-user text-slate-400"></i>
                                     <span>Pengaturan Akun</span>
                                 </a>
-                                <a href="{{ route('home') }}" target="_blank" class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-slate-700 hover:bg-bone-100 transition">
-                                    <i class="fa-solid fa-globe text-slate-400"></i>
-                                    <span>Kunjungi Beranda Web</span>
-                                </a>
                                 <div class="border-t border-bone-200 my-1"></div>
                                 <form method="POST" action="{{ route('logout') }}" data-confirm="Apakah Anda yakin ingin keluar dari sesi dashboard ini?" data-confirm-title="Keluar Akun" data-confirm-btn="Ya, Keluar">
                                     @csrf

@@ -44,28 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/komentar/{id}', [KomentarBeritaController::class, 'destroy'])->name('berita.komentar.destroy');
     Route::get('/dashboard/komentar', [KomentarBeritaController::class, 'myComments'])->name('dashboard.komentar.index');
 
-    // Modul CRUD Layanan Izin Riset (User melihat miliknya sendiri; Admin & verif_riset bisa verifikasi semua)
-    Route::prefix('dashboard/riset')->name('dashboard.riset.')->group(function () {
-        Route::get('/', [PermohonanRisetController::class, 'index'])->name('index');
-        Route::get('/create', [PermohonanRisetController::class, 'create'])->name('create');
-        Route::post('/', [PermohonanRisetController::class, 'store'])
-            ->middleware('honeypot')
-            ->name('store');
-        Route::get('/{id}', [PermohonanRisetController::class, 'show'])->name('show');
-        Route::get('/{id}/download/{type}', [PermohonanRisetController::class, 'downloadFile'])->name('download');
-        Route::patch('/{id}/status', [PermohonanRisetController::class, 'updateStatus'])
-            ->middleware('role:Admin|verif_riset')
-            ->name('update-status');
-    });
-
-    // Modul Database Inovasi Daerah & IGA (Khusus Admin)
-    Route::prefix('dashboard/inovasi')->name('dashboard.inovasi.')->middleware('role:Admin')->group(function () {
-        Route::get('/', [InovasiDaerahController::class, 'index'])->name('index');
-        Route::get('/create', [InovasiDaerahController::class, 'create'])->name('create');
-        Route::post('/', [InovasiDaerahController::class, 'store'])->name('store');
-        Route::get('/{id}', [InovasiDaerahController::class, 'show'])->name('show');
-    });
-
     // Modul CMS Berita & Publikasi (Khusus Admin atau Sub-Role verif_berita)
     Route::prefix('dashboard/berita')->name('dashboard.berita.')->middleware('role:Admin|verif_berita')->group(function () {
         Route::get('/', [BeritaController::class, 'index'])->name('index');
@@ -89,13 +67,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [NotificationController::class, 'index'])->name('index');
         Route::patch('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read');
         Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
-    });
-
-    // Modul Ekspor Laporan & Cetak Surat Rekomendasi
-    Route::prefix('dashboard/export')->name('dashboard.export.')->group(function () {
-        Route::get('/riset/surat/{id}', [ExportController::class, 'printSuratRekomendasi'])->name('riset.surat');
-        Route::get('/riset/csv', [ExportController::class, 'exportRisetCsv'])->name('riset.csv');
-        Route::get('/inovasi/csv', [ExportController::class, 'exportInovasiCsv'])->name('inovasi.csv');
     });
 
     // Modul Manajemen Pengguna & Hak Akses (Khusus Admin)

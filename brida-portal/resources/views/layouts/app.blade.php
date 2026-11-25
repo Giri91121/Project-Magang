@@ -93,25 +93,12 @@
                         </nav>
                     </div>
 
-                    <!-- Grup 2: Aktivitas & Layanan Mandiri User -->
+                    <!-- Grup 2: Interaksi & Komentar -->
                     <div>
                         <div class="px-3 mb-2 text-[11px] font-extrabold uppercase tracking-widest text-slate-400">
-                            {{ $canVerifRiset ? 'Layanan & Verifikasi Riset' : 'Layanan Mandiri Saya' }}
+                            Interaksi & Komentar
                         </div>
                         <nav class="space-y-1">
-                            <a href="{{ route('dashboard.riset.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.riset.index') || request()->routeIs('dashboard.riset.show') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-file-signature w-5 text-center text-sm {{ request()->routeIs('dashboard.riset.index') || request()->routeIs('dashboard.riset.show') ? 'text-white' : 'text-slate-400' }}"></i>
-                                    <span>{{ $canVerifRiset ? 'Dashboard Izin Riset' : 'Permohonan Riset Saya' }}</span>
-                                </div>
-                                @if($canVerifRiset)
-                                    <span class="{{ request()->routeIs('dashboard.riset.*') ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-800 border border-emerald-200' }} text-[9px] font-bold px-2 py-0.5 rounded-full">Verif</span>
-                                @endif
-                            </a>
-                            <a href="{{ route('dashboard.riset.create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition {{ request()->routeIs('dashboard.riset.create') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
-                                <i class="fa-solid fa-plus-circle w-5 text-center text-sm {{ request()->routeIs('dashboard.riset.create') ? 'text-white' : 'text-slate-400' }}"></i>
-                                <span>Ajukan Riset Baru</span>
-                            </a>
                             <a href="{{ route('dashboard.komentar.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition {{ request()->routeIs('dashboard.komentar.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <i class="fa-regular fa-comments w-5 text-center text-sm {{ request()->routeIs('dashboard.komentar.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>{{ $canVerifBerita ? 'Moderasi Komentar' : 'Komentar Berita Saya' }}</span>
@@ -137,10 +124,6 @@
                             @endif
 
                             @if($isAdmin)
-                            <a href="{{ route('dashboard.inovasi.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.inovasi.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
-                                <i class="fa-solid fa-lightbulb w-5 text-center text-sm {{ request()->routeIs('dashboard.inovasi.*') ? 'text-white' : 'text-slate-400' }}"></i>
-                                <span>Katalog Inovasi OPD</span>
-                            </a>
                             <a href="{{ route('dashboard.regulasi.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.regulasi.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
                                 <i class="fa-solid fa-scale-balanced w-5 text-center text-sm {{ request()->routeIs('dashboard.regulasi.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Repositori Regulasi</span>

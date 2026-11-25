@@ -122,5 +122,11 @@ class HomeController extends Controller
     {
         return view('landing.kontak');
     }
+
+    public function ppidPelaksana()
+    {
+        $regulasiList = Regulasi::latest()->get();
+        return view('landing.ppid-pelaksana', compact('regulasiList'));
+    }
 }
 

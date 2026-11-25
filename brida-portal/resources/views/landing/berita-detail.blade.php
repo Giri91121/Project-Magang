@@ -59,10 +59,6 @@
                     <i class="fa-brands fa-whatsapp text-sm"></i>
                     <span>WhatsApp</span>
                 </a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-brands fa-facebook-f text-sm"></i>
-                    <span>Facebook</span>
-                </a>
                 <button onclick="navigator.clipboard.writeText(window.location.href); window.showBridaAlert('success', 'Tautan Tersalin!', 'Tautan berita berhasil disalin ke clipboard Anda.');" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
                     <i class="fa-solid fa-link text-xs"></i>
                     <span>Salin Tautan</span>

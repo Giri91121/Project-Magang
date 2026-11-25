@@ -1319,14 +1319,6 @@
                             <input type="url" name="social_instagram" value="{{ $settings['social_instagram'] ?? '' }}" placeholder="https://instagram.com/bridakotamakassar" class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">URL YouTube Resmi (Opsional)</label>
-                            <input type="url" name="social_youtube" value="{{ $settings['social_youtube'] ?? '' }}" placeholder="https://youtube.com/@..." class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">URL Facebook Resmi (Opsional)</label>
-                            <input type="url" name="social_facebook" value="{{ $settings['social_facebook'] ?? '' }}" placeholder="https://facebook.com/..." class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
-                        </div>
-                        <div>
                             <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">URL Website Resmi / Portal Pemkot (Opsional)</label>
                             <input type="url" name="social_website" value="{{ $settings['social_website'] ?? 'https://makassarkota.go.id' }}" placeholder="https://makassarkota.go.id" class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
                         </div>

@@ -196,12 +196,6 @@
                         @if(!empty($portalSettings['social_instagram']))
                         <a href="{{ $portalSettings['social_instagram'] }}" target="_blank" class="hover:text-white transition" title="Instagram Resmi"><i class="fa-brands fa-instagram text-base"></i></a>
                         @endif
-                        @if(!empty($portalSettings['social_youtube']))
-                        <a href="{{ $portalSettings['social_youtube'] }}" target="_blank" class="hover:text-white transition" title="YouTube Resmi"><i class="fa-brands fa-youtube text-base"></i></a>
-                        @endif
-                        @if(!empty($portalSettings['social_facebook']))
-                        <a href="{{ $portalSettings['social_facebook'] }}" target="_blank" class="hover:text-white transition" title="Facebook Resmi"><i class="fa-brands fa-facebook text-base"></i></a>
-                        @endif
                     </div>
                 </div>
 

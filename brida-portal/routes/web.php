@@ -26,6 +26,7 @@ Route::get('/regulasi/download/{id}', [RegulasiController::class, 'download'])->
 Route::get('/berita', [HomeController::class, 'berita'])->name('berita');
 Route::get('/berita/{slug}', [HomeController::class, 'beritaDetail'])->name('berita.detail');
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
+Route::get('/ppid-pelaksana', [HomeController::class, 'ppidPelaksana'])->name('ppid-pelaksana');
 
 // Rute Dashboard Internal (Terproteksi Autentikasi Breeze & RBAC Spatie)
 Route::get('/dashboard', [DashboardController::class, 'index'])

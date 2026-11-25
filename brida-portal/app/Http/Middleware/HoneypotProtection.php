@@ -3,8 +3,11 @@
 namespace App\Http\Middleware;
 
 use App\Models\ActivityLog;
+use App\Models\User;
+use App\Notifications\SystemAlertNotification;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class HoneypotProtection
@@ -23,6 +26,13 @@ class HoneypotProtection
                     'honeypot_blocked',
                     "Bot Spam terdeteksi & diblokir (mengisi kolom jebakan Honeypot) pada URL: " . $request->path()
                 );
+
+                Notification::send(User::role('Admin')->get(), new SystemAlertNotification(
+                    'Peringatan Keamanan Honeypot',
+                    "Bot spam terdeteksi & diblokir pada URL: " . $request->path(),
+                    route('dashboard.notifications.index'),
+                    'security'
+                ));
 
                 return back()->with('error', 'Permintaan ditolak oleh sistem keamanan anti-spam.');
             }

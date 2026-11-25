@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use App\Models\KomentarBerita;
 use App\Models\ActivityLog;
+use App\Models\User;
+use App\Notifications\SystemAlertNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class KomentarBeritaController extends Controller
 {
@@ -52,6 +55,13 @@ class KomentarBeritaController extends Controller
                 Auth::user()->name . " mencoba mengirim komentar mengandung link pada berita: {$berita->judul}",
                 $berita
             );
+            $admins = User::role('Admin')->get();
+            Notification::send($admins, new SystemAlertNotification(
+                'Peringatan Link Spam',
+                Auth::user()->name . " mencoba mengirim link pada berita \"{$berita->judul}\".",
+                route('dashboard.notifications.index'),
+                'spam'
+            ));
             return back()->withInput()->withErrors(['komentar' => 'Komentar tidak diperbolehkan mengandung tautan atau link URL.']);
         }
 
@@ -71,6 +81,13 @@ class KomentarBeritaController extends Controller
                 Auth::user()->name . " terdeteksi mengirim komentar spam pada berita: {$berita->judul}",
                 $berita
             );
+            $admins = User::role('Admin')->get();
+            Notification::send($admins, new SystemAlertNotification(
+                'Peringatan Komentar Spam',
+                Auth::user()->name . " terdeteksi mengirim komentar spam pada berita \"{$berita->judul}\".",
+                route('dashboard.notifications.index'),
+                'spam'
+            ));
             return back()->withInput()->withErrors(['komentar' => 'Komentar terdeteksi mengandung unsur spam dan tidak dapat dipublikasikan.']);
         }
 
@@ -103,6 +120,14 @@ class KomentarBeritaController extends Controller
             "Pengguna " . Auth::user()->name . " memberikan komentar pada berita '{$berita->judul}'",
             $berita
         );
+
+        $verifiers = User::role(['Admin', 'verif_berita'])->where('id', '!=', Auth::id())->get();
+        Notification::send($verifiers, new SystemAlertNotification(
+            'Komentar Berita Baru',
+            Auth::user()->name . " mengomentari berita \"{$berita->judul}\".",
+            route('dashboard.komentar.index'),
+            'info'
+        ));
 
         return redirect()->to(route('berita.detail', $berita->slug) . '#kolom-komentar')
             ->with('success_komentar', 'Terima kasih, tanggapan dan komentar Anda telah berhasil diterbitkan.');

@@ -202,6 +202,7 @@
                 <div class="space-y-2">
                     <h5 class="text-white font-bold text-sm">Portal Terkait</h5>
                     <ul class="space-y-1.5 text-bone-400 text-xs">
+                        <li><a href="{{ route('tentang') }}" class="hover:text-white transition">Tentang BRIDA &amp; Pengembang</a></li>
                         <li><a href="https://makassarkota.go.id" target="_blank" class="hover:text-white transition">Pemerintah Kota Makassar</a></li>
                         <li><a href="https://brin.go.id" target="_blank" class="hover:text-white transition">Badan Riset & Inovasi Nasional (BRIN)</a></li>
                         <li><a href="{{ asset('docs/Panduan_Pengguna_BRIDA_Makassar.txt') }}" download class="hover:text-white transition">Unduh Panduan Layanan</a></li>

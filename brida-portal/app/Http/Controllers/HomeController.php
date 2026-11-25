@@ -154,5 +154,10 @@ class HomeController extends Controller
 
         return response()->download($fullPath);
     }
+
+    public function tentang()
+    {
+        return view('landing.tentang');
+    }
 }
 

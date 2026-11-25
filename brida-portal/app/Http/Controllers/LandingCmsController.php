@@ -658,4 +658,44 @@ class LandingCmsController extends Controller
 
         return back()->with('success', 'Pengaturan & Dokumen PPID Pelaksana berhasil disimpan!');
     }
+
+    /**
+     * Update Pengaturan Halaman Tentang (/tentang)
+     */
+    public function updateTentangSettings(Request $request)
+    {
+        $request->validate([
+            'tentang_header_title' => 'required|string|max:200',
+            'tentang_header_subtitle' => 'required|string|max:500',
+            'tentang_apa_itu_brida' => 'required|string|max:3000',
+            'tentang_beda_brida' => 'required|string|max:1500',
+            'tentang_beda_sigap' => 'required|string|max:1500',
+            'tentang_dev_intro' => 'required|string|max:500',
+            'tentang_dev_list' => 'required|string|max:3000',
+        ]);
+
+        $keys = [
+            'tentang_header_title',
+            'tentang_header_subtitle',
+            'tentang_apa_itu_brida',
+            'tentang_beda_brida',
+            'tentang_beda_sigap',
+            'tentang_dev_intro',
+            'tentang_dev_list',
+        ];
+
+        foreach ($keys as $key) {
+            Setting::updateOrCreate(['key' => $key], ['value' => $request->input($key, '') ?? '']);
+        }
+
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Update Editor Halaman Tentang',
+            'description' => 'Memperbarui informasi Apa itu BRIDA, perbedaan BRIDA & SIGAP, serta profil tim developer.',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
+        return back()->with('success', 'Pengaturan Halaman Tentang berhasil disimpan!');
+    }
 }

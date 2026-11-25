@@ -627,6 +627,60 @@
                 </div>
             </form>
 
+            <!-- Editor Halaman Tentang (/tentang) -->
+            <form method="POST" action="{{ route('dashboard.landing-cms.tentang') }}" class="lg:col-span-12 bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-6">
+                @csrf
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-bone-200 pb-3">
+                    <div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Halaman Footer: Tentang</span>
+                        <h3 class="text-base font-black text-slate-900">Editor Halaman Tentang (BRIDA, SIGAP &amp; Tim Developer)</h3>
+                        <p class="text-xs text-slate-500">Ubah penjelasan Apa itu BRIDA, perbedaan BRIDA dengan SIGAP, dan daftar profil tim pengembang.</p>
+                    </div>
+                    <a href="{{ route('tentang') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-maroon-700 hover:underline">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Buka Halaman Tentang</span>
+                    </a>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Utama Banner (/tentang)</label>
+                        <input type="text" name="tentang_header_title" value="{{ $settings['tentang_header_title'] ?? 'Tentang BRIDA, SIGAP & Pengembang' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Pengantar Banner</label>
+                        <textarea name="tentang_header_subtitle" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['tentang_header_subtitle'] ?? 'Mengenal lebih dekat Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar, perannya bersama platform SIGAP, serta tim pengembang di balik portal ini.' }}</textarea>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">1. Apa itu BRIDA?</label>
+                        <textarea name="tentang_apa_itu_brida" rows="4" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['tentang_apa_itu_brida'] ?? "Badan Riset dan Inovasi Daerah (BRIDA) Kota Makassar adalah perangkat daerah yang menyelenggarakan fungsi penunjang urusan pemerintahan di bidang penelitian, pengembangan, pengkajian, penerapan, serta invensi dan inovasi di daerah.\n\nBRIDA berperan sebagai pusat perumusan kebijakan berbasis bukti ilmiah (evidence-based policy) guna mendorong daya saing dan kemajuan inovasi Pemerintah Kota Makassar." }}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">2A. Penjelasan BRIDA (Lembaga)</label>
+                        <textarea name="tentang_beda_brida" rows="3" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['tentang_beda_brida'] ?? 'BRIDA adalah instansi resmi Pemerintah Kota Makassar yang bertugas mengoordinasikan kegiatan riset, kajian kebijakan strategis, dan pembinaan ekosistem inovasi daerah.' }}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">2B. Penjelasan SIGAP (Sistem Digital)</label>
+                        <textarea name="tentang_beda_sigap" rows="3" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['tentang_beda_sigap'] ?? 'SIGAP adalah sistem informasi atau platform digital yang digunakan untuk mendukung pelayanan publik, publikasi informasi, serta tata kelola data dan keterbukaan informasi secara cepat dan terintegrasi.' }}</textarea>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">3A. Kalimat Pengantar Tim Developer</label>
+                        <input type="text" name="tentang_dev_intro" value="{{ $settings['tentang_dev_intro'] ?? 'Portal ini dirancang dan dibangun oleh tim mahasiswa magang sebagai kontribusi nyata dalam digitalisasi layanan informasi BRIDA Kota Makassar.' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">3B. Daftar Profil Tim Developer (Format: Nama | Peran | Institusi — 1 Orang per Baris)</label>
+                        <textarea name="tentang_dev_list" rows="4" required class="w-full rounded-xl border border-bone-300 text-xs font-mono px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['tentang_dev_list'] ?? "Giri Kencana Jati | Fullstack Developer | Mahasiswa Magang\nAnggota Tim 2 | UI/UX & Frontend Developer | Mahasiswa Magang" }}</textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition shadow-sm">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Halaman Tentang</span>
+                    </button>
+                </div>
+            </form>
+
         </div>
 
         <!-- ============================================================== -->

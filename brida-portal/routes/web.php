@@ -28,6 +28,7 @@ Route::get('/berita/{slug}', [HomeController::class, 'beritaDetail'])->name('ber
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
 Route::get('/ppid-pelaksana', [HomeController::class, 'ppidPelaksana'])->name('ppid-pelaksana');
 Route::get('/ppid-pelaksana/download/{doc}', [HomeController::class, 'downloadPpidDoc'])->name('ppid-pelaksana.download');
+Route::get('/tentang', [HomeController::class, 'tentang'])->name('tentang');
 
 // Rute Dashboard Internal (Terproteksi Autentikasi Breeze & RBAC Spatie)
 Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -86,6 +87,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/layanan-header', [LandingCmsController::class, 'updateLayananHeaderSettings'])->name('layanan-header');
         Route::post('/informasi-publik-settings', [LandingCmsController::class, 'updateInformasiPublikSettings'])->name('informasi-publik');
         Route::post('/ppid-settings', [LandingCmsController::class, 'updatePpidSettings'])->name('ppid');
+        Route::post('/tentang-settings', [LandingCmsController::class, 'updateTentangSettings'])->name('tentang');
         
         // Slideshow Gambar Hero
         Route::post('/slides', [LandingCmsController::class, 'storeSlide'])->name('slides.store');

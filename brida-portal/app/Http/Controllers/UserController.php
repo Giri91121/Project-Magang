@@ -43,7 +43,7 @@ class UserController extends Controller
         $request->validate([
             'main_role' => 'required|in:Admin,User',
             'sub_roles' => 'nullable|array',
-            'sub_roles.*' => 'in:verif_berita,verif_riset',
+            'sub_roles.*' => 'in:verif_berita',
         ]);
 
         $rolesToSync = [$request->main_role];

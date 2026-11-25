@@ -13,7 +13,7 @@
                     Manajemen Role & Sub-Role Pengguna
                 </h1>
                 <p class="text-xs text-slate-500 mt-0.5">
-                    Atur Role Utama (<strong>Admin</strong> / <strong>User</strong>) serta berikan Sub-Role khusus (<strong>verif_berita</strong> / <strong>verif_riset</strong>) kepada pengguna.
+                    Atur Role Utama (<strong>Admin</strong> / <strong>User</strong>) serta berikan Sub-Role khusus (<strong>verif_berita</strong>) kepada pengguna.
                 </p>
             </div>
 
@@ -61,7 +61,7 @@
                         <i class="fa-solid fa-user-check"></i> Sub-Role (Khusus User)
                     </span>
                     <p class="text-[11px] text-slate-500 leading-relaxed">
-                        <strong>verif_berita</strong>: kelola berita. <strong>verif_riset</strong>: verifikasi permohonan riset.
+                        <strong>verif_berita</strong>: kelola &amp; verifikasi berita.
                     </p>
                 </div>
             </div>
@@ -87,7 +87,6 @@
                             <option value="Admin" {{ request('role') === 'Admin' ? 'selected' : '' }}>Role Utama: Admin</option>
                             <option value="User" {{ request('role') === 'User' ? 'selected' : '' }}>Role Utama: User</option>
                             <option value="verif_berita" {{ request('role') === 'verif_berita' ? 'selected' : '' }}>Sub-Role: verif_berita</option>
-                            <option value="verif_riset" {{ request('role') === 'verif_riset' ? 'selected' : '' }}>Sub-Role: verif_riset</option>
                         </select>
                         @if(request('search') || request('role'))
                             <a href="{{ route('dashboard.users.index') }}" class="text-xs text-rose-600 hover:underline px-2 py-1">Reset</a>
@@ -113,18 +112,15 @@
                             $isAdmin = $u->hasRole('Admin');
                             $mainRole = $isAdmin ? 'Admin' : 'User';
                             $hasVerifBerita = $u->hasRole('verif_berita');
-                            $hasVerifRiset = $u->hasRole('verif_riset');
                         @endphp
                         <tr class="hover:bg-bone-50/80 transition" x-data="{
                             initMain: '{{ $mainRole }}',
                             selectedMain: '{{ $mainRole }}',
-                            initRiset: {{ $hasVerifRiset ? 'true' : 'false' }},
-                            verifRiset: {{ $hasVerifRiset ? 'true' : 'false' }},
                             initBerita: {{ $hasVerifBerita ? 'true' : 'false' }},
                             verifBerita: {{ $hasVerifBerita ? 'true' : 'false' }},
                             get isDirty() {
                                 if (this.selectedMain !== this.initMain) return true;
-                                if (this.selectedMain === 'User' && (this.verifRiset !== this.initRiset || this.verifBerita !== this.initBerita)) return true;
+                                if (this.selectedMain === 'User' && this.verifBerita !== this.initBerita) return true;
                                 return false;
                             }
                         }">
@@ -150,11 +146,6 @@
                                         <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-800 border border-slate-300 whitespace-nowrap">
                                             <i class="fa-solid fa-user mr-1 text-[10px]"></i> User
                                         </span>
-                                        @if($hasVerifRiset)
-                                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 whitespace-nowrap">
-                                                + verif_riset
-                                            </span>
-                                        @endif
                                         @if($hasVerifBerita)
                                             <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-300 whitespace-nowrap">
                                                 + verif_berita
@@ -175,10 +166,6 @@
                                     </select>
 
                                     <div x-show="selectedMain === 'User'" class="flex flex-wrap items-center gap-2.5 bg-bone-50 px-3 py-1.5 rounded-xl border border-bone-300">
-                                        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
-                                            <input type="checkbox" name="sub_roles[]" value="verif_riset" x-model="verifRiset" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
-                                            <span class="text-xs font-semibold text-slate-700">verif_riset</span>
-                                        </label>
                                         <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
                                             <input type="checkbox" name="sub_roles[]" value="verif_berita" x-model="verifBerita" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
                                             <span class="text-xs font-semibold text-slate-700">verif_berita</span>

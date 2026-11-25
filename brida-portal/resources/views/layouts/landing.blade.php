@@ -171,50 +171,58 @@
     <!-- Footer Resmi Pemerintah Kota Makassar -->
     <footer class="bg-maroon-950 text-bone-300 py-12 text-xs border-t border-maroon-900 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                
-                <div class="md:col-span-2 space-y-3">
-                    <div class="flex items-center">
-                        <a href="{{ route('home') }}" class="flex items-center focus:outline-none py-1">
-                            <img
-                                id="brida-footer-logo"
-                                src="{{ asset($portalSettings['logo_footer'] ?? 'images/logo-brida-white.png') }}"
-                                alt="BRIDA Kota Makassar"
-                                class="h-12 sm:h-14 md:h-16 w-auto max-w-[280px] sm:max-w-[340px] md:max-w-[380px] object-contain opacity-95 hover:opacity-100 transition-opacity {{ ($portalSettings['logo_footer_white'] ?? '0') === '1' ? 'brightness-0 invert' : '' }}"
-                            >
-                        </a>
-                    </div>
-                    <p class="text-bone-400 max-w-sm leading-relaxed text-xs">
+            <div class="grid md:grid-cols-12 gap-10 mb-10 items-start">
+
+                <!-- Kolom 1: Logo, Tagline, & Instagram -->
+                <div class="md:col-span-4 space-y-4">
+                    <a href="{{ route('home') }}" class="inline-flex items-center focus:outline-none">
+                        <img
+                            id="brida-footer-logo"
+                            src="{{ asset($portalSettings['logo_footer'] ?? 'images/logo-brida-white.png') }}"
+                            alt="BRIDA Kota Makassar"
+                            class="h-11 sm:h-12 w-auto max-w-[260px] object-contain opacity-95 hover:opacity-100 transition-opacity {{ ($portalSettings['logo_footer_white'] ?? '0') === '1' ? 'brightness-0 invert' : '' }}"
+                        >
+                    </a>
+                    <p class="text-bone-400 leading-relaxed text-xs">
                         {{ $portalSettings['tagline'] ?? 'Portal resmi layanan riset, kajian kebijakan strategis, serta fasilitasi ekosistem inovasi daerah Pemerintah Kota Makassar.' }}
                     </p>
-                    <div class="text-[11px] text-bone-400 space-y-1 pt-1">
-                        <p><i class="fa-solid fa-location-dot mr-1.5 text-rose-400"></i> {{ $portalSettings['office_address'] ?? 'Balai Kota Makassar, Jl. Ahmad Yani No. 2' }}</p>
-                        <p><i class="fa-solid fa-envelope mr-1.5 text-rose-400"></i> {{ $portalSettings['contact_email'] ?? 'brida@makassarkota.go.id' }}</p>
-                        <p><i class="fa-solid fa-phone mr-1.5 text-rose-400"></i> {{ $portalSettings['contact_phone'] ?? '112 (Bebas Pulsa)' }}</p>
+                    @if(!empty($portalSettings['social_instagram']))
+                    <div class="pt-1">
+                        <a href="{{ $portalSettings['social_instagram'] }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-maroon-900/70 hover:bg-maroon-800 border border-maroon-800 text-rose-200 hover:text-white text-xs font-semibold transition">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                            <span>Instagram Resmi BRIDA</span>
+                        </a>
                     </div>
-                    <div class="flex items-center gap-3 pt-2 text-rose-300">
-                        @if(!empty($portalSettings['social_instagram']))
-                        <a href="{{ $portalSettings['social_instagram'] }}" target="_blank" class="hover:text-white transition" title="Instagram Resmi"><i class="fa-brands fa-instagram text-base"></i></a>
-                        @endif
-                    </div>
+                    @endif
                 </div>
 
-                <div class="space-y-2">
-                    <h5 class="text-white font-bold text-sm">Portal Terkait</h5>
-                    <ul class="space-y-1.5 text-bone-400 text-xs">
-                        <li><a href="{{ route('tentang') }}" class="hover:text-white transition">Tentang BRIDA &amp; Pengembang</a></li>
-                        <li><a href="https://makassarkota.go.id" target="_blank" class="hover:text-white transition">Pemerintah Kota Makassar</a></li>
-                        <li><a href="https://brin.go.id" target="_blank" class="hover:text-white transition">Badan Riset & Inovasi Nasional (BRIN)</a></li>
-                        <li><a href="{{ asset('docs/Panduan_Pengguna_BRIDA_Makassar.txt') }}" download class="hover:text-white transition">Unduh Panduan Layanan</a></li>
+                <!-- Kolom 2: Kontak & Sekretariat -->
+                <div class="md:col-span-5 space-y-3">
+                    <h5 class="text-white font-extrabold text-xs uppercase tracking-wider">Kontak &amp; Sekretariat</h5>
+                    <ul class="space-y-2.5 text-bone-300/90 text-xs leading-relaxed">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-location-dot text-rose-400 mt-1 shrink-0 w-4 text-center"></i>
+                            <span>{{ $portalSettings['office_address'] ?? 'Balai Kota Makassar, Jl. Ahmad Yani No. 2' }}</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-envelope text-rose-400 shrink-0 w-4 text-center"></i>
+                            <a href="mailto:{{ $portalSettings['contact_email'] ?? 'brida@makassarkota.go.id' }}" class="hover:text-white transition">{{ $portalSettings['contact_email'] ?? 'brida@makassarkota.go.id' }}</a>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-phone text-rose-400 shrink-0 w-4 text-center"></i>
+                            <span>{{ $portalSettings['contact_phone'] ?? '112 (Bebas Pulsa)' }}</span>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="space-y-2">
-                    <h5 class="text-white font-bold text-sm">Pemerintahan</h5>
-                    <ul class="space-y-1.5 text-bone-400 text-xs">
-                        <li><a href="{{ route('home') }}#tentang" class="hover:text-white transition">Profil BRIDA Makassar</a></li>
-                        <li><a href="{{ route('layanan') }}" class="hover:text-white transition">Layanan Riset Terpadu</a></li>
-                        <li><a href="{{ route('informasi-publik') }}" class="hover:text-white transition">Keterbukaan Informasi</a></li>
+                <!-- Kolom 3: Portal Terkait -->
+                <div class="md:col-span-3 space-y-3">
+                    <h5 class="text-white font-extrabold text-xs uppercase tracking-wider">Portal Terkait</h5>
+                    <ul class="space-y-2 text-bone-300/90 text-xs">
+                        <li><a href="{{ route('tentang') }}" class="hover:text-white transition">Tentang BRIDA &amp; Pengembang</a></li>
+                        <li><a href="https://makassarkota.go.id" target="_blank" class="hover:text-white transition">Pemerintah Kota Makassar</a></li>
+                        <li><a href="https://brin.go.id" target="_blank" class="hover:text-white transition">Badan Riset &amp; Inovasi Nasional (BRIN)</a></li>
+                        <li><a href="{{ asset('docs/Panduan_Pengguna_BRIDA_Makassar.txt') }}" download class="hover:text-white transition">Unduh Panduan Layanan</a></li>
                     </ul>
                 </div>
 

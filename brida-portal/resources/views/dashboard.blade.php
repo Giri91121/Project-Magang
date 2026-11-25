@@ -16,7 +16,7 @@
             <div class="flex items-center gap-3">
                 <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 bg-white border border-bone-300 hover:border-slate-400 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
                     <i class="fa-solid fa-arrows-rotate text-slate-400"></i>
-                    <span>Segarkan Data</span>
+                    <span>Refresh</span>
                 </a>
                 @if(Auth::user()->hasAnyRole(['Admin', 'verif_berita']))
                 <a href="{{ route('dashboard.berita.create') }}" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow">

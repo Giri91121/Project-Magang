@@ -328,70 +328,82 @@
             </div>
 
             <!-- Kolom Kanan: Daftar Menu & Submenu Saat Ini -->
-            <div class="lg:col-span-8 bg-white rounded-3xl p-6 border border-bone-300 shadow-sm space-y-4">
+            <div class="lg:col-span-8 bg-white rounded-3xl p-6 border border-bone-300 shadow-sm space-y-4"
+                 x-data="{
+                     editMenuOpen: false,
+                     editMenu: { label: '', url: '', icon: '', is_active: true, target_blank: false, action: '' },
+                     openMenuModal(data) {
+                         this.editMenu = data;
+                         this.editMenuOpen = true;
+                     }
+                 }">
                 <div class="border-b border-bone-200 pb-3 flex items-center justify-between">
                     <div>
                         <h3 class="text-base font-black text-slate-900">Susunan Menu Navbar Saat Ini</h3>
-                        <p class="text-xs text-slate-500">Anda dapat langsung mengubah nama menu, link URL, urutan, atau menghapusnya.</p>
+                        <p class="text-xs text-slate-500">Gunakan tombol ▲/▼ untuk mengatur urutan, atau klik <strong>Edit</strong> untuk mengubah label, URL, dan ikon.</p>
                     </div>
                 </div>
 
                 <div class="space-y-4">
                     @foreach($menus as $menu)
                     <div class="p-4 rounded-2xl border border-bone-300 bg-bone-50/60 space-y-3">
-                        <!-- Baris Edit Menu Utama -->
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                            <!-- Tombol Naik / Turun Menu Utama -->
-                            <div class="flex items-center gap-1 shrink-0">
-                                <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $menu->id) }}">
+                        <!-- Baris Menu Utama -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <!-- Tombol Naik / Turun Menu Utama -->
+                                <div class="flex items-center gap-1 shrink-0">
+                                    <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $menu->id) }}">
+                                        @csrf
+                                        <input type="hidden" name="direction" value="up">
+                                        <button type="submit" {{ $loop->first ? 'disabled' : '' }} class="w-7 h-7 rounded-lg border border-bone-300 bg-white text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[10px] transition" title="Naikkan Urutan">
+                                            <i class="fa-solid fa-chevron-up"></i>
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $menu->id) }}">
+                                        @csrf
+                                        <input type="hidden" name="direction" value="down">
+                                        <button type="submit" {{ $loop->last ? 'disabled' : '' }} class="w-7 h-7 rounded-lg border border-bone-300 bg-white text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[10px] transition" title="Turunkan Urutan">
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <div class="w-8 h-8 rounded-xl bg-white border border-bone-300 flex items-center justify-center text-maroon-700 shrink-0 text-xs">
+                                    <i class="{{ $menu->icon ?: 'fa-solid fa-circle-dot' }}"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-extrabold text-slate-900 truncate">{{ $menu->label }}</span>
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold {{ $menu->is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-500' }}">
+                                            {{ $menu->is_active ? 'Aktif' : 'Nonaktif' }}
+                                        </span>
+                                    </div>
+                                    <span class="text-[11px] text-slate-500 block truncate">{{ $menu->url }}</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 shrink-0 justify-end">
+                                <button type="button"
+                                    @click="openMenuModal({
+                                        label: @js($menu->label),
+                                        url: @js($menu->url),
+                                        icon: @js($menu->icon ?? ''),
+                                        is_active: {{ $menu->is_active ? 'true' : 'false' }},
+                                        target_blank: {{ $menu->target_blank ? 'true' : 'false' }},
+                                        action: '{{ route('dashboard.landing-cms.menus.update', $menu->id) }}'
+                                    })"
+                                    class="inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-[11px] px-3 py-1.5 rounded-xl transition shadow-sm">
+                                    <i class="fa-solid fa-pen-to-square text-[10px]"></i>
+                                    <span>Edit</span>
+                                </button>
+                                <form method="POST" action="{{ route('dashboard.landing-cms.menus.destroy', $menu->id) }}" data-confirm="Hapus menu '{{ $menu->label }}' beserta submenunya?" data-confirm-title="Hapus Menu Navbar" data-confirm-btn="Ya, Hapus">
                                     @csrf
-                                    <input type="hidden" name="direction" value="up">
-                                    <button type="submit" {{ $loop->first ? 'disabled' : '' }} class="w-7 h-7 rounded-lg border border-bone-300 bg-white text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[10px] transition" title="Naikkan Urutan">
-                                        <i class="fa-solid fa-chevron-up"></i>
-                                    </button>
-                                </form>
-                                <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $menu->id) }}">
-                                    @csrf
-                                    <input type="hidden" name="direction" value="down">
-                                    <button type="submit" {{ $loop->last ? 'disabled' : '' }} class="w-7 h-7 rounded-lg border border-bone-300 bg-white text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[10px] transition" title="Turunkan Urutan">
-                                        <i class="fa-solid fa-chevron-down"></i>
+                                    @method('DELETE')
+                                    <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg transition" title="Hapus Menu">
+                                        <i class="fa-solid fa-trash-can text-xs"></i>
                                     </button>
                                 </form>
                             </div>
-
-                            <form method="POST" action="{{ route('dashboard.landing-cms.menus.update', $menu->id) }}" class="flex-1 grid sm:grid-cols-12 gap-2 items-center" x-data="{ iconVal: '{{ $menu->icon }}' }">
-                                @csrf
-                                @method('PATCH')
-                                <div class="sm:col-span-3 flex items-center gap-1.5">
-                                    <div class="w-7 h-7 rounded-lg bg-white border border-bone-300 flex items-center justify-center text-maroon-700 shrink-0 text-xs">
-                                        <i :class="iconVal || 'fa-solid fa-circle-dot'"></i>
-                                    </div>
-                                    <input type="text" name="icon" x-model="iconVal" placeholder="fa-solid fa-..." title="Class Ikon FontAwesome" class="w-full text-[11px] rounded-xl border border-bone-300 py-1.5 px-2 bg-white">
-                                </div>
-                                <div class="sm:col-span-3">
-                                    <input type="text" name="label" value="{{ $menu->label }}" required class="w-full text-xs font-extrabold text-slate-900 rounded-xl border border-bone-300 py-1.5 px-3 bg-white">
-                                </div>
-                                <div class="sm:col-span-3">
-                                    <input type="text" name="url" value="{{ $menu->url }}" required class="w-full text-xs text-slate-600 rounded-xl border border-bone-300 py-1.5 px-3 bg-white">
-                                </div>
-                                <div class="sm:col-span-1 flex items-center justify-center">
-                                    <input type="hidden" name="is_active" value="0">
-                                    <input type="checkbox" name="is_active" value="1" {{ $menu->is_active ? 'checked' : '' }} title="Aktif / Tampilkan di Navbar" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
-                                </div>
-                                <div class="sm:col-span-2 flex justify-end">
-                                    <button type="submit" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-[11px] px-3 py-1.5 rounded-xl transition">
-                                        Simpan
-                                    </button>
-                                </div>
-                            </form>
-
-                            <form method="POST" action="{{ route('dashboard.landing-cms.menus.destroy', $menu->id) }}" data-confirm="Hapus menu '{{ $menu->label }}' beserta submenunya?" data-confirm-title="Hapus Menu Navbar" data-confirm-btn="Ya, Hapus">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg transition" title="Hapus Menu">
-                                    <i class="fa-solid fa-trash-can text-xs"></i>
-                                </button>
-                            </form>
                         </div>
 
                         <!-- Daftar Submenu Dropdown jika ada -->
@@ -400,62 +412,122 @@
                             <span class="text-[10px] font-extrabold uppercase tracking-wider text-maroon-700 block">Submenu Dropdown ({{ $menu->label }}):</span>
                             @foreach($menu->children->sortBy('sort_order') as $child)
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white p-2.5 rounded-xl border border-bone-200">
-                                <!-- Tombol Naik / Turun Submenu -->
-                                <div class="flex items-center gap-1 shrink-0">
-                                    <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $child->id) }}">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <!-- Tombol Naik / Turun Submenu -->
+                                    <div class="flex items-center gap-1 shrink-0">
+                                        <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $child->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="direction" value="up">
+                                            <button type="submit" {{ $loop->first ? 'disabled' : '' }} class="w-6 h-6 rounded-md border border-bone-300 bg-bone-50 text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[9px] transition" title="Naikkan Submenu">
+                                                <i class="fa-solid fa-chevron-up"></i>
+                                            </button>
+                                        </form>
+                                        <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $child->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="direction" value="down">
+                                            <button type="submit" {{ $loop->last ? 'disabled' : '' }} class="w-6 h-6 rounded-md border border-bone-300 bg-bone-50 text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[9px] transition" title="Turunkan Submenu">
+                                                <i class="fa-solid fa-chevron-down"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    <div class="w-7 h-7 rounded-lg bg-bone-50 border border-bone-300 flex items-center justify-center text-maroon-700 shrink-0 text-[11px]">
+                                        <i class="{{ $child->icon ?: 'fa-solid fa-circle-dot' }}"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="text-[11px] font-bold text-slate-800 truncate">{{ $child->label }}</span>
+                                            @if(!$child->is_active)
+                                                <span class="px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-slate-200 text-slate-500">Nonaktif</span>
+                                            @endif
+                                        </div>
+                                        <span class="text-[10px] text-slate-400 block truncate">{{ $child->url }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-1.5 shrink-0 justify-end">
+                                    <button type="button"
+                                        @click="openMenuModal({
+                                            label: @js($child->label),
+                                            url: @js($child->url),
+                                            icon: @js($child->icon ?? ''),
+                                            is_active: {{ $child->is_active ? 'true' : 'false' }},
+                                            target_blank: {{ $child->target_blank ? 'true' : 'false' }},
+                                            action: '{{ route('dashboard.landing-cms.menus.update', $child->id) }}'
+                                        })"
+                                        class="inline-flex items-center gap-1 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition">
+                                        <i class="fa-solid fa-pen-to-square text-[9px]"></i>
+                                        <span>Edit</span>
+                                    </button>
+                                    <form method="POST" action="{{ route('dashboard.landing-cms.menus.destroy', $child->id) }}" data-confirm="Hapus submenu '{{ $child->label }}'?" data-confirm-title="Hapus Submenu" data-confirm-btn="Ya, Hapus">
                                         @csrf
-                                        <input type="hidden" name="direction" value="up">
-                                        <button type="submit" {{ $loop->first ? 'disabled' : '' }} class="w-6 h-6 rounded-md border border-bone-300 bg-bone-50 text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[9px] transition" title="Naikkan Submenu">
-                                            <i class="fa-solid fa-chevron-up"></i>
-                                        </button>
-                                    </form>
-                                    <form method="POST" action="{{ route('dashboard.landing-cms.menus.move', $child->id) }}">
-                                        @csrf
-                                        <input type="hidden" name="direction" value="down">
-                                        <button type="submit" {{ $loop->last ? 'disabled' : '' }} class="w-6 h-6 rounded-md border border-bone-300 bg-bone-50 text-slate-600 hover:border-maroon-700 hover:text-maroon-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-[9px] transition" title="Turunkan Submenu">
-                                            <i class="fa-solid fa-chevron-down"></i>
+                                        @method('DELETE')
+                                        <button type="submit" class="p-1 text-slate-400 hover:text-rose-600">
+                                            <i class="fa-solid fa-xmark text-xs"></i>
                                         </button>
                                     </form>
                                 </div>
-
-                                <form method="POST" action="{{ route('dashboard.landing-cms.menus.update', $child->id) }}" class="flex-1 grid sm:grid-cols-12 gap-2 items-center" x-data="{ iconVal: '{{ $child->icon }}' }">
-                                    @csrf
-                                    @method('PATCH')
-                                    <div class="sm:col-span-3 flex items-center gap-1.5">
-                                        <div class="w-6 h-6 rounded-md bg-bone-50 border border-bone-300 flex items-center justify-center text-maroon-700 shrink-0 text-[11px]">
-                                            <i :class="iconVal || 'fa-solid fa-circle-dot'"></i>
-                                        </div>
-                                        <input type="text" name="icon" x-model="iconVal" placeholder="fa-solid fa-..." title="Class Ikon FontAwesome" class="w-full text-[11px] rounded-lg border border-bone-300 py-1 px-2">
-                                    </div>
-                                    <div class="sm:col-span-3">
-                                        <input type="text" name="label" value="{{ $child->label }}" required class="w-full text-[11px] font-bold text-slate-800 rounded-lg border border-bone-300 py-1 px-2.5">
-                                    </div>
-                                    <div class="sm:col-span-3">
-                                        <input type="text" name="url" value="{{ $child->url }}" required class="w-full text-[11px] text-slate-500 rounded-lg border border-bone-300 py-1 px-2.5">
-                                    </div>
-                                    <div class="sm:col-span-1 flex items-center justify-center">
-                                        <input type="hidden" name="is_active" value="0">
-                                        <input type="checkbox" name="is_active" value="1" {{ $child->is_active ? 'checked' : '' }} title="Aktif / Tampilkan" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
-                                    </div>
-                                    <div class="sm:col-span-2 flex justify-end">
-                                        <button type="submit" class="bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition">
-                                            Update
-                                        </button>
-                                    </div>
-                                </form>
-                                <form method="POST" action="{{ route('dashboard.landing-cms.menus.destroy', $child->id) }}" data-confirm="Hapus submenu '{{ $child->label }}'?" data-confirm-title="Hapus Submenu" data-confirm-btn="Ya, Hapus">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="p-1 text-slate-400 hover:text-rose-600">
-                                        <i class="fa-solid fa-xmark text-xs"></i>
-                                    </button>
-                                </form>
                             </div>
                             @endforeach
                         </div>
                         @endif
                     </div>
                     @endforeach
+                </div>
+
+                <!-- Modal Pop-up Edit Menu / Submenu -->
+                <div x-show="editMenuOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+                    <div @click.away="editMenuOpen = false" class="bg-white rounded-3xl border border-bone-300 shadow-2xl w-full max-w-md overflow-hidden">
+                        <div class="px-6 py-4 border-b border-bone-200 flex items-center justify-between bg-bone-50">
+                            <h4 class="text-sm font-black text-slate-900">Edit Menu / Submenu Navbar</h4>
+                            <button type="button" @click="editMenuOpen = false" class="text-slate-400 hover:text-slate-700">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <form method="POST" :action="editMenu.action" data-no-dirty class="p-6 space-y-4">
+                            @csrf
+                            @method('PATCH')
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Nama / Label Menu</label>
+                                <input type="text" name="label" x-model="editMenu.label" required class="w-full text-xs font-bold rounded-xl border border-bone-300 py-2.5 px-3 focus:ring-maroon-700 focus:border-maroon-700">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Alamat Link Tujuan (URL)</label>
+                                <input type="text" name="url" x-model="editMenu.url" required class="w-full text-xs rounded-xl border border-bone-300 py-2.5 px-3 focus:ring-maroon-700 focus:border-maroon-700">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-[11px] font-bold text-slate-600 uppercase">Ikon FontAwesome (Opsional)</label>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-9 h-9 rounded-xl bg-bone-100 border border-bone-300 flex items-center justify-center text-maroon-700 shrink-0">
+                                        <i :class="editMenu.icon || 'fa-solid fa-circle-dot'" class="text-sm"></i>
+                                    </div>
+                                    <input type="text" name="icon" x-model="editMenu.icon" placeholder="fa-solid fa-sitemap" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                                </div>
+                                <div class="flex flex-wrap gap-1.5 pt-1">
+                                    @foreach(['fa-solid fa-sitemap', 'fa-solid fa-landmark', 'fa-solid fa-bullseye', 'fa-solid fa-list-check', 'fa-solid fa-flask', 'fa-solid fa-file-lines', 'fa-solid fa-users', 'fa-solid fa-book-open'] as $ic)
+                                        <button type="button" @click="editMenu.icon = '{{ $ic }}'" class="w-7 h-7 rounded-lg border border-bone-300 bg-white hover:border-maroon-700 hover:text-maroon-700 text-slate-600 flex items-center justify-center text-xs transition" title="{{ $ic }}">
+                                            <i class="{{ $ic }}"></i>
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-6 pt-1">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="hidden" name="is_active" value="0">
+                                    <input type="checkbox" name="is_active" value="1" x-model="editMenu.is_active" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
+                                    <span class="text-xs font-semibold text-slate-700">Tampilkan di Navbar</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="target_blank" value="1" x-model="editMenu.target_blank" class="rounded text-maroon-700 focus:ring-maroon-700 border-slate-300">
+                                    <span class="text-xs font-semibold text-slate-700">Buka Tab Baru</span>
+                                </label>
+                            </div>
+                            <div class="pt-3 border-t border-bone-200 flex justify-end gap-2">
+                                <button type="button" @click="editMenuOpen = false" class="px-4 py-2 rounded-xl border border-bone-300 text-xs font-bold text-slate-600 hover:bg-bone-100 transition">Batal</button>
+                                <button type="submit" class="px-5 py-2 rounded-xl bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold transition shadow-sm">Simpan Perubahan</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -598,18 +670,29 @@
             </form>
 
             <!-- Daftar Kartu Layanan yang Dapat Diedit -->
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid md:grid-cols-2 gap-6"
+                 x-data="{
+                     editSrvOpen: false,
+                     editSrv: { judul: '', kategori_badge: '', deskripsi: '', detail_title: '', detail_items: '', estimasi_info: '', biaya_info: '', icon: '', link_text: '', link_url: '', action: '' },
+                     openSrvModal(data) {
+                         this.editSrv = data;
+                         this.editSrvOpen = true;
+                     }
+                 }">
                 @foreach($services as $srv)
-                <div class="bg-white rounded-3xl p-6 border border-bone-300 shadow-sm space-y-4">
-                    <div class="flex items-center justify-between border-b border-bone-200 pb-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-maroon-700 text-white flex items-center justify-center text-base">
-                                <i class="{{ $srv->icon }}"></i>
+                <div class="bg-white rounded-3xl p-6 border border-bone-300 shadow-sm flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between gap-3 border-b border-bone-200 pb-3">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-10 h-10 rounded-xl bg-maroon-700 text-white flex items-center justify-center text-base shrink-0">
+                                    <i class="{{ $srv->icon }}"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-maroon-700 block">{{ $srv->kategori_badge ?? 'Layanan Publik' }}</span>
+                                    <h4 class="font-black text-sm text-slate-900 truncate">{{ $srv->judul }}</h4>
+                                </div>
                             </div>
-                            <h4 class="font-black text-sm text-slate-900">{{ $srv->judul }}</h4>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="flex items-center gap-1">
+                            <div class="flex items-center gap-1.5 shrink-0">
                                 <form method="POST" action="{{ route('dashboard.landing-cms.services.move', $srv->id) }}">
                                     @csrf
                                     <input type="hidden" name="direction" value="up">
@@ -625,85 +708,120 @@
                                     </button>
                                 </form>
                             </div>
+                        </div>
+
+                        <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">{{ $srv->deskripsi }}</p>
+
+                        <div class="flex flex-wrap gap-2 text-[11px]">
+                            <span class="px-2.5 py-1 rounded-lg bg-bone-100 text-slate-700 font-semibold">
+                                <i class="fa-regular fa-clock mr-1 text-maroon-700"></i>{{ $srv->estimasi_info ?? 'Estimasi: 1 - 3 Hari Kerja' }}
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-semibold">
+                                <i class="fa-solid fa-tag mr-1"></i>{{ $srv->biaya_info ?? 'Biaya: Rp 0 (Gratis)' }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-bone-200 flex items-center justify-between gap-2">
+                        <span class="text-[11px] text-slate-400 truncate"><i class="fa-solid fa-link mr-1"></i>{{ $srv->link_url }}</span>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button type="button"
+                                @click="openSrvModal({
+                                    judul: @js($srv->judul),
+                                    kategori_badge: @js($srv->kategori_badge ?? 'Layanan Publik'),
+                                    deskripsi: @js($srv->deskripsi),
+                                    detail_title: @js($srv->detail_title ?? 'Persyaratan & Cakupan:'),
+                                    detail_items: @js($srv->detail_items ?? ''),
+                                    estimasi_info: @js($srv->estimasi_info ?? 'Estimasi: 1 - 3 Hari Kerja'),
+                                    biaya_info: @js($srv->biaya_info ?? 'Biaya: Rp 0 (Gratis)'),
+                                    icon: @js($srv->icon),
+                                    link_text: @js($srv->link_text),
+                                    link_url: @js($srv->link_url),
+                                    action: '{{ route('dashboard.landing-cms.services.update', $srv->id) }}'
+                                })"
+                                class="inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-3.5 py-1.5 rounded-xl transition shadow-sm">
+                                <i class="fa-solid fa-pen-to-square text-[10px]"></i>
+                                <span>Edit</span>
+                            </button>
                             <form method="POST" action="{{ route('dashboard.landing-cms.services.destroy', $srv->id) }}" data-confirm="Hapus kartu layanan '{{ $srv->judul }}' dari beranda?" data-confirm-title="Hapus Kartu Layanan" data-confirm-btn="Ya, Hapus">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-xs font-bold text-rose-600 hover:underline">
-                                    <i class="fa-solid fa-trash-can mr-1"></i> Hapus
+                                <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg transition" title="Hapus Layanan">
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
                                 </button>
                             </form>
                         </div>
                     </div>
-
-                    <form method="POST" action="{{ route('dashboard.landing-cms.services.update', $srv->id) }}" class="space-y-3">
-                        @csrf
-                        @method('PATCH')
-                        <div class="grid sm:grid-cols-3 gap-3">
-                            <div class="sm:col-span-2">
-                                <label class="block text-[11px] font-bold text-slate-600">Judul Layanan</label>
-                                <input type="text" name="judul" value="{{ $srv->judul }}" required class="w-full text-xs font-bold rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-600">Kode Ikon</label>
-                                <input type="text" name="icon" value="{{ $srv->icon }}" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
-                            </div>
-                        </div>
-
-                        <div class="grid sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-600">Badge Kategori (Halaman Layanan)</label>
-                                <input type="text" name="kategori_badge" value="{{ $srv->kategori_badge ?? 'Layanan Publik' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-600">Judul Daftar Poin</label>
-                                <input type="text" name="detail_title" value="{{ $srv->detail_title ?? 'Persyaratan & Cakupan:' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-600">Deskripsi Layanan</label>
-                            <textarea name="deskripsi" rows="2" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">{{ $srv->deskripsi }}</textarea>
-                        </div>
-
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-600">Daftar Poin Persyaratan / Cakupan (1 Poin per Baris - Tampil di /layanan)</label>
-                            <textarea name="detail_items" rows="3" placeholder="Ketik 1 poin per baris..." class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5 bg-bone-50/50">{{ $srv->detail_items }}</textarea>
-                        </div>
-
-                        <div class="grid sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-600">Estimasi Waktu / Jadwal</label>
-                                <input type="text" name="estimasi_info" value="{{ $srv->estimasi_info ?? 'Estimasi: 1 - 3 Hari Kerja' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-600">Info Biaya / Status</label>
-                                <input type="text" name="biaya_info" value="{{ $srv->biaya_info ?? 'Biaya: Rp 0 (Gratis)' }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
-                            </div>
-                        </div>
-
-                        <div class="grid sm:grid-cols-3 gap-3">
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-600">Teks Link Beranda</label>
-                                <input type="text" name="link_text" value="{{ $srv->link_text }}" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-600">URL Link Tujuan</label>
-                                <input type="text" name="link_url" value="{{ $srv->link_url }}" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-600">Urutan</label>
-                                <input type="number" name="sort_order" value="{{ $srv->sort_order }}" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 mt-0.5">
-                            </div>
-                        </div>
-
-                        <div class="pt-2 text-right">
-                            <button type="submit" class="bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow-sm">
-                                Simpan Perubahan Layanan
-                            </button>
-                        </div>
-                    </form>
                 </div>
                 @endforeach
+
+                <!-- Modal Pop-up Edit Layanan -->
+                <div x-show="editSrvOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+                    <div @click.away="editSrvOpen = false" class="bg-white rounded-3xl border border-bone-300 shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+                        <div class="px-6 py-4 border-b border-bone-200 flex items-center justify-between bg-bone-50 shrink-0">
+                            <h4 class="text-sm font-black text-slate-900">Edit Detail Layanan</h4>
+                            <button type="button" @click="editSrvOpen = false" class="text-slate-400 hover:text-slate-700">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <form method="POST" :action="editSrv.action" data-no-dirty class="p-6 space-y-4 overflow-y-auto">
+                            @csrf
+                            @method('PATCH')
+                            <div class="grid sm:grid-cols-3 gap-3">
+                                <div class="sm:col-span-2">
+                                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Layanan</label>
+                                    <input type="text" name="judul" x-model="editSrv.judul" required class="w-full text-xs font-bold rounded-xl border border-bone-300 py-2 px-3">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Kode Ikon</label>
+                                    <input type="text" name="icon" x-model="editSrv.icon" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Badge Kategori (/layanan)</label>
+                                    <input type="text" name="kategori_badge" x-model="editSrv.kategori_badge" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Daftar Poin</label>
+                                    <input type="text" name="detail_title" x-model="editSrv.detail_title" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Layanan</label>
+                                <textarea name="deskripsi" rows="2" x-model="editSrv.deskripsi" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Daftar Poin Persyaratan / Cakupan (1 Poin per Baris)</label>
+                                <textarea name="detail_items" rows="3" x-model="editSrv.detail_items" placeholder="Ketik 1 poin per baris..." class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3 bg-bone-50/50"></textarea>
+                            </div>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Estimasi Waktu / Jadwal</label>
+                                    <input type="text" name="estimasi_info" x-model="editSrv.estimasi_info" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Info Biaya / Status</label>
+                                    <input type="text" name="biaya_info" x-model="editSrv.biaya_info" class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Teks Link Beranda</label>
+                                    <input type="text" name="link_text" x-model="editSrv.link_text" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">URL Link Tujuan</label>
+                                    <input type="text" name="link_url" x-model="editSrv.link_url" required class="w-full text-xs rounded-xl border border-bone-300 py-2 px-3">
+                                </div>
+                            </div>
+                            <div class="pt-3 border-t border-bone-200 flex justify-end gap-2">
+                                <button type="button" @click="editSrvOpen = false" class="px-4 py-2 rounded-xl border border-bone-300 text-xs font-bold text-slate-600 hover:bg-bone-100 transition">Batal</button>
+                                <button type="submit" class="px-5 py-2 rounded-xl bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold transition shadow-sm">Simpan Perubahan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <!-- Form Tambah Kartu Layanan Baru -->
@@ -1346,8 +1464,8 @@
             const methodInput = form.querySelector('input[name="_method"]');
             const method = methodInput ? methodInput.value.toUpperCase() : (form.method || 'GET').toUpperCase();
 
-            // Skip Delete, Move, Add-new (store), and Logout forms
-            if (method === 'DELETE' || action.includes('/move') || action.includes('logout')) return;
+            // Skip Delete, Move, Modal, Add-new (store), and Logout forms
+            if (form.hasAttribute('data-no-dirty') || method === 'DELETE' || action.includes('/move') || action.includes('logout')) return;
             if (method === 'POST' && (action.endsWith('/menus') || action.endsWith('/slides') || action.endsWith('/services'))) return;
 
             const submitBtn = form.querySelector('button[type="submit"]');

@@ -107,19 +107,68 @@
 
                 <div class="space-y-4">
                     @forelse($activityLogs as $log)
-                    @php $badge = $log->action_badge; @endphp
-                    <div class="flex items-start gap-3 text-xs">
-                        <div class="w-7 h-7 rounded-lg {{ $badge['color'] }} flex items-center justify-center text-xs shrink-0 mt-0.5">
-                            <i class="fa-solid {{ $badge['icon'] }}"></i>
+                    @php
+                        $act = strtolower($log->action ?? '');
+                        $isSecurity = str_contains($act, 'honeypot') || str_contains($act, 'trap') || str_contains($act, 'security') || str_contains($act, 'bot');
+                        $isSpam = !$isSecurity && (str_contains($act, 'spam') || str_contains($act, 'link'));
+                        $isDelete = !$isSecurity && !$isSpam && (str_contains($act, 'delete') || str_contains($act, 'hapus') || str_contains($act, 'destroy'));
+                        $isAuth = !$isSecurity && !$isSpam && !$isDelete && (str_contains($act, 'login') || str_contains($act, 'register'));
+
+                        if ($isSecurity) {
+                            $wrapClass = 'p-3 rounded-2xl bg-rose-50/90 border border-rose-200 border-l-4 border-l-rose-600';
+                            $iconBox = 'bg-rose-100 text-rose-700';
+                            $icon = 'fa-shield-virus';
+                            $tag = 'KEAMANAN';
+                            $tagClass = 'bg-rose-600 text-white';
+                            $textClass = 'text-rose-950 font-bold';
+                        } elseif ($isSpam) {
+                            $wrapClass = 'p-3 rounded-2xl bg-amber-50/90 border border-amber-200 border-l-4 border-l-amber-500';
+                            $iconBox = 'bg-amber-100 text-amber-700';
+                            $icon = 'fa-triangle-exclamation';
+                            $tag = 'SPAM';
+                            $tagClass = 'bg-amber-500 text-white';
+                            $textClass = 'text-amber-950 font-bold';
+                        } elseif ($isDelete) {
+                            $wrapClass = '';
+                            $iconBox = 'bg-rose-50 text-rose-600';
+                            $icon = 'fa-trash-can';
+                            $tag = null;
+                            $textClass = 'text-slate-800 font-medium';
+                        } elseif ($isAuth) {
+                            $wrapClass = '';
+                            $iconBox = 'bg-emerald-50 text-emerald-600';
+                            $icon = 'fa-right-to-bracket';
+                            $tag = null;
+                            $textClass = 'text-slate-800 font-medium';
+                        } else {
+                            $wrapClass = '';
+                            $iconBox = 'bg-bone-100 text-slate-500';
+                            $icon = 'fa-clock-rotate-left';
+                            $tag = null;
+                            $textClass = 'text-slate-800 font-medium';
+                        }
+                    @endphp
+                    <div class="flex items-start gap-3 text-xs {{ $wrapClass }}">
+                        <div class="w-7 h-7 rounded-lg {{ $iconBox }} flex items-center justify-center text-xs shrink-0 mt-0.5">
+                            <i class="fa-solid {{ $icon }}"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-slate-800 font-medium leading-snug">
+                            @if($tag)
+                                <span class="inline-block px-2 py-0.5 rounded-md text-[9px] font-extrabold tracking-wider uppercase mb-1 {{ $tagClass }}">
+                                    {{ $tag }}
+                                </span>
+                            @endif
+                            <p class="{{ $textClass }} leading-snug">
                                 {{ $log->description }}
                             </p>
-                            <div class="flex items-center gap-2 text-[10px] text-slate-400 mt-1">
+                            <div class="flex flex-wrap items-center gap-2 text-[10px] text-slate-400 mt-1">
                                 <span><i class="fa-regular fa-user mr-1"></i>{{ $log->user->name ?? 'Sistem' }}</span>
                                 <span>•</span>
                                 <span>{{ $log->created_at->diffForHumans() }}</span>
+                                @if(($isSecurity || $isSpam) && !empty($log->ip_address))
+                                    <span>•</span>
+                                    <span class="font-mono text-slate-500">IP: {{ $log->ip_address }}</span>
+                                @endif
                             </div>
                         </div>
                     </div>

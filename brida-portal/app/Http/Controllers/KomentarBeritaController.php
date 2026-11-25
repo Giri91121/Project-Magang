@@ -36,13 +36,65 @@ class KomentarBeritaController extends Controller
         $berita = Berita::where('slug', $slug)->where('status', 'Publikasi')->firstOrFail();
 
         $validated = $request->validate([
-            'komentar' => 'required|string|min:3|max:1000',
+            'komentar' => 'required|string|min:3|max:500',
+        ], [
+            'komentar.required' => 'Komentar tidak boleh kosong.',
+            'komentar.min' => 'Komentar minimal 3 karakter.',
+            'komentar.max' => 'Komentar maksimal 500 karakter.',
         ]);
+
+        $text = trim($validated['komentar']);
+
+        // 1. Deteksi Link / URL
+        if (preg_match('/(https?:\/\/|www\.|[a-z0-9\-]+\.(com|id|net|org|xyz|info|biz|co|io|me|ly|gg|vip|site|online|top|link|click)\b)/i', $text)) {
+            ActivityLog::log(
+                'spam_komentar_link',
+                Auth::user()->name . " mencoba mengirim komentar mengandung link pada berita: {$berita->judul}",
+                $berita
+            );
+            return back()->withInput()->withErrors(['komentar' => 'Komentar tidak diperbolehkan mengandung tautan atau link URL.']);
+        }
+
+        // 2. Deteksi Kata Spam & Pengulangan Karakter Berlebihan
+        $spamKeywords = ['slot', 'gacor', 'judi', 'maxwin', 'togel', 'pinjol', 'zeus', 'scatter', 'jp paus', 'situs terpercaya', 'poker', 'casino', 'rtp live', 'daftar sekarang', 'bonus new member'];
+        $lowerText = mb_strtolower($text);
+        $hasSpamKeyword = false;
+        foreach ($spamKeywords as $kw) {
+            if (str_contains($lowerText, $kw)) {
+                $hasSpamKeyword = true;
+                break;
+            }
+        }
+        if ($hasSpamKeyword || preg_match('/(.)\1{7,}/u', $text)) {
+            ActivityLog::log(
+                'spam_komentar_kata',
+                Auth::user()->name . " terdeteksi mengirim komentar spam pada berita: {$berita->judul}",
+                $berita
+            );
+            return back()->withInput()->withErrors(['komentar' => 'Komentar terdeteksi mengandung unsur spam dan tidak dapat dipublikasikan.']);
+        }
+
+        // 3. Rate Limiting (Jeda 30 Detik antar komentar)
+        $recentCooldown = KomentarBerita::where('user_id', Auth::id())
+            ->where('created_at', '>=', now()->subSeconds(30))
+            ->exists();
+        if ($recentCooldown) {
+            return back()->withInput()->withErrors(['komentar' => 'Mohon tunggu 30 detik sebelum mengirim komentar berikutnya.']);
+        }
+
+        // 4. Deteksi Komentar Duplikat
+        $lastComment = KomentarBerita::where('berita_id', $berita->id)
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->first();
+        if ($lastComment && mb_strtolower(trim($lastComment->komentar)) === $lowerText) {
+            return back()->withInput()->withErrors(['komentar' => 'Komentar yang sama sudah pernah Anda kirimkan.']);
+        }
 
         $komentar = KomentarBerita::create([
             'berita_id' => $berita->id,
             'user_id' => Auth::id(),
-            'komentar' => $validated['komentar'],
+            'komentar' => $text,
             'is_approved' => true,
         ]);
 

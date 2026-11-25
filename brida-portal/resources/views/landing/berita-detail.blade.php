@@ -106,8 +106,14 @@
                             rows="3" 
                             required 
                             minlength="3"
+                            maxlength="500"
+                            oninput="document.getElementById('komentar-counter').textContent = this.value.length + ' / 500'"
                             placeholder="Tuliskan tanggapan, masukan, atau pertanyaan santun terkait berita ini..." 
                             class="w-full text-xs sm:text-sm rounded-2xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 p-3.5 bg-bone-50/50">{{ old('komentar') }}</textarea>
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 px-1">
+                            <span>Dilarang menyertakan link/URL atau spam</span>
+                            <span id="komentar-counter" class="font-bold text-slate-500">{{ mb_strlen(old('komentar', '')) }} / 500</span>
+                        </div>
                         @error('komentar')
                             <p class="text-[11px] text-rose-600 font-semibold mt-1">{{ $message }}</p>
                         @enderror

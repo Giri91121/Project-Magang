@@ -203,17 +203,33 @@
             <!-- Footer Kartu: Bagikan Profil Instansi -->
             <div class="px-6 sm:px-8 py-4 border-t border-bone-200 bg-bone-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                 <span class="text-slate-500 font-medium">Bagikan Profil Instansi:</span>
-                <div class="flex items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2">
                     <button type="button"
                             onclick="navigator.clipboard.writeText(window.location.href); window.showBridaAlert ? window.showBridaAlert('success', 'Tautan Tersalin!', 'Tautan halaman PPID Pelaksana berhasil disalin.') : alert('Tautan tersalin!');"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-bone-300 hover:border-maroon-700 text-slate-700 font-bold transition shadow-sm">
-                        <i class="fa-regular fa-copy text-[11px]"></i>
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-800 text-white font-bold transition shadow-sm">
+                        <i class="fa-solid fa-link text-xs"></i>
                         <span>Salin Link</span>
                     </button>
-                    <a href="{{ !empty($portalSettings['social_instagram']) ? $portalSettings['social_instagram'] : 'https://instagram.com/bridakotamakassar' }}" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-bone-300 hover:border-rose-600 hover:text-maroon-700 text-slate-700 font-bold transition shadow-sm">
-                        <i class="fa-brands fa-instagram text-xs"></i>
+                    <a href="https://api.whatsapp.com/send?text={{ urlencode('PPID Pelaksana BRIDA Kota Makassar ' . url()->current()) }}" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition shadow-sm">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>WA</span>
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"
+                       onclick="navigator.clipboard.writeText(window.location.href); if(window.showBridaAlert) window.showBridaAlert('info', 'Tautan Tersalin!', 'Tautan disalin ke clipboard. Silakan tempel di Instagram Anda.');"
+                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-bold transition shadow-sm">
+                        <i class="fa-brands fa-instagram text-sm"></i>
                         <span>IG</span>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition shadow-sm">
+                        <i class="fa-brands fa-facebook-f text-sm"></i>
+                        <span>FB</span>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode('PPID Pelaksana BRIDA Kota Makassar') }}" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-black text-white font-bold transition shadow-sm">
+                        <i class="fa-brands fa-x-twitter text-xs"></i>
+                        <span>X</span>
                     </a>
                 </div>
             </div>

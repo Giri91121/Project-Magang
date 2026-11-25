@@ -54,15 +54,27 @@
         <!-- Bagian Bagikan Berita -->
         <div class="pt-6 border-t border-bone-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
             <span class="font-bold text-slate-700">Bagikan Informasi Ini:</span>
-            <div class="flex items-center gap-2">
-                <a href="https://api.whatsapp.com/send?text={{ urlencode($berita->judul . ' ' . url()->current()) }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-brands fa-whatsapp text-sm"></i>
-                    <span>WhatsApp</span>
-                </a>
-                <button onclick="navigator.clipboard.writeText(window.location.href); window.showBridaAlert('success', 'Tautan Tersalin!', 'Tautan berita berhasil disalin ke clipboard Anda.');" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+            <div class="flex flex-wrap items-center gap-2">
+                <button type="button" onclick="navigator.clipboard.writeText(window.location.href); window.showBridaAlert('success', 'Tautan Tersalin!', 'Tautan berita berhasil disalin ke clipboard Anda.');" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
                     <i class="fa-solid fa-link text-xs"></i>
-                    <span>Salin Tautan</span>
+                    <span>Salin Link</span>
                 </button>
+                <a href="https://api.whatsapp.com/send?text={{ urlencode($berita->judul . ' ' . url()->current()) }}" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span>WA</span>
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" onclick="navigator.clipboard.writeText(window.location.href); if(window.showBridaAlert) window.showBridaAlert('info', 'Tautan Tersalin!', 'Tautan disalin ke clipboard. Silakan tempel di Instagram Anda.');" class="bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-brands fa-instagram text-sm"></i>
+                    <span>IG</span>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-brands fa-facebook-f text-sm"></i>
+                    <span>FB</span>
+                </a>
+                <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($berita->judul) }}" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-black text-white font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-brands fa-x-twitter text-xs"></i>
+                    <span>X</span>
+                </a>
             </div>
         </div>
 

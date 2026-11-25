@@ -26,7 +26,7 @@
 
     <!-- Konten Utama Kartu PPID Pelaksana -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <div x-data="{ activeTab: 'profil' }" class="bg-white rounded-3xl border border-bone-300 shadow-sm overflow-hidden">
+        <div class="bg-white rounded-3xl border border-bone-300 shadow-sm overflow-hidden">
 
             <!-- Header Instansi -->
             <div class="p-6 sm:p-8 flex items-center gap-4 border-b border-bone-200">
@@ -46,23 +46,23 @@
             <!-- Navigasi 3 Tab -->
             <div class="px-6 sm:px-8 border-b border-bone-200 flex flex-wrap gap-6 text-xs sm:text-sm font-bold">
                 <button type="button"
-                        @click="activeTab = 'profil'"
-                        :class="activeTab === 'profil' ? 'border-b-2 border-maroon-700 text-maroon-700' : 'text-slate-500 hover:text-slate-800 border-b-2 border-transparent'"
-                        class="py-4 inline-flex items-center gap-2 transition">
+                        data-ppid-tab="profil"
+                        onclick="switchPpidTab('profil')"
+                        class="py-4 inline-flex items-center gap-2 transition border-b-2 border-maroon-700 text-maroon-700">
                     <i class="fa-regular fa-file-lines"></i>
                     <span>Profil &amp; Visi Misi</span>
                 </button>
                 <button type="button"
-                        @click="activeTab = 'perencanaan'"
-                        :class="activeTab === 'perencanaan' ? 'border-b-2 border-maroon-700 text-maroon-700' : 'text-slate-500 hover:text-slate-800 border-b-2 border-transparent'"
-                        class="py-4 inline-flex items-center gap-2 transition">
+                        data-ppid-tab="perencanaan"
+                        onclick="switchPpidTab('perencanaan')"
+                        class="py-4 inline-flex items-center gap-2 transition border-b-2 border-transparent text-slate-500 hover:text-slate-800">
                     <i class="fa-regular fa-folder-open"></i>
                     <span>Dokumen Perencanaan</span>
                 </button>
                 <button type="button"
-                        @click="activeTab = 'informasi'"
-                        :class="activeTab === 'informasi' ? 'border-b-2 border-maroon-700 text-maroon-700' : 'text-slate-500 hover:text-slate-800 border-b-2 border-transparent'"
-                        class="py-4 inline-flex items-center gap-2 transition">
+                        data-ppid-tab="informasi"
+                        onclick="switchPpidTab('informasi')"
+                        class="py-4 inline-flex items-center gap-2 transition border-b-2 border-transparent text-slate-500 hover:text-slate-800">
                     <i class="fa-solid fa-circle-info"></i>
                     <span>Daftar Informasi</span>
                 </button>
@@ -72,7 +72,7 @@
             <div class="p-6 sm:p-8">
 
                 <!-- TAB 1: Profil & Visi Misi -->
-                <div x-show="activeTab === 'profil'">
+                <div id="ppid-panel-profil">
                     @if(!empty($portalSettings['gov_profile_p1']) || !empty($portalSettings['gov_visi']))
                         <div class="space-y-6 text-sm text-slate-700 leading-relaxed">
                             @if(!empty($portalSettings['gov_profile_p1']))
@@ -106,20 +106,34 @@
                 </div>
 
                 <!-- TAB 2: Dokumen Perencanaan -->
-                <div x-show="activeTab === 'perencanaan'" x-cloak>
-                    <div class="rounded-2xl border border-dashed border-bone-300 bg-bone-50/40 py-14 px-6 text-center space-y-3">
-                        <div class="w-12 h-12 rounded-full bg-bone-200/70 text-slate-400 flex items-center justify-center mx-auto text-lg">
-                            <i class="fa-regular fa-folder-open"></i>
+                <div id="ppid-panel-perencanaan" class="space-y-4 hidden">
+                    @php
+                        $dokumenPerencanaan = [
+                            ['judul' => 'Rencana Strategis (Renstra)', 'badge' => '5 TAHUNAN', 'desc' => 'Dokumen perencanaan jangka menengah instansi'],
+                            ['judul' => 'Rencana Kerja (Renja)', 'badge' => 'TAHUNAN', 'desc' => 'Dokumen rencana kerja dan anggaran tahunan'],
+                            ['judul' => 'Laporan Kinerja (Lakip)', 'badge' => 'LAKIP', 'desc' => 'Laporan akuntabilitas kinerja instansi pemerintah'],
+                        ];
+                    @endphp
+                    @foreach($dokumenPerencanaan as $dok)
+                    <div class="rounded-2xl border border-bone-300 bg-white p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-maroon-700/40 transition">
+                        <div class="space-y-1">
+                            <div class="flex flex-wrap items-center gap-2.5">
+                                <h3 class="text-sm font-black text-slate-900">{{ $dok['judul'] }}</h3>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase border border-bone-300 bg-bone-50 text-slate-500">
+                                    {{ $dok['badge'] }}
+                                </span>
+                            </div>
+                            <p class="text-xs text-slate-500">{{ $dok['desc'] }}</p>
                         </div>
-                        <h3 class="text-sm font-black text-slate-800">Dokumen Perencanaan Belum Diunggah</h3>
-                        <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
-                            Dokumen perencanaan instansi ini belum diperbarui oleh pengelola PPID Pelaksana terkait.
-                        </p>
+                        <span class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-bone-100 text-slate-500 border border-bone-300 shrink-0">
+                            Belum Tersedia
+                        </span>
                     </div>
+                    @endforeach
                 </div>
 
                 <!-- TAB 3: Daftar Informasi -->
-                <div x-show="activeTab === 'informasi'" x-cloak>
+                <div id="ppid-panel-informasi" class="hidden">
                     @if($regulasiList->count() > 0)
                         <div class="divide-y divide-bone-200 border border-bone-200 rounded-2xl overflow-hidden">
                             @foreach($regulasiList as $reg)
@@ -174,4 +188,24 @@
         </div>
     </div>
 </main>
+
+<script>
+function switchPpidTab(tabName) {
+    const tabs = ['profil', 'perencanaan', 'informasi'];
+    tabs.forEach(t => {
+        const panel = document.getElementById('ppid-panel-' + t);
+        const btn = document.querySelector('[data-ppid-tab="' + t + '"]');
+        if (!panel || !btn) return;
+        if (t === tabName) {
+            panel.classList.remove('hidden');
+            btn.classList.add('border-maroon-700', 'text-maroon-700');
+            btn.classList.remove('border-transparent', 'text-slate-500', 'hover:text-slate-800');
+        } else {
+            panel.classList.add('hidden');
+            btn.classList.remove('border-maroon-700', 'text-maroon-700');
+            btn.classList.add('border-transparent', 'text-slate-500', 'hover:text-slate-800');
+        }
+    });
+}
+</script>
 @endsection

@@ -597,4 +597,65 @@ class LandingCmsController extends Controller
             $target->update(['sort_order' => $tempOrder]);
         }
     }
+
+    /**
+     * Update Pengaturan & Dokumen Perencanaan Halaman PPID Pelaksana (/ppid-pelaksana)
+     */
+    public function updatePpidSettings(Request $request)
+    {
+        $request->validate([
+            'ppid_header_title' => 'required|string|max:200',
+            'ppid_header_subtitle' => 'required|string|max:500',
+            'ppid_subtitle' => 'required|string|max:200',
+            'ppid_title' => 'required|string|max:200',
+            'ppid_profil_title' => 'nullable|string|max:200',
+            'ppid_profil_desc' => 'nullable|string|max:3000',
+            'ppid_visi' => 'nullable|string|max:1000',
+            'ppid_misi' => 'nullable|string|max:3000',
+            'ppid_info_title' => 'nullable|string|max:200',
+            'ppid_info_desc' => 'nullable|string|max:1000',
+            'ppid_renstra_file' => 'nullable|file|mimes:pdf|max:10240',
+            'ppid_renja_file' => 'nullable|file|mimes:pdf|max:10240',
+            'ppid_lakip_file' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
+
+        $textKeys = [
+            'ppid_header_title',
+            'ppid_header_subtitle',
+            'ppid_subtitle',
+            'ppid_title',
+            'ppid_profil_title',
+            'ppid_profil_desc',
+            'ppid_visi',
+            'ppid_misi',
+            'ppid_info_title',
+            'ppid_info_desc',
+        ];
+
+        foreach ($textKeys as $key) {
+            Setting::updateOrCreate(['key' => $key], ['value' => $request->input($key, '') ?? '']);
+        }
+
+        Setting::updateOrCreate(
+            ['key' => 'ppid_info_show_regulasi'],
+            ['value' => $request->has('ppid_info_show_regulasi') ? '1' : '0']
+        );
+
+        foreach (['ppid_renstra_file', 'ppid_renja_file', 'ppid_lakip_file'] as $fileKey) {
+            if ($request->hasFile($fileKey)) {
+                $path = $request->file($fileKey)->store('ppid', 'public');
+                Setting::updateOrCreate(['key' => $fileKey], ['value' => $path]);
+            }
+        }
+
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Update Editor PPID Pelaksana',
+            'description' => 'Memperbarui seluruh pengaturan halaman PPID Pelaksana (Banner, Profil & Visi Misi, Dokumen Perencanaan, dan Daftar Informasi).',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
+        return back()->with('success', 'Pengaturan & Dokumen PPID Pelaksana berhasil disimpan!');
+    }
 }

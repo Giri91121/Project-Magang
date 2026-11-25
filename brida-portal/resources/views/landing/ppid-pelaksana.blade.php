@@ -16,10 +16,10 @@
                 <span class="text-white font-medium">PPID Pelaksana BRIDA</span>
             </nav>
             <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
-                PPID Pelaksana BRIDA Kota Makassar
+                {{ $portalSettings['ppid_header_title'] ?? 'PPID Pelaksana BRIDA Kota Makassar' }}
             </h1>
             <p class="text-sm sm:text-base text-bone-200 mt-2 max-w-2xl leading-relaxed">
-                Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Badan Riset dan Inovasi Daerah Pemerintah Kota Makassar.
+                {{ $portalSettings['ppid_header_subtitle'] ?? 'Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Badan Riset dan Inovasi Daerah Pemerintah Kota Makassar.' }}
             </p>
         </div>
     </section>
@@ -35,10 +35,10 @@
                 </div>
                 <div>
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
-                        PPID PELAKSANA BADAN RISET DAN INOVASI DAERAH
+                        {{ $portalSettings['ppid_subtitle'] ?? 'PPID PELAKSANA BADAN RISET DAN INOVASI DAERAH' }}
                     </span>
                     <h2 class="text-lg sm:text-xl font-black text-slate-900 mt-0.5">
-                        Badan Riset dan Inovasi Daerah Kota Makassar
+                        {{ $portalSettings['ppid_title'] ?? 'Badan Riset dan Inovasi Daerah Kota Makassar' }}
                     </h2>
                 </div>
             </div>
@@ -73,22 +73,37 @@
 
                 <!-- TAB 1: Profil & Visi Misi -->
                 <div id="ppid-panel-profil">
-                    @if(!empty($portalSettings['gov_profile_p1']) || !empty($portalSettings['gov_visi']))
+                    @php
+                        $hasPpidProfil = !empty($portalSettings['ppid_profil_title']) || !empty($portalSettings['ppid_profil_desc']) || !empty($portalSettings['ppid_visi']) || !empty($portalSettings['ppid_misi']);
+                    @endphp
+                    @if($hasPpidProfil)
                         <div class="space-y-6 text-sm text-slate-700 leading-relaxed">
-                            @if(!empty($portalSettings['gov_profile_p1']))
+                            @if(!empty($portalSettings['ppid_profil_title']) || !empty($portalSettings['ppid_profil_desc']))
                             <div class="space-y-2">
-                                <h3 class="text-base font-black text-slate-900">{{ $portalSettings['gov_profile_title'] ?? 'Profil Singkat BRIDA Kota Makassar' }}</h3>
-                                <p>{{ $portalSettings['gov_profile_p1'] }}</p>
-                                @if(!empty($portalSettings['gov_profile_p2']))
-                                    <p>{{ $portalSettings['gov_profile_p2'] }}</p>
+                                @if(!empty($portalSettings['ppid_profil_title']))
+                                    <h3 class="text-base font-black text-slate-900">{{ $portalSettings['ppid_profil_title'] }}</h3>
+                                @endif
+                                @if(!empty($portalSettings['ppid_profil_desc']))
+                                    <p class="whitespace-pre-line">{{ $portalSettings['ppid_profil_desc'] }}</p>
                                 @endif
                             </div>
                             @endif
 
-                            @if(!empty($portalSettings['gov_visi']))
+                            @if(!empty($portalSettings['ppid_visi']))
                             <div class="p-5 rounded-2xl bg-bone-50 border border-bone-200 space-y-2">
                                 <span class="text-[11px] font-extrabold uppercase tracking-wider text-maroon-700 block">Visi</span>
-                                <p class="font-bold text-slate-900">{{ $portalSettings['gov_visi'] }}</p>
+                                <p class="font-bold text-slate-900">{{ $portalSettings['ppid_visi'] }}</p>
+                            </div>
+                            @endif
+
+                            @if(!empty($portalSettings['ppid_misi']))
+                            <div class="p-5 rounded-2xl bg-bone-50 border border-bone-200 space-y-2">
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-maroon-700 block">Misi</span>
+                                <ul class="list-disc pl-5 space-y-1.5 text-slate-700">
+                                    @foreach(array_filter(array_map('trim', explode("\n", $portalSettings['ppid_misi']))) as $misiItem)
+                                        <li>{{ $misiItem }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                             @endif
                         </div>
@@ -109,9 +124,9 @@
                 <div id="ppid-panel-perencanaan" class="space-y-4 hidden">
                     @php
                         $dokumenPerencanaan = [
-                            ['judul' => 'Rencana Strategis (Renstra)', 'badge' => '5 TAHUNAN', 'desc' => 'Dokumen perencanaan jangka menengah instansi'],
-                            ['judul' => 'Rencana Kerja (Renja)', 'badge' => 'TAHUNAN', 'desc' => 'Dokumen rencana kerja dan anggaran tahunan'],
-                            ['judul' => 'Laporan Kinerja (Lakip)', 'badge' => 'LAKIP', 'desc' => 'Laporan akuntabilitas kinerja instansi pemerintah'],
+                            ['key' => 'renstra', 'setting' => 'ppid_renstra_file', 'judul' => 'Rencana Strategis (Renstra)', 'badge' => '5 TAHUNAN', 'desc' => 'Dokumen perencanaan jangka menengah instansi'],
+                            ['key' => 'renja', 'setting' => 'ppid_renja_file', 'judul' => 'Rencana Kerja (Renja)', 'badge' => 'TAHUNAN', 'desc' => 'Dokumen rencana kerja dan anggaran tahunan'],
+                            ['key' => 'lakip', 'setting' => 'ppid_lakip_file', 'judul' => 'Laporan Kinerja (Lakip)', 'badge' => 'LAKIP', 'desc' => 'Laporan akuntabilitas kinerja instansi pemerintah'],
                         ];
                     @endphp
                     @foreach($dokumenPerencanaan as $dok)
@@ -125,16 +140,34 @@
                             </div>
                             <p class="text-xs text-slate-500">{{ $dok['desc'] }}</p>
                         </div>
-                        <span class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-bone-100 text-slate-500 border border-bone-300 shrink-0">
-                            Belum Tersedia
-                        </span>
+                        @if(!empty($portalSettings[$dok['setting']]))
+                            <a href="{{ route('ppid-pelaksana.download', $dok['key']) }}" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-maroon-700 hover:bg-maroon-800 text-white transition shadow-sm shrink-0">
+                                <i class="fa-solid fa-file-pdf text-[11px]"></i>
+                                <span>Unduh PDF</span>
+                            </a>
+                        @else
+                            <span class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-bone-100 text-slate-500 border border-bone-300 shrink-0">
+                                Belum Tersedia
+                            </span>
+                        @endif
                     </div>
                     @endforeach
                 </div>
 
                 <!-- TAB 3: Daftar Informasi -->
-                <div id="ppid-panel-informasi" class="hidden">
-                    @if($regulasiList->count() > 0)
+                <div id="ppid-panel-informasi" class="hidden space-y-4">
+                    @if(!empty($portalSettings['ppid_info_title']) || !empty($portalSettings['ppid_info_desc']))
+                    <div class="pb-2">
+                        @if(!empty($portalSettings['ppid_info_title']))
+                            <h3 class="text-sm font-black text-slate-900">{{ $portalSettings['ppid_info_title'] }}</h3>
+                        @endif
+                        @if(!empty($portalSettings['ppid_info_desc']))
+                            <p class="text-xs text-slate-500 mt-0.5">{{ $portalSettings['ppid_info_desc'] }}</p>
+                        @endif
+                    </div>
+                    @endif
+
+                    @if(($portalSettings['ppid_info_show_regulasi'] ?? '1') === '1' && $regulasiList->count() > 0)
                         <div class="divide-y divide-bone-200 border border-bone-200 rounded-2xl overflow-hidden">
                             @foreach($regulasiList as $reg)
                             <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-bone-50 transition">

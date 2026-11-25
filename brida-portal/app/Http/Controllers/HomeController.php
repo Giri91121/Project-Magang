@@ -128,5 +128,31 @@ class HomeController extends Controller
         $regulasiList = Regulasi::latest()->get();
         return view('landing.ppid-pelaksana', compact('regulasiList'));
     }
+
+    public function downloadPpidDoc($doc)
+    {
+        $key = match ($doc) {
+            'renstra' => 'ppid_renstra_file',
+            'renja' => 'ppid_renja_file',
+            'lakip' => 'ppid_lakip_file',
+            default => null,
+        };
+
+        if (!$key) {
+            abort(404);
+        }
+
+        $relativePath = Setting::where('key', $key)->value('value');
+        if (!$relativePath) {
+            abort(404, 'Dokumen belum tersedia.');
+        }
+
+        $fullPath = storage_path('app/public/' . $relativePath);
+        if (!file_exists($fullPath)) {
+            abort(404, 'File dokumen tidak ditemukan di server.');
+        }
+
+        return response()->download($fullPath);
+    }
 }
 

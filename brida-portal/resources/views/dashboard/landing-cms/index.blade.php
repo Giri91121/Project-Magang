@@ -53,6 +53,10 @@
                 <i class="fa-solid fa-book-open"></i>
                 <span>7. Informasi Publik</span>
             </button>
+            <button type="button" @click="activeTab = 'ppid'" :class="activeTab === 'ppid' ? 'bg-maroon-700 text-white shadow' : 'text-slate-600 hover:bg-bone-100'" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-building-shield"></i>
+                <span>8. PPID</span>
+            </button>
         </div>
 
         <!-- ============================================================== -->
@@ -1441,6 +1445,134 @@
                     <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
                         <i class="fa-solid fa-floppy-disk"></i>
                         <span>Simpan Pengaturan Informasi Publik</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- TAB 8: EDITOR HALAMAN PPID PELAKSANA BRIDA                     -->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'ppid'" class="space-y-6">
+            <form method="POST" action="{{ route('dashboard.landing-cms.ppid') }}" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 border border-bone-300 shadow-sm space-y-8">
+                @csrf
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-bone-200 pb-4">
+                    <div>
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-maroon-700">Kustomisasi PPID Pelaksana</span>
+                        <h3 class="text-lg font-black text-slate-900">Editor Lengkap Halaman PPID Pelaksana BRIDA</h3>
+                        <p class="text-xs text-slate-500">Atur banner header, identitas instansi, profil &amp; visi misi, dokumen perencanaan (PDF), serta daftar informasi publik.</p>
+                    </div>
+                    <a href="{{ route('ppid-pelaksana') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-maroon-700 hover:underline">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Buka Halaman PPID Pelaksana</span>
+                    </a>
+                </div>
+
+                <!-- 1. Banner Header & Identitas Instansi -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">1. Banner Header &amp; Identitas Instansi PPID</h4>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Utama Banner (/ppid-pelaksana)</label>
+                            <input type="text" name="ppid_header_title" value="{{ $settings['ppid_header_title'] ?? 'PPID Pelaksana BRIDA Kota Makassar' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Pengantar Banner</label>
+                            <textarea name="ppid_header_subtitle" rows="2" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['ppid_header_subtitle'] ?? 'Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Badan Riset dan Inovasi Daerah Pemerintah Kota Makassar.' }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Sub-Label Atas Kartu Instansi</label>
+                            <input type="text" name="ppid_subtitle" value="{{ $settings['ppid_subtitle'] ?? 'PPID PELAKSANA BADAN RISET DAN INOVASI DAERAH' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Utama Kartu Instansi</label>
+                            <input type="text" name="ppid_title" value="{{ $settings['ppid_title'] ?? 'Badan Riset dan Inovasi Daerah Kota Makassar' }}" required class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Konten Tab 1: Profil & Visi Misi PPID -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">2. Konten Tab "Profil &amp; Visi Misi" (Kosongkan jika ingin tampil status Belum Diunggah)</h4>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Profil PPID</label>
+                            <input type="text" name="ppid_profil_title" value="{{ $settings['ppid_profil_title'] ?? '' }}" placeholder="Contoh: Profil Singkat PPID Pelaksana BRIDA Kota Makassar" class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Deskripsi Profil PPID</label>
+                            <textarea name="ppid_profil_desc" rows="3" placeholder="Tuliskan profil singkat PPID Pelaksana BRIDA..." class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['ppid_profil_desc'] ?? '' }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Visi PPID</label>
+                            <textarea name="ppid_visi" rows="3" placeholder="Tuliskan visi layanan informasi PPID..." class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['ppid_visi'] ?? '' }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Misi PPID (1 Poin per Baris)</label>
+                            <textarea name="ppid_misi" rows="3" placeholder="Ketik 1 poin misi per baris..." class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['ppid_misi'] ?? '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Konten Tab 2: Dokumen Perencanaan -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 border-b border-bone-200 pb-2">3. Konten Tab "Dokumen Perencanaan" (PDF Maks. 10MB)</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        @foreach([
+                            ['key' => 'ppid_renstra_file', 'doc' => 'renstra', 'label' => 'Rencana Strategis (Renstra)', 'badge' => '5 TAHUNAN'],
+                            ['key' => 'ppid_renja_file', 'doc' => 'renja', 'label' => 'Rencana Kerja (Renja)', 'badge' => 'TAHUNAN'],
+                            ['key' => 'ppid_lakip_file', 'doc' => 'lakip', 'label' => 'Laporan Kinerja (Lakip)', 'badge' => 'LAKIP'],
+                        ] as $docItem)
+                        <div class="p-4 rounded-2xl bg-bone-50 border border-bone-200 space-y-2.5">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-xs font-black text-slate-900">{{ $docItem['label'] }}</span>
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-white border border-bone-300 text-slate-500">{{ $docItem['badge'] }}</span>
+                            </div>
+                            @if(!empty($settings[$docItem['key']]))
+                                <div class="flex items-center justify-between text-[11px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1.5 rounded-xl font-semibold">
+                                    <span><i class="fa-solid fa-circle-check mr-1"></i> Sudah Diunggah</span>
+                                    <a href="{{ route('ppid-pelaksana.download', $docItem['doc']) }}" class="underline hover:text-emerald-900">Lihat</a>
+                                </div>
+                            @else
+                                <div class="text-[11px] text-slate-400 bg-white border border-bone-200 px-2.5 py-1.5 rounded-xl">
+                                    Belum ada file PDF
+                                </div>
+                            @endif
+                            <input type="file" name="{{ $docItem['key'] }}" accept="application/pdf" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[11px] file:font-bold file:bg-maroon-700 file:text-white">
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- 4. Konten Tab 3: Daftar Informasi -->
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-bone-200 pb-2">
+                        <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">4. Konten Tab "Daftar Informasi"</h4>
+                        <a href="{{ route('dashboard.regulasi.index') }}" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-maroon-700 hover:underline">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                            <span>Kelola Dokumen di Repositori Regulasi</span>
+                        </a>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Judul Bagian Daftar Informasi (Opsional)</label>
+                            <input type="text" name="ppid_info_title" value="{{ $settings['ppid_info_title'] ?? 'Daftar Informasi Publik & Regulasi' }}" class="w-full rounded-xl border border-bone-300 text-xs font-semibold px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Keterangan Singkat (Opsional)</label>
+                            <input type="text" name="ppid_info_desc" value="{{ $settings['ppid_info_desc'] ?? 'Dokumen informasi publik dan regulasi resmi yang dapat diunduh masyarakat.' }}" class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-bone-50 p-3.5 rounded-2xl border border-bone-200">
+                        <input type="checkbox" id="ppid_info_show_regulasi" name="ppid_info_show_regulasi" value="1" {{ ($settings['ppid_info_show_regulasi'] ?? '1') === '1' ? 'checked' : '' }} class="rounded text-maroon-700 focus:ring-maroon-700">
+                        <label for="ppid_info_show_regulasi" class="text-xs font-bold text-slate-800 cursor-pointer">Tampilkan Daftar Dokumen dari Repositori Regulasi di Tab "Daftar Informasi"</label>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-bone-200 flex justify-end">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Pengaturan PPID Pelaksana</span>
                     </button>
                 </div>
             </form>

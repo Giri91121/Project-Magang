@@ -22,8 +22,11 @@ class GoogleAuthController extends Controller
         $clientId = config('services.google.client_id');
         $redirectUri = config('services.google.redirect');
 
-        // Jika GOOGLE_CLIENT_ID belum diisi di .env, tampilkan Halaman Pemilih Akun Google (Mode Lokal)
+        // Jika GOOGLE_CLIENT_ID belum diisi di .env, tampilkan Halaman Pemilih Akun Google (Hanya Mode Lokal)
         if (empty($clientId)) {
+            if (app()->environment('production')) {
+                abort(500, 'Konfigurasi Google OAuth belum diatur di server produksi.');
+            }
             $demoUsers = User::with('roles')->get();
             return view('auth.google-simulator', compact('demoUsers'));
         }
@@ -94,6 +97,10 @@ class GoogleAuthController extends Controller
      */
     public function handleSimulatedGoogleLogin(Request $request)
     {
+        if (app()->environment('production')) {
+            abort(404);
+        }
+
         $request->validate([
             'email' => 'required|email',
             'name' => 'nullable|string|max:255',

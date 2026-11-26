@@ -48,8 +48,19 @@
 
         <!-- Narasi Berita Lengkap -->
         <article class="prose max-w-none text-slate-700 text-sm sm:text-base leading-relaxed space-y-4">
-            {!! nl2br($berita->konten) !!}
+            {!! $berita->konten !!}
         </article>
+
+        @if(!empty($berita->tags))
+        <div class="flex flex-wrap items-center gap-2 pt-2">
+            <span class="text-xs font-bold text-slate-500 mr-1"><i class="fa-solid fa-tags text-maroon-700 mr-1"></i> Tag:</span>
+            @foreach(array_filter(array_map('trim', explode(',', $berita->tags))) as $tag)
+                <span class="px-3 py-1 rounded-full bg-bone-100 border border-bone-300 text-slate-700 text-[11px] font-bold">
+                    #{{ $tag }}
+                </span>
+            @endforeach
+        </div>
+        @endif
 
         <!-- Bagian Bagikan Berita -->
         <div class="pt-6 border-t border-bone-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">

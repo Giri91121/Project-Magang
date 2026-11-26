@@ -13,9 +13,16 @@
             <!-- Header Profil: Avatar + Nama + Badge + 1 Tombol Edit Profil -->
             <div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5 border-b border-bone-200">
                 <div class="flex items-center gap-5 min-w-0">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-bone-100 border-2 border-bone-300 flex items-center justify-center text-2xl font-black text-slate-600 shrink-0">
-                        {{ strtoupper(substr($user->name, 0, 1)) }}
-                    </div>
+                    <button type="button" @click="editOpen = true" title="Klik untuk ubah foto profil" class="group relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-bone-100 border-2 border-bone-300 hover:border-maroon-700 flex items-center justify-center text-2xl font-black text-slate-600 shrink-0 overflow-hidden cursor-pointer transition">
+                        @if(!empty($user->avatar))
+                            <img src="{{ str_starts_with($user->avatar, 'http') ? $user->avatar : asset($user->avatar) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                        @else
+                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                        @endif
+                        <span class="absolute inset-0 bg-slate-900/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-sm">
+                            <i class="fa-solid fa-camera"></i>
+                        </span>
+                    </button>
                     <div class="min-w-0 space-y-2">
                         <h1 class="text-xl sm:text-2xl font-black text-slate-900 truncate">{{ $user->name }}</h1>
                         <div class="flex flex-wrap items-center gap-2 text-[11px] font-bold">

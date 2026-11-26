@@ -7,6 +7,7 @@ use App\Models\Regulasi;
 use App\Models\HeroSlide;
 use App\Models\LandingService;
 use App\Models\Setting;
+use App\Models\StrukturOrganisasi;
 use App\Services\InstagramFeedService;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,14 @@ class HomeController extends Controller
 
     public function strukturOrganisasi()
     {
-        return view('landing.struktur-organisasi');
+        $tree = StrukturOrganisasi::getTree(true);
+        $allNodes = StrukturOrganisasi::where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
+        $dasarHukum = Setting::where('key', 'struktur_dasar_hukum')->value('value') ?? '';
+
+        return view('landing.struktur-organisasi', compact('tree', 'allNodes', 'dasarHukum'));
     }
 
     public function layanan()

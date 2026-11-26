@@ -128,6 +128,10 @@
                                 <i class="fa-solid fa-scale-balanced w-5 text-center text-sm {{ request()->routeIs('dashboard.regulasi.*') ? 'text-white' : 'text-slate-400' }}"></i>
                                 <span>Repositori Regulasi</span>
                             </a>
+                            <a href="{{ route('dashboard.struktur.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('dashboard.struktur.*') ? 'bg-maroon-700 text-white shadow-md' : 'text-slate-600 hover:bg-bone-200 hover:text-maroon-800' }}">
+                                <i class="fa-solid fa-sitemap w-5 text-center text-sm {{ request()->routeIs('dashboard.struktur.*') ? 'text-white' : 'text-slate-400' }}"></i>
+                                <span>Struktur Organisasi</span>
+                            </a>
                             @endif
                         </nav>
                     </div>

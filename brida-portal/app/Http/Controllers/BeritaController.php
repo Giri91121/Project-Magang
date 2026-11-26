@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\ActivityLog;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class BeritaController extends Controller
 {
@@ -47,7 +49,9 @@ class BeritaController extends Controller
      */
     public function create()
     {
-        return view('dashboard.berita.create');
+        $categories = $this->getCategories();
+        $existingTags = $this->getExistingTags();
+        return view('dashboard.berita.create', compact('categories', 'existingTags'));
     }
 
     /**
@@ -56,13 +60,17 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:500',
+            'judul' => 'required|string|max:255',
             'kategori' => 'required|string|max:100',
+            'tags' => 'nullable|array',
+            'tags.*' => 'string|max:50',
             'ringkasan' => 'required|string|max:500',
             'konten' => 'required|string',
             'gambar_sampul' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'status' => 'required|in:Publikasi,Draft',
         ]);
+
+        $this->syncCategoryIfNew($validated['kategori']);
 
         $slug = Str::slug($validated['judul']);
         // Cek keunikan slug
@@ -72,6 +80,7 @@ class BeritaController extends Controller
         }
 
         $data = $validated;
+        $data['tags'] = !empty($validated['tags']) ? implode(', ', array_unique(array_map('trim', $validated['tags']))) : null;
         $data['user_id'] = Auth::id();
         $data['slug'] = $slug;
         $data['published_at'] = $validated['status'] === 'Publikasi' ? now() : null;
@@ -94,7 +103,9 @@ class BeritaController extends Controller
     public function edit($id)
     {
         $berita = Berita::findOrFail($id);
-        return view('dashboard.berita.edit', compact('berita'));
+        $categories = $this->getCategories();
+        $existingTags = $this->getExistingTags();
+        return view('dashboard.berita.edit', compact('berita', 'categories', 'existingTags'));
     }
 
     /**
@@ -107,13 +118,18 @@ class BeritaController extends Controller
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'kategori' => 'required|string|max:100',
+            'tags' => 'nullable|array',
+            'tags.*' => 'string|max:50',
             'ringkasan' => 'required|string|max:500',
             'konten' => 'required|string',
             'gambar_sampul' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'status' => 'required|in:Publikasi,Draft',
         ]);
 
+        $this->syncCategoryIfNew($validated['kategori']);
+
         $data = $validated;
+        $data['tags'] = !empty($validated['tags']) ? implode(', ', array_unique(array_map('trim', $validated['tags']))) : null;
         if ($validated['status'] === 'Publikasi' && !$berita->published_at) {
             $data['published_at'] = now();
         }
@@ -142,5 +158,57 @@ class BeritaController extends Controller
         ActivityLog::log('delete_berita', "Berita '{$judul}' dihapus oleh " . Auth::user()->name);
 
         return back()->with('success', "Berita '{$judul}' berhasil dihapus.");
+    }
+
+    /**
+     * Tambah / Hapus daftar kategori berita secara dinamis
+     */
+    public function updateCategories(Request $request)
+    {
+        $request->validate([
+            'categories_text' => 'required|string|max:1000',
+        ]);
+
+        $items = array_values(array_unique(array_filter(array_map('trim', explode(',', $request->categories_text)))));
+        Setting::updateOrCreate(
+            ['key' => 'berita_kategori_list'],
+            ['value' => implode(', ', $items)]
+        );
+
+        return back()->with('success', 'Daftar kategori berita berhasil diperbarui!');
+    }
+
+    private function getCategories(): array
+    {
+        $raw = Setting::where('key', 'berita_kategori_list')->value('value')
+            ?? 'Kebijakan Riset, Inovasi Daerah, Kemitraan Kampus, Agenda BRIDA';
+        return array_values(array_filter(array_map('trim', explode(',', $raw))));
+    }
+
+    private function syncCategoryIfNew(string $kategori): void
+    {
+        $kategori = trim($kategori);
+        if ($kategori === '') return;
+        $cats = $this->getCategories();
+        if (!in_array($kategori, $cats, true)) {
+            $cats[] = $kategori;
+            Setting::updateOrCreate(['key' => 'berita_kategori_list'], ['value' => implode(', ', $cats)]);
+        }
+    }
+
+    private function getExistingTags(): array
+    {
+        if (!Schema::hasColumn('beritas', 'tags')) {
+            return [];
+        }
+        $all = Berita::whereNotNull('tags')->pluck('tags');
+        $tags = [];
+        foreach ($all as $row) {
+            foreach (explode(',', $row) as $t) {
+                $t = trim($t);
+                if ($t !== '') $tags[$t] = $t;
+            }
+        }
+        return array_values($tags);
     }
 }

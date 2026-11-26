@@ -13,6 +13,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\RegulasiController;
 use App\Http\Controllers\KomentarBeritaController;
 use App\Http\Controllers\LandingCmsController;
+use App\Http\Controllers\StrukturOrganisasiController;
 use Illuminate\Support\Facades\Route;
 
 // Rute Publik (Landing Page BRIDA Kota Makassar)
@@ -50,6 +51,7 @@ Route::middleware('auth')->group(function () {
     // Modul CMS Berita & Publikasi (Khusus Admin atau Sub-Role verif_berita)
     Route::prefix('dashboard/berita')->name('dashboard.berita.')->middleware('role:Admin|verif_berita')->group(function () {
         Route::get('/', [BeritaController::class, 'index'])->name('index');
+        Route::post('/categories', [BeritaController::class, 'updateCategories'])->name('categories.update');
         Route::get('/create', [BeritaController::class, 'create'])->name('create');
         Route::post('/', [BeritaController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [BeritaController::class, 'edit'])->name('edit');
@@ -63,6 +65,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [RegulasiController::class, 'create'])->name('create');
         Route::post('/', [RegulasiController::class, 'store'])->name('store');
         Route::delete('/{id}', [RegulasiController::class, 'destroy'])->name('destroy');
+    });
+
+    // Modul Struktur Organisasi (Bagan Interaktif, Khusus Admin)
+    Route::prefix('dashboard/struktur-organisasi')->name('dashboard.struktur.')->middleware('role:Admin')->group(function () {
+        Route::get('/', [StrukturOrganisasiController::class, 'index'])->name('index');
+        Route::post('/', [StrukturOrganisasiController::class, 'store'])->name('store');
+        Route::put('/{id}', [StrukturOrganisasiController::class, 'update'])->name('update');
+        Route::post('/{id}/move', [StrukturOrganisasiController::class, 'move'])->name('move');
+        Route::delete('/{id}', [StrukturOrganisasiController::class, 'destroy'])->name('destroy');
+        Route::post('/seed-sample', [StrukturOrganisasiController::class, 'seedSample'])->name('seed-sample');
+        Route::post('/settings', [StrukturOrganisasiController::class, 'updateSettings'])->name('settings');
     });
 
     // Modul Notifikasi & Log Aktivitas

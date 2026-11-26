@@ -8,9 +8,15 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-5 space-y-5">
+    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="mt-5 space-y-5">
         @csrf
         @method('patch')
+
+        <div>
+            <x-input-label for="avatar" :value="__('Foto Profil (Opsional)')" />
+            <input id="avatar" name="avatar" type="file" accept="image/*" class="mt-1.5 w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-maroon-700 file:text-white">
+            <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
+        </div>
 
         <div>
             <x-input-label for="name" :value="__('Nama Lengkap')" />

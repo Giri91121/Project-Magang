@@ -1,7 +1,7 @@
 <x-app-layout>
     @php
         $roles = $user->getRoleNames();
-        $primaryRole = $user->hasRole('Admin') ? 'Admin' : 'User';
+        $primaryRole = $user->hasRole('SuperAdmin') ? 'SuperAdmin' : ($user->hasRole('Admin') ? 'Admin' : 'User');
         $subRoles = $roles->reject(fn($r) => in_array($r, ['Admin', 'User']))->values()->all();
     @endphp
 

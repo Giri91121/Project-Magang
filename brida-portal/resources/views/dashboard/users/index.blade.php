@@ -109,6 +109,8 @@
                     <tbody class="divide-y divide-bone-200 text-xs text-slate-700">
                         @foreach($users as $u)
                         @php
+                            $superAdminEmail = strtolower(trim((string) config('services.superadmin_email', '')));
+                            $isSuperAdmin = $u->hasRole('SuperAdmin') || ($superAdminEmail !== '' && strtolower($u->email) === $superAdminEmail);
                             $isAdmin = $u->hasRole('Admin');
                             $mainRole = $isAdmin ? 'Admin' : 'User';
                             $hasVerifBerita = $u->hasRole('verif_berita');
@@ -138,7 +140,11 @@
 
                             <td class="py-3.5 px-4 align-middle">
                                 <div class="flex flex-wrap items-center gap-1.5">
-                                    @if($isAdmin)
+                                    @if($isSuperAdmin)
+                                        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300 whitespace-nowrap">
+                                            <i class="fa-solid fa-shield-halved mr-1 text-[10px]"></i> SuperAdmin
+                                        </span>
+                                    @elseif($isAdmin)
                                         <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-maroon-800 border border-rose-300 whitespace-nowrap">
                                             <i class="fa-solid fa-crown mr-1 text-[10px]"></i> Admin
                                         </span>
@@ -156,6 +162,11 @@
                             </td>
 
                             <td class="py-3.5 px-4 align-middle">
+                                @if($isSuperAdmin)
+                                    <span class="inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl">
+                                        <i class="fa-solid fa-lock text-[10px]"></i> Dilindungi Sistem (SuperAdmin)
+                                    </span>
+                                @else
                                 <form id="form-role-{{ $u->id }}" method="POST" action="{{ route('dashboard.users.update-role', $u->id) }}" class="flex flex-wrap items-center gap-2.5">
                                     @csrf
                                     @method('PATCH')
@@ -176,12 +187,28 @@
                                         Akses penuh semua modul
                                     </span>
                                 </form>
+                                @endif
                             </td>
 
                             <td class="py-3.5 px-5 align-middle text-right">
-                                <button type="submit" form="form-role-{{ $u->id }}" :disabled="!isDirty" :class="isDirty ? 'bg-maroon-700 hover:bg-maroon-800 text-white shadow-sm cursor-pointer' : 'bg-slate-200 text-slate-400 opacity-60 cursor-not-allowed'" class="font-bold text-xs px-4 py-1.5 rounded-xl transition whitespace-nowrap">
-                                    Simpan
-                                </button>
+                                @if($isSuperAdmin)
+                                    <span class="text-[11px] font-semibold text-slate-400 italic">Terkunci</span>
+                                @else
+                                    <div class="flex items-center justify-end gap-2">
+                                        <button type="submit" form="form-role-{{ $u->id }}" :disabled="!isDirty" :class="isDirty ? 'bg-maroon-700 hover:bg-maroon-800 text-white shadow-sm cursor-pointer' : 'bg-slate-200 text-slate-400 opacity-60 cursor-not-allowed'" class="font-bold text-xs px-4 py-1.5 rounded-xl transition whitespace-nowrap">
+                                            Simpan
+                                        </button>
+                                        @if($u->id !== Auth::id())
+                                        <form method="POST" action="{{ route('dashboard.users.destroy', $u->id) }}" data-confirm="Hapus akun '{{ $u->name }}' ({{ $u->email }}) secara permanen?" data-confirm-title="Hapus Akun Pengguna" data-confirm-btn="Ya, Hapus">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus Akun">
+                                                <i class="fa-solid fa-trash-can text-xs"></i>
+                                            </button>
+                                        </form>
+                                        @endif
+                                    </div>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

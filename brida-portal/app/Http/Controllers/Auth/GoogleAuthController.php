@@ -152,6 +152,14 @@ class GoogleAuthController extends Controller
             }
         }
 
+        // Jika email cocok dengan SUPERADMIN_EMAIL di .env, otomatis jadikan SuperAdmin + Admin
+        $superAdminEmail = strtolower(trim((string) config('services.superadmin_email', '')));
+        if ($superAdminEmail !== '' && strtolower($user->email) === $superAdminEmail) {
+            Role::firstOrCreate(['name' => 'SuperAdmin']);
+            Role::firstOrCreate(['name' => 'Admin']);
+            $user->syncRoles(['SuperAdmin', 'Admin']);
+        }
+
         Auth::login($user, true);
 
         $actionMsg = $isNewUser

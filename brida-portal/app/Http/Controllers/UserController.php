@@ -40,6 +40,11 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        $superAdminEmail = strtolower(trim((string) config('services.superadmin_email', '')));
+        if ($user->hasRole('SuperAdmin') || ($superAdminEmail !== '' && strtolower($user->email) === $superAdminEmail)) {
+            return back()->with('error', 'Akun SuperAdmin dilindungi sistem dan role-nya tidak dapat diubah.');
+        }
+
         $request->validate([
             'main_role' => 'required|in:Admin,User',
             'sub_roles' => 'nullable|array',
@@ -69,5 +74,33 @@ class UserController extends Controller
         );
 
         return back()->with('success', "Hak akses akun {$user->name} berhasil diperbarui menjadi: {$labelRoles}.");
+    }
+
+    /**
+     * Hapus akun pengguna (Kecuali SuperAdmin & akun sendiri)
+     */
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri yang sedang digunakan login.');
+        }
+
+        $superAdminEmail = strtolower(trim((string) config('services.superadmin_email', '')));
+        if ($user->hasRole('SuperAdmin') || ($superAdminEmail !== '' && strtolower($user->email) === $superAdminEmail)) {
+            return back()->with('error', 'Akun SuperAdmin dilindungi sistem dan tidak dapat dihapus.');
+        }
+
+        $name = $user->name;
+        $email = $user->email;
+        $user->delete();
+
+        ActivityLog::log(
+            'delete_user',
+            "Akun {$name} ({$email}) dihapus oleh " . auth()->user()->name
+        );
+
+        return back()->with('success', "Akun '{$name}' berhasil dihapus.");
     }
 }

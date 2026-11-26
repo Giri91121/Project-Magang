@@ -56,7 +56,7 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
+            'judul' => 'required|string|max:500',
             'kategori' => 'required|string|max:100',
             'ringkasan' => 'required|string|max:500',
             'konten' => 'required|string',

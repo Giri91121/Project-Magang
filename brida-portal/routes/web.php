@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard/users')->name('dashboard.users.')->middleware('role:Admin')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::patch('/{id}/role', [UserController::class, 'updateRole'])->name('update-role');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
     });
 
     // Modul Editor Penuh Landing Page & Navbar Tanpa Coding (Khusus Admin)

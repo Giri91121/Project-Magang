@@ -13,8 +13,14 @@
 
 <li data-node-id="{{ $node->id }}" class="{{ $isKoordinasi ? 'org-node-koordinasi' : '' }}">
     <div
+        draggable="true"
         data-card-id="{{ $node->id }}"
         onclick="handleDashboardCardClick(event, {{ $node->id }})"
+        ondragstart="handleCardDragStart(event, {{ $node->id }})"
+        ondragover="handleCardDragOver(event, {{ $node->id }})"
+        ondragleave="handleCardDragLeave(event)"
+        ondrop="handleCardDrop(event, {{ $node->id }})"
+        ondragend="handleCardDragEnd(event)"
         class="group org-card inline-block text-left bg-white rounded-2xl border {{ $node->is_active ? 'border-bone-300' : 'border-dashed border-rose-300 opacity-70' }} {{ $ringClass }} shadow-sm hover:shadow-md transition w-56 p-3.5 relative cursor-pointer">
         <!-- Bundaran Penghubung Atas (Tarik ke Atasan / Klik Opsi Garis) -->
         <button
@@ -58,22 +64,14 @@
             <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 @if(($siblingsCount ?? 1) > 1)
                     @if(($loopIndex ?? 0) > 0)
-                        <form method="POST" action="{{ route('dashboard.struktur.move', $node->id) }}" class="inline">
-                            @csrf
-                            <input type="hidden" name="direction" value="left">
-                            <button type="submit" title="Geser ke Kiri" class="p-1 text-slate-500 hover:text-maroon-700 hover:bg-bone-100 rounded-md transition">
-                                <i class="fa-solid fa-arrow-left"></i>
-                            </button>
-                        </form>
+                        <button type="button" onclick="moveStrukturCard({{ $node->id }}, 'left')" title="Geser ke Kiri" class="p-1 text-slate-500 hover:text-maroon-700 hover:bg-bone-100 rounded-md transition">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
                     @endif
                     @if(($loopIndex ?? 0) < ($siblingsCount ?? 1) - 1)
-                        <form method="POST" action="{{ route('dashboard.struktur.move', $node->id) }}" class="inline">
-                            @csrf
-                            <input type="hidden" name="direction" value="right">
-                            <button type="submit" title="Geser ke Kanan" class="p-1 text-slate-500 hover:text-maroon-700 hover:bg-bone-100 rounded-md transition">
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </button>
-                        </form>
+                        <button type="button" onclick="moveStrukturCard({{ $node->id }}, 'right')" title="Geser ke Kanan" class="p-1 text-slate-500 hover:text-maroon-700 hover:bg-bone-100 rounded-md transition">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     @endif
                 @endif
             </div>
@@ -81,22 +79,15 @@
                 <button type="button" onclick="toggleCardActive(this, {{ $node->id }})" title="{{ $node->is_active ? 'Sembunyikan dari Publik' : 'Tampilkan di Publik' }}" class="p-1 {{ $node->is_active ? 'text-emerald-600 hover:bg-emerald-50' : 'text-slate-400 hover:bg-bone-100' }} rounded-md transition">
                     <i class="fa-regular {{ $node->is_active ? 'fa-eye' : 'fa-eye-slash' }}"></i>
                 </button>
-                <form method="POST" action="{{ route('dashboard.struktur.duplicate', $node->id) }}" class="inline">
-                    @csrf
-                    <button type="submit" title="Copy Kartu" class="p-1 text-amber-600 hover:bg-amber-50 rounded-md transition">
-                        <i class="fa-regular fa-copy"></i>
-                    </button>
-                </form>
+                <button type="button" onclick="duplicateStrukturCard({{ $node->id }})" title="Copy Kartu" class="p-1 text-amber-600 hover:bg-amber-50 rounded-md transition">
+                    <i class="fa-regular fa-copy"></i>
+                </button>
                 <button type="button" onclick="openStrukturEdit({{ $node->id }})" title="Edit Kartu" class="p-1 text-indigo-600 hover:bg-indigo-50 rounded-md transition">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <form method="POST" action="{{ route('dashboard.struktur.destroy', $node->id) }}" class="inline" onsubmit="return confirm('Hapus kartu ini?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" title="Hapus Kartu" class="p-1 text-rose-600 hover:bg-rose-50 rounded-md transition">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </form>
+                <button type="button" onclick="deleteStrukturCard({{ $node->id }})" title="Hapus Kartu" class="p-1 text-rose-600 hover:bg-rose-50 rounded-md transition">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             </div>
         </div>
 

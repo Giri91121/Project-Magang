@@ -148,7 +148,13 @@
                     <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px]"><span class="w-4 border-t-2 border-dashed border-slate-400 inline-block"></span> Koordinasi</span>
                 </div>
 
-                <div class="flex items-center gap-1.5">
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <button type="button" id="btn-undo" onclick="runStrukturUndo()" {{ empty($canUndo) ? 'disabled' : '' }} class="px-2.5 py-1.5 text-xs font-bold bg-white border border-bone-300 rounded-lg hover:bg-bone-100 disabled:opacity-40 disabled:cursor-not-allowed text-slate-700 transition" title="Undo (Ctrl+Z)">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button type="button" id="btn-redo" onclick="runStrukturRedo()" {{ empty($canRedo) ? 'disabled' : '' }} class="px-2.5 py-1.5 text-xs font-bold bg-white border border-bone-300 rounded-lg hover:bg-bone-100 disabled:opacity-40 disabled:cursor-not-allowed text-slate-700 transition mr-1" title="Redo (Ctrl+Y)">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
                     <button type="button" onclick="changeDashboardZoom(-0.1)" class="px-2.5 py-1.5 text-xs font-bold bg-white border border-bone-300 rounded-lg hover:bg-bone-100" title="Perkecil">
                         <i class="fa-solid fa-magnifying-glass-minus"></i>
                     </button>
@@ -160,6 +166,15 @@
                         Reset
                     </button>
                 </div>
+            </div>
+
+            <!-- Zona Lepas untuk Jadikan Pucuk Pimpinan (Muncul saat Drag Kartu) -->
+            <div id="root-drop-zone"
+                 ondragover="event.preventDefault(); this.classList.add('bg-maroon-50', 'border-maroon-600', 'text-maroon-800');"
+                 ondragleave="this.classList.remove('bg-maroon-50', 'border-maroon-600', 'text-maroon-800');"
+                 ondrop="handleCardDrop(event, null)"
+                 class="hidden mx-5 mt-4 p-3 rounded-2xl border-2 border-dashed border-bone-300 bg-bone-50 text-center text-xs font-bold text-slate-600 transition">
+                <i class="fa-solid fa-crown mr-1.5 text-amber-500"></i> Lepas di sini untuk memutus atasan (Jadikan Pucuk)
             </div>
 
             <!-- Bar Mode Hubungkan (Klik Bundaran Bawah) -->
@@ -176,27 +191,7 @@
             </div>
 
             <div id="dashboard-canvas" class="p-6 sm:p-10 overflow-x-auto bg-slate-50/60 min-h-[360px] cursor-grab active:cursor-grabbing select-none">
-                @if($tree->isEmpty())
-                    <div class="py-16 text-center space-y-3 max-w-md mx-auto">
-                        <div class="w-14 h-14 rounded-2xl bg-bone-200 text-maroon-700 flex items-center justify-center mx-auto text-2xl">
-                            <i class="fa-solid fa-sitemap"></i>
-                        </div>
-                        <h3 class="text-base font-extrabold text-slate-800">Belum Ada Kartu Struktur</h3>
-                        <p class="text-xs text-slate-500">Klik tombol <strong>Tambah Kartu</strong> di kanan atas untuk mulai menambahkan kartu jabatan.</p>
-                    </div>
-                @else
-                    <div id="dashboard-org-tree" class="org-tree inline-block min-w-full origin-top transition-transform duration-150">
-                        <ul>
-                            @foreach($tree as $rootNode)
-                                @include('dashboard.struktur._node', [
-                                    'node' => $rootNode,
-                                    'loopIndex' => $loop->index,
-                                    'siblingsCount' => $tree->count(),
-                                ])
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                @include('dashboard.struktur._canvas', ['tree' => $tree])
             </div>
         </div>
 
@@ -334,6 +329,75 @@
             if (label) label.textContent = Math.round(dashboardZoom * 100) + '%';
         };
 
+        window.applyStrukturCanvasPayload = function (data) {
+            const canvas = document.getElementById('dashboard-canvas');
+            if (canvas && data.html !== undefined) {
+                const prevLeft = canvas.scrollLeft;
+                const prevTop = canvas.scrollTop;
+                canvas.innerHTML = data.html;
+                const tree = document.getElementById('dashboard-org-tree');
+                if (tree) tree.style.transform = `scale(${dashboardZoom})`;
+                canvas.scrollLeft = prevLeft;
+                canvas.scrollTop = prevTop;
+            }
+            if (data.nodes) window.__strukturNodes = data.nodes;
+            const btnUndo = document.getElementById('btn-undo');
+            const btnRedo = document.getElementById('btn-redo');
+            if (btnUndo && data.can_undo !== undefined) btnUndo.disabled = !data.can_undo;
+            if (btnRedo && data.can_redo !== undefined) btnRedo.disabled = !data.can_redo;
+            cancelConnectMode();
+        };
+
+        window.moveStrukturCard = async function (id, direction) {
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            try {
+                const res = await fetch(`{{ url('dashboard/struktur-organisasi') }}/${id}/move`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                    body: JSON.stringify({ direction }),
+                });
+                const data = await res.json();
+                if (!res.ok) return showStrukturToast(data.message || 'Gagal menggeser kartu.', 'error');
+                applyStrukturCanvasPayload(data);
+                showStrukturToast(data.message || 'Posisi digeser.', 'success');
+            } catch (e) {
+                showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+            }
+        };
+
+        window.duplicateStrukturCard = async function (id) {
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            try {
+                const res = await fetch(`{{ url('dashboard/struktur-organisasi/duplicate') }}/${id}`, {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                });
+                const data = await res.json();
+                if (!res.ok) return showStrukturToast(data.message || 'Gagal menyalin kartu.', 'error');
+                applyStrukturCanvasPayload(data);
+                showStrukturToast(data.message || 'Kartu disalin.', 'success');
+            } catch (e) {
+                showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+            }
+        };
+
+        window.deleteStrukturCard = async function (id) {
+            if (!confirm('Hapus kartu ini?')) return;
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            try {
+                const res = await fetch(`{{ url('dashboard/struktur-organisasi') }}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                });
+                const data = await res.json();
+                if (!res.ok) return showStrukturToast(data.message || 'Gagal menghapus kartu.', 'error');
+                applyStrukturCanvasPayload(data);
+                showStrukturToast(data.message || 'Kartu dihapus.', 'success');
+            } catch (e) {
+                showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+            }
+        };
+
         window.showStrukturToast = function (msg, type = 'success') {
             const toast = document.getElementById('struktur-toast');
             if (!toast) return;
@@ -465,7 +529,7 @@
                         return;
                     }
                     showStrukturToast(data.message || 'Kartu berhasil dihubungkan.', 'success');
-                    setTimeout(() => window.location.reload(), 400);
+                    applyStrukturCanvasPayload(data);
                 } catch (e) {
                     showStrukturToast('Terjadi kesalahan jaringan.', 'error');
                 }
@@ -550,7 +614,7 @@
                     return;
                 }
                 showStrukturToast(data.message || 'Jenis garis diperbarui.', 'success');
-                setTimeout(() => window.location.reload(), 350);
+                applyStrukturCanvasPayload(data);
             } catch (e) {
                 showStrukturToast('Terjadi kesalahan jaringan.', 'error');
             }
@@ -573,7 +637,7 @@
                     return;
                 }
                 showStrukturToast('Hubungan diputuskan.', 'success');
-                setTimeout(() => window.location.reload(), 350);
+                applyStrukturCanvasPayload(data);
             } catch (e) {
                 showStrukturToast('Terjadi kesalahan jaringan.', 'error');
             }
@@ -587,7 +651,116 @@
                 cancelConnectMode();
                 closeLinePopover();
             }
+            if (e.target.closest('input, textarea, select')) return;
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.shiftKey) {
+                e.preventDefault();
+                runStrukturUndo();
+            } else if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey))) {
+                e.preventDefault();
+                runStrukturRedo();
+            }
         });
+
+        // Undo & Redo
+        window.runStrukturUndo = async function () {
+            const btn = document.getElementById('btn-undo');
+            if (btn && btn.disabled) return;
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            try {
+                const res = await fetch("{{ route('dashboard.struktur.undo') }}", {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    showStrukturToast(data.message || 'Tidak bisa Undo.', 'error');
+                    return;
+                }
+                showStrukturToast(data.message, 'success');
+                applyStrukturCanvasPayload(data);
+            } catch (e) {
+                showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+            }
+        };
+
+        window.runStrukturRedo = async function () {
+            const btn = document.getElementById('btn-redo');
+            if (btn && btn.disabled) return;
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            try {
+                const res = await fetch("{{ route('dashboard.struktur.redo') }}", {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    showStrukturToast(data.message || 'Tidak bisa Redo.', 'error');
+                    return;
+                }
+                showStrukturToast(data.message, 'success');
+                applyStrukturCanvasPayload(data);
+            } catch (e) {
+                showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+            }
+        };
+
+        // Drag Kartu Langsung Menjadi Sub-unit
+        let draggedCardId = null;
+
+        window.handleCardDragStart = function (event, id) {
+            draggedCardId = id;
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/plain', String(id));
+            event.currentTarget.classList.add('opacity-50');
+            document.getElementById('root-drop-zone')?.classList.remove('hidden');
+        };
+
+        window.handleCardDragOver = function (event, targetId) {
+            if (!draggedCardId || draggedCardId === targetId) return;
+            event.preventDefault();
+            event.currentTarget.classList.add('ring-2', 'ring-maroon-600', 'bg-rose-50/40');
+        };
+
+        window.handleCardDragLeave = function (event) {
+            event.currentTarget.classList.remove('ring-2', 'ring-maroon-600', 'bg-rose-50/40');
+        };
+
+        window.handleCardDrop = async function (event, targetParentId) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (event.currentTarget) {
+                event.currentTarget.classList.remove('ring-2', 'ring-maroon-600', 'bg-rose-50/40');
+            }
+            if (!draggedCardId || draggedCardId === targetParentId) return;
+
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            try {
+                const res = await fetch(`{{ url('dashboard/struktur-organisasi') }}/${draggedCardId}/reparent`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                    body: JSON.stringify({ parent_id: targetParentId }),
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    showStrukturToast(data.message || 'Gagal memindahkan kartu.', 'error');
+                    return;
+                }
+                showStrukturToast(data.message || 'Kartu dipindahkan.', 'success');
+                applyStrukturCanvasPayload(data);
+            } catch (e) {
+                showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+            }
+        };
+
+        window.handleCardDragEnd = function (event) {
+            draggedCardId = null;
+            event.currentTarget.classList.remove('opacity-50');
+            const rootZone = document.getElementById('root-drop-zone');
+            if (rootZone) {
+                rootZone.classList.add('hidden');
+                rootZone.classList.remove('bg-maroon-50', 'border-maroon-600', 'text-maroon-800');
+            }
+        };
 
         // Toggle Tampil / Sembunyi di Publik 1-Klik
         window.toggleCardActive = async function (btn, id) {
@@ -697,7 +870,7 @@
                         return;
                     }
                     showStrukturToast(data.message || 'Kartu berhasil dihubungkan.', 'success');
-                    setTimeout(() => window.location.reload(), 350);
+                    applyStrukturCanvasPayload(data);
                 } catch (err) {
                     showStrukturToast('Terjadi kesalahan jaringan.', 'error');
                 }

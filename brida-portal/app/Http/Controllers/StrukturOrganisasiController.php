@@ -6,6 +6,7 @@ use App\Models\ActivityLog;
 use App\Models\Setting;
 use App\Models\StrukturOrganisasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class StrukturOrganisasiController extends Controller
@@ -18,7 +19,10 @@ class StrukturOrganisasiController extends Controller
 
         $parentChoices = [];
 
-        return view('dashboard.struktur.index', compact('tree', 'allNodes', 'dasarHukum'));
+        $canUndo = !empty(session('struktur_undo_stack', []));
+        $canRedo = !empty(session('struktur_redo_stack', []));
+
+        return view('dashboard.struktur.index', compact('tree', 'allNodes', 'dasarHukum', 'canUndo', 'canRedo'));
     }
 
     public function store(Request $request)
@@ -119,6 +123,7 @@ class StrukturOrganisasiController extends Controller
 
         $swapIndex = $direction === 'left' ? $index - 1 : $index + 1;
         if ($swapIndex >= 0 && $swapIndex < $siblings->count()) {
+            $this->pushUndoSnapshot();
             $other = $siblings[$swapIndex];
             $currentOrder = $node->sort_order;
             $otherOrder = $other->sort_order;
@@ -135,6 +140,13 @@ class StrukturOrganisasiController extends Controller
 
             $node->update(['sort_order' => $otherOrder]);
             $other->update(['sort_order' => $currentOrder]);
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(array_merge([
+                'ok' => true,
+                'message' => 'Urutan posisi bagan berhasil diperbarui.',
+            ], $this->canvasPayload()));
         }
 
         return redirect()->route('dashboard.struktur.index')
@@ -158,6 +170,8 @@ class StrukturOrganisasiController extends Controller
             }
         }
 
+        $this->pushUndoSnapshot();
+
         $maxOrder = StrukturOrganisasi::where('parent_id', $newParentId)->max('sort_order') ?? 0;
         $node->update([
             'parent_id' => $newParentId,
@@ -167,10 +181,10 @@ class StrukturOrganisasiController extends Controller
 
         ActivityLog::log('struktur_reparent', "Memindahkan posisi atasan jabatan: {$node->jabatan}");
 
-        return response()->json([
+        return response()->json(array_merge([
             'ok' => true,
             'message' => "Jabatan \"{$node->jabatan}\" berhasil dipindahkan.",
-        ]);
+        ], $this->canvasPayload()));
     }
 
     public function updateLineType(Request $request, $id)
@@ -180,33 +194,148 @@ class StrukturOrganisasiController extends Controller
             'tipe_garis' => 'required|in:komando,koordinasi',
         ]);
 
+        $this->pushUndoSnapshot();
         $node->update(['tipe_garis' => $validated['tipe_garis']]);
 
         ActivityLog::log('struktur_line_type', "Mengubah jenis garis {$node->jabatan} menjadi {$validated['tipe_garis']}");
 
-        return response()->json([
+        return response()->json(array_merge([
             'ok' => true,
             'tipe_garis' => $node->tipe_garis,
             'message' => "Jenis garis \"{$node->jabatan}\" diubah ke " . ($node->tipe_garis === 'koordinasi' ? 'Koordinasi' : 'Komando') . '.',
-        ]);
+        ], $this->canvasPayload()));
     }
 
     public function toggleActive($id)
     {
         $node = StrukturOrganisasi::findOrFail($id);
+        $this->pushUndoSnapshot();
         $node->update(['is_active' => !$node->is_active]);
 
         $stateLabel = $node->is_active ? 'ditampilkan di publik' : 'disembunyikan dari publik';
         ActivityLog::log('struktur_toggle', "Status kartu {$node->jabatan} diubah: {$stateLabel}");
 
-        return response()->json([
+        return response()->json(array_merge([
             'ok' => true,
             'is_active' => (bool) $node->is_active,
             'message' => "Kartu \"{$node->jabatan}\" {$stateLabel}.",
+        ], $this->canvasPayload()));
+    }
+
+    public function undo(Request $request)
+    {
+        $undoStack = session('struktur_undo_stack', []);
+        if (empty($undoStack)) {
+            return response()->json(['ok' => false, 'message' => 'Tidak ada perubahan untuk dibatalkan.'], 422);
+        }
+
+        $redoStack = session('struktur_redo_stack', []);
+        $redoStack[] = $this->captureSnapshot();
+        if (count($redoStack) > 20) {
+            array_shift($redoStack);
+        }
+
+        $snapshot = array_pop($undoStack);
+        $this->applySnapshot($snapshot);
+
+        session([
+            'struktur_undo_stack' => $undoStack,
+            'struktur_redo_stack' => $redoStack,
+        ]);
+
+        return response()->json(array_merge([
+            'ok' => true,
+            'message' => 'Perubahan dibatalkan (Undo).',
+        ], $this->canvasPayload()));
+    }
+
+    public function redo(Request $request)
+    {
+        $redoStack = session('struktur_redo_stack', []);
+        if (empty($redoStack)) {
+            return response()->json(['ok' => false, 'message' => 'Tidak ada perubahan untuk diterapkan kembali.'], 422);
+        }
+
+        $undoStack = session('struktur_undo_stack', []);
+        $undoStack[] = $this->captureSnapshot();
+        if (count($undoStack) > 20) {
+            array_shift($undoStack);
+        }
+
+        $snapshot = array_pop($redoStack);
+        $this->applySnapshot($snapshot);
+
+        session([
+            'struktur_undo_stack' => $undoStack,
+            'struktur_redo_stack' => $redoStack,
+        ]);
+
+        return response()->json(array_merge([
+            'ok' => true,
+            'message' => 'Perubahan diterapkan kembali (Redo).',
+        ], $this->canvasPayload()));
+    }
+
+    private function canvasPayload(): array
+    {
+        $tree = StrukturOrganisasi::getTree(false);
+        $allNodes = StrukturOrganisasi::orderBy('sort_order')->orderBy('id')->get();
+        $nodes = $allNodes->mapWithKeys(fn ($n) => [
+            $n->id => [
+                'id' => $n->id,
+                'jabatan' => $n->jabatan,
+                'nama_pejabat' => $n->nama_pejabat ?? '',
+                'nip' => $n->nip ?? '',
+                'foto_url' => $n->foto ? asset('storage/' . $n->foto) : '',
+                'warna_badge' => $n->warna_badge,
+                'deskripsi' => $n->deskripsi ?? '',
+                'is_active' => (bool) $n->is_active,
+            ],
+        ]);
+
+        return [
+            'html' => view('dashboard.struktur._canvas', compact('tree'))->render(),
+            'nodes' => $nodes,
+            'can_undo' => !empty(session('struktur_undo_stack', [])),
+            'can_redo' => !empty(session('struktur_redo_stack', [])),
+        ];
+    }
+
+    private function captureSnapshot(): array
+    {
+        return StrukturOrganisasi::orderBy('id')
+            ->get(['id', 'parent_id', 'sort_order', 'tipe_garis', 'is_active'])
+            ->toArray();
+    }
+
+    private function pushUndoSnapshot(): void
+    {
+        $undoStack = session('struktur_undo_stack', []);
+        $undoStack[] = $this->captureSnapshot();
+        if (count($undoStack) > 20) {
+            array_shift($undoStack);
+        }
+        session([
+            'struktur_undo_stack' => $undoStack,
+            'struktur_redo_stack' => [],
         ]);
     }
 
-    public function duplicate($id)
+    private function applySnapshot(array $snapshot): void
+    {
+        DB::transaction(function () use ($snapshot) {
+            foreach ($snapshot as $row) {
+                StrukturOrganisasi::where('id', $row['id'])->update([
+                    'parent_id' => $row['parent_id'],
+                    'sort_order' => $row['sort_order'],
+                    'tipe_garis' => $row['tipe_garis'],
+                    'is_active' => $row['is_active'],
+                ]);
+            }
+        });
+    }
+
+    public function duplicate(Request $request, $id)
     {
         $node = StrukturOrganisasi::findOrFail($id);
         $maxOrder = StrukturOrganisasi::where('parent_id', $node->parent_id)->max('sort_order') ?? 0;
@@ -225,6 +354,13 @@ class StrukturOrganisasiController extends Controller
         ]);
 
         ActivityLog::log('struktur_duplicate', "Menduplikat jabatan struktur organisasi: {$node->jabatan}");
+
+        if ($request->expectsJson()) {
+            return response()->json(array_merge([
+                'ok' => true,
+                'message' => "Jabatan \"{$copy->jabatan}\" berhasil diduplikat.",
+            ], $this->canvasPayload()));
+        }
 
         return redirect()->route('dashboard.struktur.index')
             ->with('success', "Jabatan \"{$copy->jabatan}\" berhasil diduplikat.");
@@ -248,10 +384,10 @@ class StrukturOrganisasiController extends Controller
         ActivityLog::log('struktur_delete', "Menghapus jabatan struktur organisasi: {$jabatan}");
 
         if ($request->expectsJson()) {
-            return response()->json([
+            return response()->json(array_merge([
                 'ok' => true,
                 'message' => "Jabatan \"{$jabatan}\" berhasil dihapus.",
-            ]);
+            ], $this->canvasPayload()));
         }
 
         return redirect()->route('dashboard.struktur.index')

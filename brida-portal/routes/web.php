@@ -3,13 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PermohonanRisetController;
-use App\Http\Controllers\InovasiDaerahController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\ExportController;
 use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\SettingController;
 use App\Http\Controllers\RegulasiController;
 use App\Http\Controllers\KomentarBeritaController;
 use App\Http\Controllers\LandingCmsController;
@@ -80,6 +76,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [StrukturOrganisasiController::class, 'destroy'])->name('destroy');
         Route::post('/seed-sample', [StrukturOrganisasiController::class, 'seedSample'])->name('seed-sample');
         Route::post('/settings', [StrukturOrganisasiController::class, 'updateSettings'])->name('settings');
+        Route::post('/undo', [StrukturOrganisasiController::class, 'undo'])->name('undo');
+        Route::post('/redo', [StrukturOrganisasiController::class, 'redo'])->name('redo');
     });
 
     // Modul Notifikasi & Log Aktivitas

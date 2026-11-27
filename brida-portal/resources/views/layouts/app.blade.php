@@ -347,5 +347,48 @@
 
         <!-- Global Pop-Up Alert System (SweetAlert2) -->
         @include('components.popup-alert')
+
+        <!-- Global Client-Side Image Compression (kecuali Logo & input yang sudah punya kompresor khusus) -->
+        <script>
+            document.addEventListener('change', function (e) {
+                const input = e.target;
+                if (!input || !input.matches('input[type="file"][accept*="image"]')) return;
+                if (input.id === 'gambar_sampul' || input.id === 'struktur-foto-input') return;
+                if (input.name === 'logo_header_file' || input.name === 'logo_footer_file') return;
+                if (input.dataset.compressing === '1') return;
+
+                const file = input.files && input.files[0];
+                if (!file || !file.type.startsWith('image/') || file.type === 'image/svg+xml') return;
+
+                const maxDim = (input.name === 'gambar_slide' || input.name === 'gov_office_photo_file') ? 1600 : 600;
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    const img = new Image();
+                    img.onload = function () {
+                        let w = img.width;
+                        let h = img.height;
+                        if (w > maxDim || h > maxDim) {
+                            if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+                            else { w = Math.round(w * maxDim / h); h = maxDim; }
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = w;
+                        canvas.height = h;
+                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                        canvas.toBlob(function (blob) {
+                            if (!blob) return;
+                            const compressed = new File([blob], file.name.replace(/\.[^.]+$/, '.webp'), { type: 'image/webp' });
+                            const dt = new DataTransfer();
+                            dt.items.add(compressed);
+                            input.dataset.compressing = '1';
+                            input.files = dt.files;
+                            input.dataset.compressing = '0';
+                        }, 'image/webp', 0.84);
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        </script>
     </body>
 </html>

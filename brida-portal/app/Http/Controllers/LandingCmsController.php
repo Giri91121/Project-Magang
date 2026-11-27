@@ -671,7 +671,6 @@ class LandingCmsController extends Controller
             'tentang_beda_brida' => 'required|string|max:1500',
             'tentang_beda_sigap' => 'required|string|max:1500',
             'tentang_dev_intro' => 'required|string|max:500',
-            'tentang_dev_list' => 'required|string|max:3000',
         ]);
 
         $keys = [
@@ -681,7 +680,6 @@ class LandingCmsController extends Controller
             'tentang_beda_brida',
             'tentang_beda_sigap',
             'tentang_dev_intro',
-            'tentang_dev_list',
         ];
 
         foreach ($keys as $key) {

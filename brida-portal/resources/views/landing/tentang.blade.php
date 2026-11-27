@@ -81,26 +81,26 @@
             </div>
 
             @php
-                $rawDevs = $portalSettings['tentang_dev_list'] ?? "Giri Kencana Jati | Fullstack Developer | Mahasiswa Magang\nAnggota Tim 2 | UI/UX & Frontend Developer | Mahasiswa Magang";
-                $devLines = array_filter(array_map('trim', explode("\n", $rawDevs)));
+                $developers = [
+                    [
+                        'nama' => 'Giri Kencana Jati',
+                        'foto' => 'images/giri.png',
+                    ],
+                    [
+                        'nama' => 'Muh. Ilham Yusal',
+                        'foto' => 'images/ilham.jpg',
+                    ],
+                ];
             @endphp
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                @foreach($devLines as $line)
-                    @php
-                        $parts = array_map('trim', explode('|', $line));
-                        $devName = $parts[0] ?? 'Pengembang';
-                        $devRole = $parts[1] ?? 'Web Developer';
-                        $devInst = $parts[2] ?? 'Tim Pengembang';
-                    @endphp
-                    <div class="bg-white rounded-3xl p-6 border border-bone-300 shadow-sm flex items-center gap-4 hover:shadow-md transition">
-                        <div class="w-12 h-12 rounded-2xl bg-maroon-700 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-sm">
-                            {{ strtoupper(substr($devName, 0, 2)) }}
-                        </div>
+                @foreach($developers as $dev)
+                    <div class="bg-white rounded-3xl p-6 border border-bone-300 shadow-sm flex items-center gap-4
+                    hover:shadow-md transition">
+                        <img src="{{ asset($dev['foto']) }}" alt="{{ $dev['nama'] }}" class="w-12 h-12 rounded-2xl
+                        object-cover shrink-0 shadow-sm border border-bone-200">
                         <div class="min-w-0">
-                            <h3 class="text-sm font-black text-slate-900 truncate">{{ $devName }}</h3>
-                            <p class="text-xs font-bold text-maroon-700 truncate">{{ $devRole }}</p>
-                            <p class="text-[11px] text-slate-500 truncate">{{ $devInst }}</p>
+                            <h3 class="text-sm font-black text-slate-900 truncate">{{ $dev['nama'] }}</h3>
                         </div>
                     </div>
                 @endforeach

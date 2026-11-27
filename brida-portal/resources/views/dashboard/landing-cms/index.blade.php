@@ -667,10 +667,6 @@
                         <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">3A. Kalimat Pengantar Tim Developer</label>
                         <input type="text" name="tentang_dev_intro" value="{{ $settings['tentang_dev_intro'] ?? 'Portal ini dirancang dan dibangun oleh tim mahasiswa magang sebagai kontribusi nyata dalam digitalisasi layanan informasi BRIDA Kota Makassar.' }}" required class="w-full rounded-xl border border-bone-300 text-xs px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">
                     </div>
-                    <div class="sm:col-span-2">
-                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">3B. Daftar Profil Tim Developer (Format: Nama | Peran | Institusi — 1 Orang per Baris)</label>
-                        <textarea name="tentang_dev_list" rows="4" required class="w-full rounded-xl border border-bone-300 text-xs font-mono px-3 py-2.5 focus:ring-maroon-700 focus:border-maroon-700">{{ $settings['tentang_dev_list'] ?? "Giri Kencana Jati | Fullstack Developer | Mahasiswa Magang\nAnggota Tim 2 | UI/UX & Frontend Developer | Mahasiswa Magang" }}</textarea>
-                    </div>
                 </div>
 
                 <div class="flex justify-end">

@@ -10,7 +10,9 @@
         position: relative;
         display: flex;
         justify-content: center;
-        gap: 16px;
+    }
+    .org-tree ul.hidden {
+        display: none !important;
     }
     .org-tree > ul {
         padding-top: 0;
@@ -19,7 +21,7 @@
         text-align: center;
         list-style-type: none;
         position: relative;
-        padding: 24px 6px 0 6px;
+        padding: 24px 10px 0 10px;
     }
     .org-tree > ul > li {
         padding-top: 0;
@@ -71,6 +73,28 @@
     }
     .org-tree > ul > li::before,
     .org-tree > ul > li::after {
+        display: none;
+    }
+
+    /* Mode Layout Kompak: susun cabang daun secara vertikal agar tidak terlalu lebar */
+    .org-tree.is-compact ul.org-leaf-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-top: 16px;
+        padding-left: 18px;
+        margin-left: 16px;
+        border-left: 2px solid #cbd5e1;
+    }
+    .org-tree.is-compact ul.org-leaf-group::before {
+        display: none;
+    }
+    .org-tree.is-compact ul.org-leaf-group > li {
+        padding: 0;
+        text-align: left;
+    }
+    .org-tree.is-compact ul.org-leaf-group > li::before,
+    .org-tree.is-compact ul.org-leaf-group > li::after {
         display: none;
     }
 
@@ -136,6 +160,22 @@
                 </div>
             </div>
         @else
+            @php
+                $topBranches = $tree->flatMap(fn ($r) => $r->childrenRecursive ?? collect());
+            @endphp
+
+            @if($topBranches->isNotEmpty())
+                <div class="no-print flex flex-wrap items-center gap-2 mb-4">
+                    <span class="text-[11px] font-bold text-slate-500 mr-1"><i class="fa-solid fa-filter text-maroon-700 mr-1"></i>Fokus Bidang:</span>
+                    <button type="button" onclick="focusPublicBranch(null, this)" class="pub-branch-chip px-3 py-1.5 rounded-full text-xs font-bold bg-maroon-700 text-white shadow-sm transition">Semua</button>
+                    @foreach($topBranches as $branch)
+                        <button type="button" onclick="focusPublicBranch({{ $branch->id }}, this)" class="pub-branch-chip px-3 py-1.5 rounded-full text-xs font-bold bg-white border border-bone-300 text-slate-700 hover:border-maroon-700 hover:text-maroon-700 transition">
+                            {{ $branch->jabatan }}
+                        </button>
+                    @endforeach
+                </div>
+            @endif
+
             <!-- Toolbar Interaktif -->
             <div class="no-print bg-white rounded-2xl border border-bone-300 shadow-sm p-4 mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 <div class="relative flex-1 max-w-md">
@@ -164,6 +204,14 @@
                         <button type="button" onclick="changePublicZoom(0)" class="px-2 py-1 text-[11px] font-bold text-slate-600 hover:text-maroon-700">Reset</button>
                     </div>
 
+                    <button type="button" id="btn-compact-mode" onclick="togglePublicCompactMode()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-bone-300 bg-white hover:bg-bone-100 text-slate-700 text-xs font-bold transition" title="Susun cabang akhir secara vertikal agar lebih ringkas">
+                        <i class="fa-solid fa-compress text-maroon-700"></i> Ringkas
+                    </button>
+
+                    <button type="button" id="btn-collapse-all" onclick="toggleAllPublicBranches()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-bone-300 bg-white hover:bg-bone-100 text-slate-700 text-xs font-bold transition" title="Ciutkan atau bentangkan semua cabang">
+                        <i class="fa-solid fa-angles-up text-slate-500"></i> <span>Ciutkan</span>
+                    </button>
+
                     <button type="button" onclick="window.print()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-bone-300 bg-white hover:bg-bone-100 text-slate-700 text-xs font-bold transition">
                         <i class="fa-solid fa-print text-maroon-700"></i> Cetak
                     </button>
@@ -171,7 +219,7 @@
             </div>
 
             <!-- Tampilan Bagan Pohon -->
-            <div id="public-view-tree" class="bg-white rounded-3xl border border-bone-300 shadow-sm p-6 sm:p-10 overflow-x-auto">
+            <div id="public-view-tree" class="bg-white rounded-3xl border border-bone-300 shadow-sm p-6 sm:p-10 overflow-x-auto cursor-grab active:cursor-grabbing select-none">
                 <div id="public-org-tree" class="org-tree inline-block min-w-full origin-top transition-transform duration-150">
                     <ul>
                         @foreach($tree as $rootNode)
@@ -278,14 +326,121 @@
 
 <script>
     let publicZoom = 1;
+    let publicAllCollapsed = false;
 
     window.changePublicZoom = function (delta) {
-        publicZoom = delta === 0 ? 1 : Math.min(1.4, Math.max(0.5, +(publicZoom + delta).toFixed(1)));
+        publicZoom = delta === 0 ? 1 : Math.min(1.4, Math.max(0.45, +(publicZoom + delta).toFixed(2)));
         const tree = document.getElementById('public-org-tree');
         const label = document.getElementById('public-zoom-label');
         if (tree) tree.style.transform = `scale(${publicZoom})`;
         if (label) label.textContent = Math.round(publicZoom * 100) + '%';
     };
+
+    window.fitPublicTree = function () {
+        const canvas = document.getElementById('public-view-tree');
+        const tree = document.getElementById('public-org-tree');
+        if (!canvas || !tree) return;
+        const prev = tree.style.transform;
+        tree.style.transform = 'scale(1)';
+        const ratio = (canvas.clientWidth - 64) / Math.max(tree.scrollWidth, 1);
+        tree.style.transform = prev;
+        publicZoom = Math.min(1, Math.max(0.45, +ratio.toFixed(2)));
+        tree.style.transform = `scale(${publicZoom})`;
+        const label = document.getElementById('public-zoom-label');
+        if (label) label.textContent = Math.round(publicZoom * 100) + '%';
+    };
+
+    window.togglePublicBranch = function (btn, id) {
+        const branch = document.querySelector(`#public-org-tree ul[data-branch-for="${id}"]`);
+        if (!branch) return;
+        const isHidden = branch.classList.toggle('hidden');
+        const icon = btn.querySelector('i');
+        if (icon) {
+            icon.className = isHidden ? 'fa-solid fa-chevron-down text-[9px]' : 'fa-solid fa-chevron-up text-[9px]';
+        }
+    };
+
+    window.toggleAllPublicBranches = function () {
+        publicAllCollapsed = !publicAllCollapsed;
+        document.querySelectorAll('#public-org-tree ul[data-branch-for]').forEach(ul => {
+            ul.classList.toggle('hidden', publicAllCollapsed);
+        });
+        document.querySelectorAll('.pub-branch-toggle i').forEach(icon => {
+            icon.className = publicAllCollapsed ? 'fa-solid fa-chevron-down text-[9px]' : 'fa-solid fa-chevron-up text-[9px]';
+        });
+        const btn = document.getElementById('btn-collapse-all');
+        if (btn) {
+            btn.querySelector('i').className = publicAllCollapsed ? 'fa-solid fa-angles-down text-slate-500' : 'fa-solid fa-angles-up text-slate-500';
+            btn.querySelector('span').textContent = publicAllCollapsed ? 'Bentangkan' : 'Ciutkan';
+        }
+    };
+
+    window.togglePublicCompactMode = function () {
+        const tree = document.getElementById('public-org-tree');
+        const btn = document.getElementById('btn-compact-mode');
+        if (!tree || !btn) return;
+        const isCompact = tree.classList.toggle('is-compact');
+        btn.className = isCompact
+            ? 'inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-maroon-700 bg-maroon-700 text-white text-xs font-bold transition shadow-sm'
+            : 'inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-bone-300 bg-white hover:bg-bone-100 text-slate-700 text-xs font-bold transition';
+    };
+
+    // Drag-to-pan 2D & Ctrl+Scroll Zoom pada canvas bagan publik
+    (function initPublicPan() {
+        const canvas = document.getElementById('public-view-tree');
+        if (!canvas) return;
+        let isPanning = false;
+        let startX = 0, startY = 0;
+        let scrollLeft = 0, scrollTop = 0;
+        canvas.addEventListener('mousedown', (e) => {
+            if (e.target.closest('button, a, input')) return;
+            isPanning = true;
+            startX = e.pageX - canvas.offsetLeft;
+            startY = e.pageY - canvas.offsetTop;
+            scrollLeft = canvas.scrollLeft;
+            scrollTop = canvas.scrollTop;
+        });
+        window.addEventListener('mouseup', () => { isPanning = false; });
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isPanning) return;
+            e.preventDefault();
+            canvas.scrollLeft = scrollLeft - ((e.pageX - canvas.offsetLeft) - startX);
+            canvas.scrollTop = scrollTop - ((e.pageY - canvas.offsetTop) - startY);
+        });
+        canvas.addEventListener('wheel', (e) => {
+            if (!e.ctrlKey) return;
+            e.preventDefault();
+            changePublicZoom(e.deltaY < 0 ? 0.1 : -0.1);
+        }, { passive: false });
+    })();
+
+    window.focusPublicBranch = function (branchId, chipBtn) {
+        document.querySelectorAll('.pub-branch-chip').forEach(btn => {
+            btn.className = 'pub-branch-chip px-3 py-1.5 rounded-full text-xs font-bold bg-white border border-bone-300 text-slate-700 hover:border-maroon-700 hover:text-maroon-700 transition';
+        });
+        if (chipBtn) {
+            chipBtn.className = 'pub-branch-chip px-3 py-1.5 rounded-full text-xs font-bold bg-maroon-700 text-white shadow-sm transition';
+        }
+
+        const topLis = document.querySelectorAll('#public-org-tree > ul > li > ul > li');
+        topLis.forEach(li => {
+            if (branchId === null) {
+                li.classList.remove('hidden');
+            } else {
+                const match = li.querySelector(`button[onclick*="openPublicStrukturDetail(${branchId})"]`);
+                li.classList.toggle('hidden', !match);
+            }
+        });
+    };
+
+    // Auto-Fit saat halaman pertama kali dibuka jika bagan lebih lebar dari layar
+    window.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.getElementById('public-view-tree');
+        const tree = document.getElementById('public-org-tree');
+        if (canvas && tree && tree.scrollWidth > canvas.clientWidth) {
+            fitPublicTree();
+        }
+    });
 
     window.setPublicStrukturView = function (mode) {
         const treeView = document.getElementById('public-view-tree');

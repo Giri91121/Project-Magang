@@ -73,6 +73,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [StrukturOrganisasiController::class, 'store'])->name('store');
         Route::put('/{id}', [StrukturOrganisasiController::class, 'update'])->name('update');
         Route::post('/{id}/move', [StrukturOrganisasiController::class, 'move'])->name('move');
+        Route::post('/{id}/reparent', [StrukturOrganisasiController::class, 'reparent'])->name('reparent');
+        Route::post('/{id}/line-type', [StrukturOrganisasiController::class, 'updateLineType'])->name('line-type');
+        Route::post('/{id}/toggle-active', [StrukturOrganisasiController::class, 'toggleActive'])->name('toggle-active');
+        Route::post('/duplicate/{id}', [StrukturOrganisasiController::class, 'duplicate'])->name('duplicate');
         Route::delete('/{id}', [StrukturOrganisasiController::class, 'destroy'])->name('destroy');
         Route::post('/seed-sample', [StrukturOrganisasiController::class, 'seedSample'])->name('seed-sample');
         Route::post('/settings', [StrukturOrganisasiController::class, 'updateSettings'])->name('settings');

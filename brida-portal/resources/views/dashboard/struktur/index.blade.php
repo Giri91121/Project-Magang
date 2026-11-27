@@ -5,7 +5,6 @@
             position: relative;
             display: flex;
             justify-content: center;
-            gap: 14px;
         }
         .org-tree > ul {
             padding-top: 0;
@@ -14,7 +13,7 @@
             text-align: center;
             list-style-type: none;
             position: relative;
-            padding: 22px 6px 0 6px;
+            padding: 22px 10px 0 10px;
         }
         .org-tree > ul > li {
             padding-top: 0;
@@ -74,12 +73,10 @@
         $nodesJson = $allNodes->mapWithKeys(function ($n) {
             return [$n->id => [
                 'id' => $n->id,
-                'parent_id' => $n->parent_id,
                 'jabatan' => $n->jabatan,
                 'nama_pejabat' => $n->nama_pejabat ?? '',
                 'nip' => $n->nip ?? '',
                 'foto_url' => $n->foto ? asset('storage/' . $n->foto) : '',
-                'tipe_garis' => $n->tipe_garis,
                 'warna_badge' => $n->warna_badge,
                 'deskripsi' => $n->deskripsi ?? '',
                 'is_active' => (bool) $n->is_active,
@@ -99,7 +96,7 @@
                     Struktur Organisasi
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-500 mt-1">
-                    Kelola bagan hierarki BRIDA Kota Makassar. Perubahan di sini otomatis tampil pada halaman publik.
+                    Tambahkan kartu jabatan lalu hubungkan menggunakan bundaran penghubung di atas/bawah kartu.
                 </p>
             </div>
 
@@ -109,19 +106,9 @@
                     <span>Lihat Halaman Publik</span>
                 </a>
 
-                @if($allNodes->isEmpty())
-                    <form method="POST" action="{{ route('dashboard.struktur.seed-sample') }}">
-                        @csrf
-                        <button type="submit" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl transition shadow">
-                            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
-                            <span>Muat Contoh Struktur BRIDA</span>
-                        </button>
-                    </form>
-                @endif
-
-                <button type="button" onclick="openStrukturAdd(null)" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow">
+                <button type="button" onclick="openStrukturAdd()" class="inline-flex items-center gap-2 bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow">
                     <i class="fa-solid fa-plus text-xs"></i>
-                    <span>Tambah Jabatan Baru</span>
+                    <span>Tambah Kartu</span>
                 </button>
             </div>
         </div>
@@ -151,14 +138,14 @@
             </div>
         @endif
 
-        <!-- Live Preview Bagan -->
+        <!-- Bagan Struktur -->
         <div class="bg-white rounded-3xl border border-bone-300 shadow-sm overflow-hidden">
             <div class="px-5 py-3.5 border-b border-bone-200 bg-bone-50 flex flex-wrap items-center justify-between gap-3">
                 <div class="flex items-center gap-3 text-xs text-slate-600">
-                    <span class="font-extrabold text-slate-800"><i class="fa-solid fa-sitemap mr-1.5 text-maroon-700"></i>Live Preview Bagan</span>
+                    <span class="font-extrabold text-slate-800"><i class="fa-solid fa-sitemap mr-1.5 text-maroon-700"></i>Bagan Struktur</span>
                     <span class="hidden sm:inline text-slate-300">|</span>
-                    <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px]"><span class="w-4 border-t-2 border-slate-400 inline-block"></span> Garis Komando</span>
-                    <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px]"><span class="w-4 border-t-2 border-dashed border-slate-400 inline-block"></span> Garis Koordinasi</span>
+                    <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px]"><span class="w-4 border-t-2 border-slate-400 inline-block"></span> Komando</span>
+                    <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px]"><span class="w-4 border-t-2 border-dashed border-slate-400 inline-block"></span> Koordinasi</span>
                 </div>
 
                 <div class="flex items-center gap-1.5">
@@ -175,14 +162,27 @@
                 </div>
             </div>
 
-            <div class="p-6 sm:p-8 overflow-x-auto bg-slate-50/60 min-h-[340px]">
+            <!-- Bar Mode Hubungkan (Klik Bundaran Bawah) -->
+            <div id="connect-mode-bar" class="hidden mx-5 mt-4 p-3 rounded-2xl bg-maroon-50 border border-maroon-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2 text-maroon-900 font-bold">
+                    <i class="fa-solid fa-link text-maroon-700"></i>
+                    <span><span id="connect-mode-action">Pilih kartu tujuan untuk dihubungkan di bawah:</span> <strong id="connect-source-label" class="underline"></strong></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" id="btn-connect-komando" onclick="setConnectLineType('komando')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-maroon-700 text-white transition">─── Komando</button>
+                    <button type="button" id="btn-connect-koordinasi" onclick="setConnectLineType('koordinasi')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white border border-bone-300 text-slate-700 transition">- - - Koordinasi</button>
+                    <button type="button" onclick="cancelConnectMode()" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-200 hover:bg-slate-300 text-slate-700 transition">Batal</button>
+                </div>
+            </div>
+
+            <div id="dashboard-canvas" class="p-6 sm:p-10 overflow-x-auto bg-slate-50/60 min-h-[360px] cursor-grab active:cursor-grabbing select-none">
                 @if($tree->isEmpty())
                     <div class="py-16 text-center space-y-3 max-w-md mx-auto">
                         <div class="w-14 h-14 rounded-2xl bg-bone-200 text-maroon-700 flex items-center justify-center mx-auto text-2xl">
                             <i class="fa-solid fa-sitemap"></i>
                         </div>
-                        <h3 class="text-base font-extrabold text-slate-800">Belum Ada Data Struktur Organisasi</h3>
-                        <p class="text-xs text-slate-500">Klik <strong>Tambah Jabatan Baru</strong> untuk mulai menyusun dari pucuk pimpinan, atau gunakan tombol <strong>Muat Contoh Struktur BRIDA</strong> di atas.</p>
+                        <h3 class="text-base font-extrabold text-slate-800">Belum Ada Kartu Struktur</h3>
+                        <p class="text-xs text-slate-500">Klik tombol <strong>Tambah Kartu</strong> di kanan atas untuk mulai menambahkan kartu jabatan.</p>
                     </div>
                 @else
                     <div id="dashboard-org-tree" class="org-tree inline-block min-w-full origin-top transition-transform duration-150">
@@ -216,11 +216,11 @@
             </form>
         </div>
 
-        <!-- Modal Tambah / Edit Jabatan -->
+        <!-- Modal Tambah / Edit Kartu -->
         <div id="struktur-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" onclick="if (event.target === this) closeStrukturModal()">
-            <div class="bg-white rounded-3xl border border-bone-300 shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto">
+            <div class="bg-white rounded-3xl border border-bone-300 shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
                 <div class="px-6 py-4 border-b border-bone-200 flex items-center justify-between sticky top-0 bg-white z-10">
-                    <h3 id="struktur-modal-title" class="text-base font-black text-slate-900">Tambah Jabatan Struktur</h3>
+                    <h3 id="struktur-modal-title" class="text-base font-black text-slate-900">Tambah Kartu</h3>
                     <button type="button" onclick="closeStrukturModal()" class="text-slate-400 hover:text-slate-700 p-1">
                         <i class="fa-solid fa-xmark text-lg"></i>
                     </button>
@@ -232,41 +232,21 @@
 
                     <div class="grid sm:grid-cols-2 gap-4">
                         <div class="space-y-1 sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Atasan Langsung (Parent)</label>
-                            <select name="parent_id" id="struktur-parent-id" class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2.5 px-3">
-                                <option value="">-- Tidak Ada (Pucuk Pimpinan / Root) --</option>
-                                @foreach($allNodes as $opt)
-                                    <option value="{{ $opt->id }}">
-                                        {{ $opt->jabatan }}{{ $opt->nama_pejabat ? ' (' . $opt->nama_pejabat . ')' : '' }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="space-y-1 sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Nama Jabatan / Unit Kerja <span class="text-rose-500">*</span></label>
+                            <label class="block text-xs font-bold text-slate-700">Jabatan / Unit Kerja <span class="text-rose-500">*</span></label>
                             <input type="text" name="jabatan" id="struktur-jabatan" required maxlength="255" placeholder="Contoh: Kepala Badan / Sekretaris / Kepala Bidang..." class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2.5 px-3">
                         </div>
 
                         <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">Nama Pejabat (Opsional)</label>
-                            <input type="text" name="nama_pejabat" id="struktur-nama-pejabat" maxlength="255" placeholder="Nama lengkap & gelar" class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2.5 px-3">
+                            <label class="block text-xs font-bold text-slate-700">Nama Pejabat <span class="text-rose-500">*</span></label>
+                            <input type="text" name="nama_pejabat" id="struktur-nama-pejabat" required maxlength="255" placeholder="Nama lengkap & gelar" class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2.5 px-3">
                         </div>
 
                         <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">NIP (Opsional)</label>
-                            <input type="text" name="nip" id="struktur-nip" maxlength="50" placeholder="19700101 199503 1 001" class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2.5 px-3">
+                            <label class="block text-xs font-bold text-slate-700">NIP <span class="text-rose-500">*</span></label>
+                            <input type="text" name="nip" id="struktur-nip" required maxlength="50" placeholder="19700101 199503 1 001" class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2.5 px-3">
                         </div>
 
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-slate-700">Tipe Garis Hubung</label>
-                            <select name="tipe_garis" id="struktur-tipe-garis" class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2.5 px-3">
-                                <option value="komando">Garis Komando (Solid)</option>
-                                <option value="koordinasi">Garis Koordinasi (Putus-putus)</option>
-                            </select>
-                        </div>
-
-                        <div class="space-y-1">
+                        <div class="space-y-1 sm:col-span-2">
                             <label class="block text-xs font-bold text-slate-700">Warna Aksen Kartu</label>
                             <select name="warna_badge" id="struktur-warna-badge" class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2.5 px-3">
                                 <option value="maroon">Maroon (Utama)</option>
@@ -278,7 +258,7 @@
                         </div>
 
                         <div class="space-y-1 sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Foto Pejabat (Opsional, otomatis dikompres)</label>
+                            <label class="block text-xs font-bold text-slate-700">Foto Pejabat (otomatis dikompres)</label>
                             <div class="flex items-center gap-3">
                                 <img id="struktur-photo-preview" src="" alt="Preview" class="hidden w-12 h-12 rounded-xl object-cover border border-bone-300 shrink-0">
                                 <input type="file" name="foto" id="struktur-foto-input" onchange="compressStrukturPhoto(this)" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-bone-200 file:text-maroon-800 hover:file:bg-bone-300">
@@ -290,8 +270,8 @@
                         </div>
 
                         <div class="space-y-1 sm:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700">Tugas Pokok &amp; Fungsi / Keterangan (Opsional)</label>
-                            <textarea name="deskripsi" id="struktur-deskripsi" rows="3" maxlength="2000" placeholder="Ringkasan tupoksi yang akan tampil saat kartu diklik di halaman publik..." class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2 px-3"></textarea>
+                            <label class="block text-xs font-bold text-slate-700">Tugas Pokok &amp; Fungsi <span class="text-rose-500">*</span></label>
+                            <textarea name="deskripsi" id="struktur-deskripsi" rows="3" required maxlength="2000" placeholder="Ringkasan tupoksi yang tampil saat kartu diklik di halaman publik..." class="w-full text-xs rounded-xl border border-bone-300 focus:border-maroon-700 focus:ring-maroon-700 py-2 px-3"></textarea>
                         </div>
 
                         <div class="sm:col-span-2">
@@ -313,36 +293,71 @@
         </div>
     </div>
 
+    <!-- Floating Toast Notifikasi -->
+    <div id="struktur-toast" class="hidden fixed bottom-5 right-5 z-50 px-4 py-3 rounded-2xl shadow-xl text-xs font-bold text-white flex items-center gap-2 transition"></div>
+
+    <!-- Live SVG Drag-to-Connect Overlay -->
+    <svg id="drag-connect-svg" class="hidden pointer-events-none fixed inset-0 w-full h-full z-40">
+        <path id="drag-connect-path" d="" fill="none" stroke="#881337" stroke-width="2.5" stroke-dasharray="6 4" stroke-linecap="round" />
+    </svg>
+
+    <!-- Popover Mini Jenis Garis (Klik Bundaran Atas Kartu) -->
+    <div id="line-type-popover" class="hidden fixed z-50 bg-white rounded-2xl border border-bone-300 shadow-2xl p-2 w-52 space-y-1 text-xs">
+        <div class="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Jenis Garis Hubung</div>
+        <button type="button" id="pop-btn-komando" onclick="updateNodeLineType('komando')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-bone-100 font-bold text-slate-700 flex items-center justify-between">
+            <span>─── Garis Komando</span>
+            <i class="fa-solid fa-check text-maroon-700 hidden"></i>
+        </button>
+        <button type="button" id="pop-btn-koordinasi" onclick="updateNodeLineType('koordinasi')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-bone-100 font-bold text-slate-700 flex items-center justify-between">
+            <span>- - - Garis Koordinasi</span>
+            <i class="fa-solid fa-check text-amber-600 hidden"></i>
+        </button>
+        <div class="border-t border-bone-200 my-1"></div>
+        <button type="button" onclick="disconnectNodeToRoot()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-rose-50 font-bold text-rose-600 flex items-center gap-2">
+            <i class="fa-solid fa-link-slash text-[11px]"></i>
+            <span>Putuskan Hubungan</span>
+        </button>
+    </div>
+
     <script>
         let dashboardZoom = 1;
+        let connectSourceId = null;
+        let connectDirection = 'down';
+        let connectLineType = 'komando';
+        let activeLineNodeId = null;
 
         window.changeDashboardZoom = function (delta) {
-            dashboardZoom = delta === 0 ? 1 : Math.min(1.4, Math.max(0.5, +(dashboardZoom + delta).toFixed(1)));
+            dashboardZoom = delta === 0 ? 1 : Math.min(1.4, Math.max(0.45, +(dashboardZoom + delta).toFixed(2)));
             const tree = document.getElementById('dashboard-org-tree');
             const label = document.getElementById('dashboard-zoom-label');
             if (tree) tree.style.transform = `scale(${dashboardZoom})`;
             if (label) label.textContent = Math.round(dashboardZoom * 100) + '%';
         };
 
+        window.showStrukturToast = function (msg, type = 'success') {
+            const toast = document.getElementById('struktur-toast');
+            if (!toast) return;
+            toast.className = `fixed bottom-5 right-5 z-50 px-4 py-3 rounded-2xl shadow-xl text-xs font-bold text-white flex items-center gap-2 ${type === 'error' ? 'bg-rose-600' : 'bg-emerald-600'}`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i><span>${msg}</span>`;
+            setTimeout(() => toast.classList.add('hidden'), 3200);
+        };
+
         window.closeStrukturModal = function () {
             document.getElementById('struktur-modal').classList.add('hidden');
         };
 
-        window.openStrukturAdd = function (parentId) {
+        window.openStrukturAdd = function () {
             const form = document.getElementById('struktur-form');
             const methodInput = document.getElementById('struktur-method');
             form.action = "{{ route('dashboard.struktur.store') }}";
             methodInput.disabled = true;
             methodInput.value = 'POST';
 
-            document.getElementById('struktur-modal-title').textContent = 'Tambah Jabatan Struktur';
-            document.getElementById('struktur-parent-id').value = parentId ? String(parentId) : '';
-            Array.from(document.getElementById('struktur-parent-id').options).forEach(opt => { opt.disabled = false; });
+            document.getElementById('struktur-modal-title').textContent = 'Tambah Kartu';
             document.getElementById('struktur-jabatan').value = '';
             document.getElementById('struktur-nama-pejabat').value = '';
             document.getElementById('struktur-nip').value = '';
-            document.getElementById('struktur-tipe-garis').value = 'komando';
-            document.getElementById('struktur-warna-badge').value = parentId ? 'indigo' : 'maroon';
+            document.getElementById('struktur-warna-badge').value = 'maroon';
             document.getElementById('struktur-deskripsi').value = '';
             document.getElementById('struktur-is-active').checked = true;
             document.getElementById('struktur-foto-input').value = '';
@@ -366,17 +381,10 @@
             methodInput.disabled = false;
             methodInput.value = 'PUT';
 
-            document.getElementById('struktur-modal-title').textContent = 'Edit Jabatan Struktur';
-            const parentSelect = document.getElementById('struktur-parent-id');
-            parentSelect.value = node.parent_id ? String(node.parent_id) : '';
-            Array.from(parentSelect.options).forEach(opt => {
-                opt.disabled = (opt.value === String(id));
-            });
-
+            document.getElementById('struktur-modal-title').textContent = 'Edit Kartu';
             document.getElementById('struktur-jabatan').value = node.jabatan || '';
             document.getElementById('struktur-nama-pejabat').value = node.nama_pejabat || '';
             document.getElementById('struktur-nip').value = node.nip || '';
-            document.getElementById('struktur-tipe-garis').value = node.tipe_garis || 'komando';
             document.getElementById('struktur-warna-badge').value = node.warna_badge || 'maroon';
             document.getElementById('struktur-deskripsi').value = node.deskripsi || '';
             document.getElementById('struktur-is-active').checked = !!node.is_active;
@@ -431,5 +439,301 @@
             };
             reader.readAsDataURL(file);
         };
+
+        window.handleDashboardCardClick = async function (event, id) {
+            if (connectSourceId !== null) {
+                if (connectSourceId === id) {
+                    cancelConnectMode();
+                    return;
+                }
+                const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                const childId = connectDirection === 'up' ? connectSourceId : id;
+                const parentId = connectDirection === 'up' ? id : connectSourceId;
+                try {
+                    const res = await fetch(`{{ url('dashboard/struktur-organisasi') }}/${childId}/reparent`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrf,
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({ parent_id: parentId, tipe_garis: connectLineType }),
+                    });
+                    const data = await res.json();
+                    if (!res.ok) {
+                        showStrukturToast(data.message || 'Gagal menghubungkan kartu.', 'error');
+                        return;
+                    }
+                    showStrukturToast(data.message || 'Kartu berhasil dihubungkan.', 'success');
+                    setTimeout(() => window.location.reload(), 400);
+                } catch (e) {
+                    showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+                }
+                return;
+            }
+            openStrukturEdit(id);
+        };
+
+        window.startConnectMode = function (sourceId, label, direction = 'down') {
+            closeLinePopover();
+            connectSourceId = sourceId;
+            connectDirection = direction;
+            document.getElementById('connect-mode-action').textContent = direction === 'up'
+                ? 'Pilih kartu untuk dijadikan atasan dari:'
+                : 'Pilih kartu untuk dijadikan sub-unit di bawah:';
+            document.getElementById('connect-source-label').textContent = label;
+            document.getElementById('connect-mode-bar').classList.remove('hidden');
+            document.querySelectorAll('#dashboard-org-tree .org-card').forEach(card => {
+                const cid = Number(card.getAttribute('data-card-id'));
+                if (cid === sourceId) {
+                    card.classList.add('ring-2', 'ring-maroon-700');
+                } else {
+                    card.classList.add('ring-2', 'ring-dashed', 'ring-emerald-500');
+                }
+            });
+        };
+
+        window.cancelConnectMode = function () {
+            connectSourceId = null;
+            document.getElementById('connect-mode-bar')?.classList.add('hidden');
+            document.querySelectorAll('#dashboard-org-tree .org-card').forEach(card => {
+                card.classList.remove('ring-2', 'ring-maroon-700', 'ring-dashed', 'ring-emerald-500');
+            });
+        };
+
+        window.setConnectLineType = function (type) {
+            connectLineType = type;
+            const btnKom = document.getElementById('btn-connect-komando');
+            const btnKoo = document.getElementById('btn-connect-koordinasi');
+            if (type === 'komando') {
+                btnKom.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-maroon-700 text-white transition';
+                btnKoo.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white border border-bone-300 text-slate-700 transition';
+            } else {
+                btnKoo.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500 text-white transition';
+                btnKom.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white border border-bone-300 text-slate-700 transition';
+            }
+        };
+
+        window.openLinePopover = function (eventOrEl, id, currentType) {
+            cancelConnectMode();
+            activeLineNodeId = id;
+            const pop = document.getElementById('line-type-popover');
+            const targetEl = eventOrEl.currentTarget || eventOrEl;
+            const rect = targetEl.getBoundingClientRect();
+            pop.style.top = (rect.bottom + 6) + 'px';
+            pop.style.left = Math.min(window.innerWidth - 220, Math.max(12, rect.left - 90)) + 'px';
+            pop.classList.remove('hidden');
+
+            document.querySelector('#pop-btn-komando i').classList.toggle('hidden', currentType !== 'komando');
+            document.querySelector('#pop-btn-koordinasi i').classList.toggle('hidden', currentType !== 'koordinasi');
+        };
+
+        window.closeLinePopover = function () {
+            activeLineNodeId = null;
+            document.getElementById('line-type-popover')?.classList.add('hidden');
+        };
+
+        window.updateNodeLineType = async function (type) {
+            if (!activeLineNodeId) return;
+            const id = activeLineNodeId;
+            closeLinePopover();
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            try {
+                const res = await fetch(`{{ url('dashboard/struktur-organisasi') }}/${id}/line-type`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                    body: JSON.stringify({ tipe_garis: type }),
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    showStrukturToast(data.message || 'Gagal mengubah jenis garis.', 'error');
+                    return;
+                }
+                showStrukturToast(data.message || 'Jenis garis diperbarui.', 'success');
+                setTimeout(() => window.location.reload(), 350);
+            } catch (e) {
+                showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+            }
+        };
+
+        window.disconnectNodeToRoot = async function () {
+            if (!activeLineNodeId) return;
+            const id = activeLineNodeId;
+            closeLinePopover();
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            try {
+                const res = await fetch(`{{ url('dashboard/struktur-organisasi') }}/${id}/reparent`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                    body: JSON.stringify({ parent_id: null }),
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    showStrukturToast(data.message || 'Gagal memutus hubungan.', 'error');
+                    return;
+                }
+                showStrukturToast('Hubungan diputuskan.', 'success');
+                setTimeout(() => window.location.reload(), 350);
+            } catch (e) {
+                showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+            }
+        };
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#line-type-popover')) closeLinePopover();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                cancelConnectMode();
+                closeLinePopover();
+            }
+        });
+
+        // Toggle Tampil / Sembunyi di Publik 1-Klik
+        window.toggleCardActive = async function (btn, id) {
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            try {
+                const res = await fetch(`{{ url('dashboard/struktur-organisasi') }}/${id}/toggle-active`, {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    showStrukturToast(data.message || 'Gagal mengubah status.', 'error');
+                    return;
+                }
+                const card = btn.closest('.org-card');
+                const icon = btn.querySelector('i');
+                if (data.is_active) {
+                    card?.classList.remove('border-dashed', 'border-rose-300', 'opacity-70');
+                    card?.classList.add('border-bone-300');
+                    btn.className = 'p-1 text-emerald-600 hover:bg-emerald-50 rounded-md transition';
+                    btn.title = 'Sembunyikan dari Publik';
+                    if (icon) icon.className = 'fa-regular fa-eye';
+                } else {
+                    card?.classList.remove('border-bone-300');
+                    card?.classList.add('border-dashed', 'border-rose-300', 'opacity-70');
+                    btn.className = 'p-1 text-slate-400 hover:bg-bone-100 rounded-md transition';
+                    btn.title = 'Tampilkan di Publik';
+                    if (icon) icon.className = 'fa-regular fa-eye-slash';
+                }
+                if (window.__strukturNodes[id]) window.__strukturNodes[id].is_active = data.is_active;
+                showStrukturToast(data.message, 'success');
+            } catch (e) {
+                showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+            }
+        };
+
+        // Tarik Garis Langsung (Live SVG Drag-to-Connect: Atas -> Atasan, Bawah -> Sub-unit)
+        window.startDragConnect = function (event, sourceId, label, direction = 'down', hasParent = false, currentLineType = 'komando') {
+            event.stopPropagation();
+            event.preventDefault();
+            const triggerBtn = event.currentTarget;
+            const startX = event.clientX;
+            const startY = event.clientY;
+            let moved = false;
+            let hoveredCard = null;
+
+            const svg = document.getElementById('drag-connect-svg');
+            const path = document.getElementById('drag-connect-path');
+            path.setAttribute('stroke', direction === 'up' ? '#4f46e5' : '#881337');
+
+            function onMove(e) {
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                if (!moved && Math.hypot(dx, dy) > 6) {
+                    moved = true;
+                    svg.classList.remove('hidden');
+                }
+                if (!moved) return;
+
+                const midY = (startY + e.clientY) / 2;
+                path.setAttribute('d', `M ${startX} ${startY} C ${startX} ${midY}, ${e.clientX} ${midY}, ${e.clientX} ${e.clientY}`);
+
+                const el = document.elementFromPoint(e.clientX, e.clientY);
+                const card = el?.closest('.org-card');
+                if (hoveredCard && hoveredCard !== card) {
+                    hoveredCard.classList.remove('ring-2', 'ring-emerald-500');
+                }
+                if (card && Number(card.getAttribute('data-card-id')) !== sourceId) {
+                    card.classList.add('ring-2', 'ring-emerald-500');
+                    hoveredCard = card;
+                } else {
+                    hoveredCard = null;
+                }
+            }
+
+            async function onUp(e) {
+                window.removeEventListener('mousemove', onMove);
+                window.removeEventListener('mouseup', onUp);
+                svg.classList.add('hidden');
+                path.setAttribute('d', '');
+                if (hoveredCard) hoveredCard.classList.remove('ring-2', 'ring-emerald-500');
+
+                if (!moved) {
+                    if (direction === 'up' && hasParent) {
+                        openLinePopover(triggerBtn, sourceId, currentLineType);
+                    } else {
+                        startConnectMode(sourceId, label, direction);
+                    }
+                    return;
+                }
+
+                const targetId = hoveredCard ? Number(hoveredCard.getAttribute('data-card-id')) : null;
+                if (!targetId || targetId === sourceId) return;
+
+                const childId = direction === 'up' ? sourceId : targetId;
+                const parentId = direction === 'up' ? targetId : sourceId;
+                const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                try {
+                    const res = await fetch(`{{ url('dashboard/struktur-organisasi') }}/${childId}/reparent`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                        body: JSON.stringify({ parent_id: parentId, tipe_garis: connectLineType }),
+                    });
+                    const data = await res.json();
+                    if (!res.ok) {
+                        showStrukturToast(data.message || 'Gagal menghubungkan kartu.', 'error');
+                        return;
+                    }
+                    showStrukturToast(data.message || 'Kartu berhasil dihubungkan.', 'success');
+                    setTimeout(() => window.location.reload(), 350);
+                } catch (err) {
+                    showStrukturToast('Terjadi kesalahan jaringan.', 'error');
+                }
+            }
+
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onUp);
+        };
+
+        // Drag-to-pan 2D & Ctrl+Scroll Zoom pada canvas kosong
+        (function initDashboardPan() {
+            const canvas = document.getElementById('dashboard-canvas');
+            if (!canvas) return;
+            let isPanning = false;
+            let startX = 0, startY = 0;
+            let scrollLeft = 0, scrollTop = 0;
+            canvas.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.org-card, button, a, input, select, form')) return;
+                isPanning = true;
+                startX = e.pageX - canvas.offsetLeft;
+                startY = e.pageY - canvas.offsetTop;
+                scrollLeft = canvas.scrollLeft;
+                scrollTop = canvas.scrollTop;
+            });
+            window.addEventListener('mouseup', () => { isPanning = false; });
+            canvas.addEventListener('mousemove', (e) => {
+                if (!isPanning) return;
+                e.preventDefault();
+                canvas.scrollLeft = scrollLeft - ((e.pageX - canvas.offsetLeft) - startX);
+                canvas.scrollTop = scrollTop - ((e.pageY - canvas.offsetTop) - startY);
+            });
+            canvas.addEventListener('wheel', (e) => {
+                if (!e.ctrlKey) return;
+                e.preventDefault();
+                changeDashboardZoom(e.deltaY < 0 ? 0.1 : -0.1);
+            }, { passive: false });
+        })();
     </script>
 </x-app-layout>

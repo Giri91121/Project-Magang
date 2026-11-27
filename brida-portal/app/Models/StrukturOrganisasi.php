@@ -20,10 +20,12 @@ class StrukturOrganisasi extends Model
         'deskripsi',
         'sort_order',
         'is_active',
+        'is_parent',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_parent' => 'boolean',
         'sort_order' => 'integer',
     ];
 
